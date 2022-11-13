@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sach san pham</title>
-    <link href=" {{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+    <link href=" {{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
 </head>
 <body>
-  <h1 class="subject">DANH MUC SAN PHAM</h1>
+<h1 class="subject">DANH MUC SAN PHAM</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>Ma san pham</th>
+        <th>Ten san pham</th>
+        <th>Mo ta</th>
+        <th>Gia ban</th>
+    </tr>
+
+    {% for p in products %}
+    <tr>
+        <td>{{ p.image }}</td>
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.description}}</td>
+        <td>{{ p.price }} VND</td>
+    </tr>
+    {% endfor %}
+</table>
 </body>
 </html>

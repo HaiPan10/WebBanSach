@@ -9,16 +9,17 @@ import  utils
 # Định nghĩa đường dẫn
 @app.route("/")
 def home():
-    # Đổ dữ liệu
+    # Đổ dữ liệu category
     cates = utils.load_categories()
-    return render_template('index.html',
-                           categories = cates)
+    return render_template('index.html', categories = cates)
 
 
 # Chuyển trang product
 @app.route("/products")
 def product_list():
-    return render_template('products.html')
+    #Đổ dữ liệu product
+    products = utils.load_products()
+    return render_template('products.html', products = products)
 
 
 # Chạy trang web

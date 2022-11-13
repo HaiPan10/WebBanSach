@@ -9,7 +9,7 @@
     <h1 class="subject">Chao mung den voi website ban hang truc tuyen</h1>
 
     <ul>
-        <li><a href="/products">Tat ca san pham</a></li>
+        <li><a href="{{ url_for('product_list') }}">Tat ca san pham</a></li>
         {% for c in categories %}
         <li><a href="#">{{ c.name }}</a></li>
         {% endfor %}
