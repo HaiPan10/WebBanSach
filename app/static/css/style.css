@@ -1,0 +1,12 @@
+* {
+    font-family: Tahoma;
+}
+
+body {
+    background-color: lightblue;
+    color: darkblue;
+}
+
+h1.subject {
+    text-align:center;
+}

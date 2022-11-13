@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Product 1",
+    "description": "Description 1",
+    "price": 0,
+    "image": "https://salt.tikicdn.com/ts/product/86/b4/34/739ec1c058f61af1918f71e5c2af43f8.jpg",
+    "category_id": 1
+  },
+  {
+    "id": 2,
+    "name": "Product 2",
+    "description": "Description 2",
+    "price": 0,
+    "image": "https://salt.tikicdn.com/ts/product/86/b4/34/739ec1c058f61af1918f71e5c2af43f8.jpg",
+    "category_id": 2
+  },
+  {
+    "id": 3,
+    "name": "Product 3",
+    "description": "Description 3",
+    "price": 0,
+    "image": "https://salt.tikicdn.com/ts/product/86/b4/34/739ec1c058f61af1918f71e5c2af43f8.jpg",
+    "category_id": 1
+  }
+]
