@@ -18,7 +18,9 @@
 
     {% for p in products %}
     <tr>
-        <td>{{ p.image }}</td>
+        <td>
+            <img src="{{ url_for('static', filename=p.image) }}" width="120px" alt="{{ p.name }}">
+        </td>
         <td>{{ p.id }}</td>
         <td>{{ p.name }}</td>
         <td>{{ p.description}}</td>

@@ -1,3 +1,18 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Trang chủ{% endblock %}
+
+{% block content %}
+<h1 class="subject">Chao mung den voi website ban hang truc tuyen</h1>
+
+    <ul>
+        <li><a href="{{ url_for('product_list') }}">Tat ca san pham</a></li>
+        {% for c in categories %}
+        <li><a href="#">{{ c.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +21,6 @@
     <link href=" {{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
 </head>
 <body>
-    <h1 class="subject">Chao mung den voi website ban hang truc tuyen</h1>
 
-    <ul>
-        <li><a href="{{ url_for('product_list') }}">Tat ca san pham</a></li>
-        {% for c in categories %}
-        <li><a href="#">{{ c.name }}</a></li>
-        {% endfor %}
-    </ul>
 </body>
 </html>
