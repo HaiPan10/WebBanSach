@@ -6,27 +6,39 @@
     <link href=" {{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
 </head>
 <body>
-<h1 class="subject">DANH MUC SAN PHAM</h1>
-<table>
-    <tr>
-        <th></th>
-        <th>Ma san pham</th>
-        <th>Ten san pham</th>
-        <th>Mo ta</th>
-        <th>Gia ban</th>
-    </tr>
+<div class="container">
+    <h1 class="subject">DANH MUC SAN PHAM</h1>
+    <hr>
+    <form>
+        <input type="text" name="keyword" Nhập từ khóa muốn tìm..."></input>
+        <input type="number" name="from_price" placeholder="Nhập giá bắt đầu..."></input>
+        <input type="number" name="to_price" Nhập giá kết thúc..."></input>
+        <input type="submit" value="Tìm"></input>
+    </form>
+    <hr>
+    <table>
+        <tr>
+            <th></th>
+            <th>Ma san pham</th>
+            <th>Ten san pham</th>
+            <th>Mo ta</th>
+            <th>Gia ban</th>
+        </tr>
 
-    {% for p in products %}
-    <tr>
-        <td>
-            <img src="{{ url_for('static', filename=p.image) }}" width="120px" alt="{{ p.name }}">
-        </td>
-        <td>{{ p.id }}</td>
-        <td>{{ p.name }}</td>
-        <td>{{ p.description}}</td>
-        <td>{{ p.price }} VND</td>
-    </tr>
-    {% endfor %}
-</table>
+        {% for p in products %}
+        <tr>
+            <td>
+                <a href="{{ url_for('product_detail', product_id=p.id) }}">
+                    <img src="{{ url_for('static', filename=p.image) }}" width="120px" alt="{{ p.name }}">
+                </a>
+            </td>
+            <td>{{ p.id }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.description}}</td>
+            <td>{{ p.price }} VND</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 </body>
 </html>
