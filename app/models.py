@@ -4,6 +4,7 @@ from app import db, app
 from sqlalchemy.orm import relationship
 from sqlalchemy import Integer, Column, String, ForeignKey, DateTime, Float, Enum
 from enum import Enum as UserEnum
+from flask_login import UserMixin
 
 
 # Tat ca cac model deu phai ke thua db.Model
@@ -15,6 +16,9 @@ class BaseModel(db.Model):
 class Categories(BaseModel):
     category_name = Column(String(50), nullable=False)
     books = relationship('Books', backref='Categories', lazy=True)
+
+    def __str__(self):
+        return self.category_name
 
 
 class Books(BaseModel):
@@ -34,7 +38,7 @@ class UserRole(UserEnum):
     ADMIN = 2
 
 
-class UserAccount(BaseModel):
+class UserAccount(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
