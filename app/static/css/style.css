@@ -3021,6 +3021,10 @@ ul {
   transition: 0.5s;
 }
 
+.best_seller {
+    background-color: #ecfdff;
+}
+
 /* line 7, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_best_seller.scss */
 .best_seller .single_product_item .single_product_text {
   padding: 35px 0 0;

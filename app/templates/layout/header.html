@@ -13,19 +13,24 @@
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Trang chủ</a>
+                                    <a class="nav-link" href="{{ url_for('home') }}">Trang chủ</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Sản phẩm
+<!--                                    <a class="nav-link dropdown-toggle" href="/products" id="navbarDropdown_1"-->
+<!--                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                                        Sản phẩm-->
+<!--                                    </a>-->
+                                     <a class="nav-link" href="{{ url_for('product_list') }}">
+                                        Cửa hàng
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        {% for cate in categories %}
-<!--                                        <a class="dropdown-item" href="category.html"> shop category</a>-->
-                                        <a class="dropdown-item" href="/?category_id={{cate.id}}">{{ cate.name }}</a>
-                                        {% endfor %}
-                                    </div>
+<!--                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">-->
+<!--                                        <a class="dropdown-item" href="/">Tất cả sản phẩm</a>-->
+<!--                                        {% for cate in categories %}-->
+<!--&lt;!&ndash;                                        <a class="dropdown-item" href="category.html"> shop category</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <a class="dropdown-item" href="/?category_id={{cate.id}}">{{ cate.name }}</a>&ndash;&gt;-->
+<!--                                            <a class="dropdown-item" href="{{ url_for('product_list', cate_id = cate.name) }}">{{ cate.name }}</a>-->
+<!--                                        {% endfor %}-->
+<!--                                    </div>-->
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
