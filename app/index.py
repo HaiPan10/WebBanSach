@@ -47,7 +47,7 @@ def product_detail(product_id):
 def admin_login():
     username = request.form['username']
     password = request.form['password']
-    user = dao.auth_user(username, password)
+    user = dao.auth_user(username=username, password=password)
     # nếu có tồn tại user khớp với username và password
     if user:
         load_user(user=user)
