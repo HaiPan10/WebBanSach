@@ -50,7 +50,7 @@ def admin_login():
     user = dao.auth_user(username=username, password=password)
     # nếu có tồn tại user khớp với username và password
     if user:
-        load_user(user=user)
+        load_user(user_id=user)
     return redirect('/admin')
 
 
