@@ -31,5 +31,12 @@ def create_account(name, username, password, avatar):
     user = UserAccount(name=name, username=username, password=pw, avatar=avatar, user_role=UserRole.USER)
 
 
+def auth_user(username, password):
+    # Ma hoa password su dung ham bang
+    pw = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    return UserAccount.query.filter(UserAccount.username.__eq__(username),
+                                    UserAccount.password.__eq__(pw).first())
+
+
 def get_user_by_id(user_id):
     return UserAccount.query.get(user_id)

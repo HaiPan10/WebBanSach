@@ -17,12 +17,14 @@ class Categories(BaseModel):
 
 class Books(BaseModel):
     book_name = Column(String(150), nullable=False)
-    author_name = Column(String(100), nullable=False)
-    quantity = Column(Integer, nullable=False)
-    import_date = Column(DateTime, nullable=False)
+    author_name = Column(String(100))
+    quantity = Column(Integer, default=0)
+    import_date = Column(DateTime)
     unit_price = Column(Float, default=0)
     category_id = Column(Integer, ForeignKey(Categories.id), nullable=False)
     order_details = relationship('OrderDetails', backref='Books', lazy=True)
+    sold_numbers = Column(Integer, default=0)
+    image = Column(String(250), nullable=False)
 
 
 class UserRole(UserEnum):
@@ -43,6 +45,7 @@ class Orders(BaseModel):
     order_date = Column(DateTime, nullable=False)
     user_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
     order_details = relationship('OrderDetails', backref='Orders', lazy=True)
+    address = Column(String(250))
 
 
 class OrderDetails(BaseModel):
