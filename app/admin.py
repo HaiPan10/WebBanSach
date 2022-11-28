@@ -40,7 +40,7 @@ class BooksView(ModelView):
         form_extra_fields = {
             'category_id': SelectField('Loại sản phẩm',
                                        choices=[(c.id, c.category_name) for c in Categories.query.all()]),
-            'image': FileField('Ảnh minh họa', )
+            'image': FileField('Ảnh minh họa')
         }
 
     def on_model_change(self, form, model, is_created):
@@ -55,6 +55,17 @@ class BooksView(ModelView):
 
 
 class CategoriesView(ModelView):
+    form_create_rules = ('category_name', 'image', 'descriptions')
+    form_extra_fields = {
+        'image': FileField('Ảnh minh họa')
+    }
+
+    def on_model_change(self, form, model, is_created):
+        # lay noi dung form cua nguoi dung
+        curr_user = getpass.getuser()
+        model.updatedby = curr_user
+        # chinh sua lai image thanh chuoi duong dan
+        model.image = upload_cloudinary(form['image'].data)
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated

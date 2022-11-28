@@ -2,7 +2,7 @@ import hashlib
 
 from app import db, app
 from sqlalchemy.orm import relationship
-from sqlalchemy import Integer, Column, String, ForeignKey, DateTime, Float, Enum
+from sqlalchemy import Integer, Column, String, ForeignKey, DateTime, Float, Enum, Text
 from enum import Enum as UserEnum
 from flask_login import UserMixin
 
@@ -16,6 +16,8 @@ class BaseModel(db.Model):
 class Categories(BaseModel):
     category_name = Column(String(50), nullable=False)
     books = relationship('Books', backref='Categories', lazy=True)
+    descriptions = Column(String(50))
+    image = Column(String(250))
 
     def __str__(self):
         return self.category_name
@@ -31,6 +33,7 @@ class Books(BaseModel):
     order_details = relationship('OrderDetails', backref='Books', lazy=True)
     sold_numbers = Column(Integer, default=0)
     image = Column(String(250), nullable=False)
+    descriptions = Column(String(250))
 
 
 class UserRole(UserEnum):
