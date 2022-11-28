@@ -1,3 +1,5 @@
+import datetime
+
 from wtforms.validators import InputRequired, NumberRange
 
 from app.models import Categories, Books, Orders, OrderDetails
@@ -44,8 +46,9 @@ class BooksView(ModelView):
         form_edit_rules = ('book_name', 'author_name', 'unit_price', 'category_id', 'descriptions')
         form_extra_fields = {
             'category_id': SelectField('Loại sản phẩn', coerce=int,
-                                       choices=lambda: [(c.id, c.category_name) for c in Categories.query.all()]),
-            'image': FileField('Ảnh minh họa')
+                                       choices=lambda: [(c.id, c.category_name) for c in Categories.query.all()],
+                                       validators=[InputRequired()]),
+            'image': FileField('Ảnh minh họa', validators=[InputRequired()])
         }
 
     def on_model_change(self, form, model, is_created):
@@ -63,7 +66,7 @@ class CategoriesView(ModelView):
     form_create_rules = ('category_name', 'image', 'descriptions')
     form_edit_rules = ('category_name', 'descriptions')
     form_extra_fields = {
-        'image': FileField('Ảnh minh họa')
+        'image': FileField('Ảnh minh họa', validators=[InputRequired()])
     }
 
     def on_model_change(self, form, model, is_created):
@@ -91,7 +94,7 @@ class InputBooksView(ModelView):
     # Mot doi tuong dict ve quy dinh nhap
     rules = utils.read_rules()
 
-    form_edit_rules = ('import_date', 'quantity')
+    form_edit_rules = ('quantity', )
     # validators ràng buộc cho cái input
     form_extra_fields = {
         'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
@@ -108,11 +111,14 @@ class InputBooksView(ModelView):
         self.model_quantity = Books.query.get(id).quantity
 
     def on_model_change(self, form, model, is_created):
-        if form['quantity'].data < self.rules['quantity_import']:
+        if form['quantity'].data < int(self.rules['quantity_import']):
             # thiet lap lai gia tri
             model.quantity = self.model_quantity
+
         else:
             model.quantity = self.model_quantity + form['quantity'].data
+            # Lay thoi gian hien tai lam ngay nhap kho
+            model.import_date = datetime.datetime.now()
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
