@@ -36,7 +36,7 @@ class BooksView(ModelView):
     }
 
     with app.app_context():
-        form_create_rules = ('book_name', 'author_name', 'unit_price', 'image', 'category_id')
+        form_create_rules = ('book_name', 'author_name', 'unit_price', 'image', 'category_id', 'descriptions')
         form_extra_fields = {
             'category_id': SelectField('Loại sản phẩm',
                                        choices=[(c.id, c.category_name) for c in Categories.query.all()]),
