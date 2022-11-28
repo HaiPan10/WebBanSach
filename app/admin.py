@@ -80,7 +80,18 @@ class CategoriesView(ModelView):
 
 
 class InputBooksView(ModelView):
-    form_create_rules = ('import_date', 'quantity')
+    column_list = ['id', 'book_name', 'author_name', 'unit_price',
+                   'quantity', 'import_date', 'category_id']
+    column_labels = {
+        'id': 'Mã sản phẩm',
+        'book_name': 'Tên sản phẩm',
+        'author_name': 'Tên tác giả',
+        'unit_price': 'Đơn giá',
+        'quantity': 'Số lượng',
+        'import_date': 'Ngày nhập',
+        'category_id': 'Mã thể loại'
+    }
+    form_edit_rules = ('import_date', 'quantity')
     can_create = False
     can_delete = False
 
@@ -91,4 +102,4 @@ class InputBooksView(ModelView):
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
 admin.add_view(CategoriesView(Categories, db.session, name='Danh mục'))
-admin.add_view(InputBooksView(Books, db.session, name='Nhập sách', endpoint='admin-input-quantity'))
+admin.add_view(InputBooksView(Books, db.session, name='Nhập kho', endpoint='admin-input-quantity'))
