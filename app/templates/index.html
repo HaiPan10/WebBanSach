@@ -15,15 +15,15 @@
                                 <div class="col-lg-5 col-md-8">
                                     <div class="banner_text">
                                         <div class="banner_text_iner">
-                                            <h1>{{ cate.name }}
+                                            <h1>{{ cate.category_name }}
                                             </h1>
-                                            <p>Description</p>
+                                            <p>{{ cate.descriptions }}</p>
                                             <a href="#" class="btn_2">Mua ngay</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="banner_img d-none d-lg-block">
-                                    <img src="{{ url_for('static', filename='img/banner_img.png') }}" alt="">
+                                    <img width="300px" height="400px" src="{{ cate.image }}" alt="">
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                 <div class="col-lg-7 col-sm-6">
                     <div class="single_feature_post_text">
                         <p>...</p>
-                        <h3>{{ categories[0].name }}</h3>
+                        <h3>aa</h3>
                         <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
                         <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
                     </div>
@@ -60,7 +60,7 @@
                 <div class="col-lg-5 col-sm-6">
                     <div class="single_feature_post_text">
                         <p>...</p>
-                        <h3>{{ categories[1].name }}</h3>
+                        <h3>bb</h3>
                         <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
                         <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
                     </div>
@@ -68,7 +68,7 @@
                 <div class="col-lg-5 col-sm-6">
                     <div class="single_feature_post_text">
                         <p>...</p>
-                        <h3>{{ categories[2].name }}</h3>
+                        <h3>cc</h3>
                         <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
                         <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
                     </div>
@@ -76,7 +76,7 @@
                 <div class="col-lg-7 col-sm-6">
                     <div class="single_feature_post_text">
                         <p>...</p>
-                        <h3>{{ categories[3].name }}</h3>
+                        <h3>dd</h3>
                         <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
                         <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
                     </div>

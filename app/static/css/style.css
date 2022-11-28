@@ -2151,6 +2151,7 @@ ul {
 
 /* line 46, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
 .main_menu #search_input_box {
+  display: none;
   position: fixed;
   left: 50%;
   -webkit-transform: translateX(-50%);

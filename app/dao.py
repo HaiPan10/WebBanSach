@@ -14,6 +14,10 @@ def load_books(cate_id=None, keyword=None):
     return query.all()
 
 
+def get_book_by_id(book_id):
+    return Books.query.get(book_id)
+
+
 def load_categories():
     return Categories.query.all()
 

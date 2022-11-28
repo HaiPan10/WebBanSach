@@ -13,15 +13,15 @@ from app.decorator import annonymous_user
 @app.route("/")
 def home():
     # Đổ dữ liệu category
-    cates = utils.load_categories()
+    categories = dao.load_categories()
 
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
     from_price = request.args.get("from_price")
     to_price = request.args.get("to_price")
-    products = utils.load_products(cate_id=cate_id, kw=kw, from_price=from_price, to_price=to_price)
+    products = dao.load_books(cate_id=cate_id)
 
-    return render_template('index.html', categories=cates, count=0, products=products)
+    return render_template('index.html', categories=categories, count=0, products=products)
 
 
 # Chuyển trang product
@@ -30,18 +30,15 @@ def product_list():
     # Đổ dữ liệu theo cate_id
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
-    from_price = request.args.get("from_price")
-    to_price = request.args.get("to_price")
-
-    products = utils.load_products(cate_id=cate_id, kw=kw, from_price=from_price, to_price=to_price)
-
-    return render_template('products.html', products=products)
+    products = dao.load_books(cate_id=cate_id)
+    categories = dao.load_categories()
+    return render_template('products.html', products=products, categories=categories)
 
 
 # Cấu hình trang chi tiết sản phẩm
-@app.route("/products/<int:product_id>")
-def product_detail(product_id):
-    product = utils.get_product_by_id(product_id)
+@app.route("/products/<int:id>")
+def product_detail(book_id):
+    product = dao.get_book_by_id()
     return render_template('product_detail.html', product=product)
 
 
@@ -62,7 +59,6 @@ def load_user(user_id):
     return dao.get_user_by_id(user_id)
 
 
-<<<<<<< HEAD
 # register người dùng
 @app.route("/register", methods=['get', 'post'])
 def register():
@@ -106,7 +102,8 @@ def login_my_user():
 def logout_my_user():
     logout_user()
     return redirect('/')
-=======
+
+
 @app.route("/admin/adjustview/change", methods=['post'])
 def adjust_rules():
     quantity_import = request.form['quantity_import']
@@ -117,7 +114,6 @@ def adjust_rules():
     }
     utils.write_json('data/adjust_rules.json', file=rules)
     return redirect("/admin")
->>>>>>> c217c572891ebff871661c163bdfae356a524226
 
 
 # Chạy trang web
