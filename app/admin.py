@@ -1,14 +1,12 @@
+from wtforms.validators import InputRequired, NumberRange
+
 from app.models import Categories, Books, Orders, OrderDetails
 from app import db, app, utils
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from wtforms import SelectField, StringField, FileField
+from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField
 import cloudinary.uploader
-
-
-# Rang buoc so luong nhap toi thieu
-quantity_limit = 150
 
 
 # Upload ảnh lên cloudinary
@@ -16,6 +14,11 @@ def upload_cloudinary(image):
     res = cloudinary.uploader.upload(image)
     image = res['secure_url']
     return image
+
+
+# class InputQuantityForm(Form):
+#     import_date = DateField('Ngày nhập kho', format="%d-%m-%Y")
+#     import_quantity = IntegerField('Số lượng nhập')
 
 
 # Kế thừa model view có sẵn
@@ -85,12 +88,31 @@ class InputBooksView(ModelView):
         'import_date': 'Ngày nhập',
         'category_id': 'Mã thể loại'
     }
+    # Mot doi tuong dict ve quy dinh nhap
+    rules = utils.read_rules()
+
     form_edit_rules = ('import_date', 'quantity')
+    # validators ràng buộc cho cái input
+    form_extra_fields = {
+        'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
+    }
     can_create = False
     can_delete = False
+    # So luong hien tai tren model
+    model_quantity = 0
+
+    def on_form_prefill(self, form, id):
+        # Doc lai quy dinh them lan nua
+        self.rules = utils.read_rules()
+        form['quantity'].data = self.rules['quantity_import']
+        self.model_quantity = Books.query.get(id).quantity
 
     def on_model_change(self, form, model, is_created):
-        quantity = form['quantity'].data
+        if form['quantity'].data < self.rules['quantity_import']:
+            # thiet lap lai gia tri
+            model.quantity = self.model_quantity
+        else:
+            model.quantity = self.model_quantity + form['quantity'].data
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
