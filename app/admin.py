@@ -111,6 +111,7 @@ class InputBooksView(ModelView):
         self.rules = utils.read_rules()
         form['quantity'].data = 0
 
+    # Ràng buộc việc nhập số lượng ghi đè update_model
     def update_model(self, form, model):
         if form['quantity'].data < int(self.rules['quantity_import']):
             flash(gettext('Số lượng nhập dưới mức tối thiểu ' + self.rules['quantity_import']), 'error')
@@ -125,6 +126,11 @@ class InputBooksView(ModelView):
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
+
+    def list_form(self, obj=None):
+        list = super(ModelView, self).get_list(obj)
+
+        return list
 
 
 class AdjustView(BaseView):

@@ -1,10 +1,11 @@
 # Định tuyến tới biến app trang init.py
+from app.models import UserRole
 from app import app, dao, login, utils, admin
 # Import render_template để dùng render_template
 from flask import render_template, redirect
 # Dùng request để đổ product theo cate_id
 from flask import request
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 import cloudinary.uploader
 from app.decorator import annonymous_user
 
@@ -48,7 +49,7 @@ def admin_login():
     password = request.form['password']
     user = dao.auth_user(username=username, password=password)
     # nếu có tồn tại user khớp với username và password
-    if user:
+    if user and user.user_role == UserRole.ADMIN:
         login_user(user=user)
     return redirect('/admin')
 
@@ -99,6 +100,7 @@ def login_my_user():
 
 # logout
 @app.route('/logout')
+@login_required
 def logout_my_user():
     logout_user()
     return redirect('/')

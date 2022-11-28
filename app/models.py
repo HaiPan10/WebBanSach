@@ -66,11 +66,12 @@ class OrderDetails(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
+        pass
         # db.create_all()
-        name = 'Admin'
-        username = 'admin'
-        password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
-        avatar = 'https://res.cloudinary.com/dxjkpbzmo/image/upload/v1669562707/user_admin-removebg-preview_xtqp2h.png'
-        user = UserAccount(name=name, username=username, password=password,avatar=avatar, user_role=UserRole.ADMIN)
-        db.session.add(user)
-        db.session.commit()
+        # name = 'Admin'
+        # username = 'admin'
+        # password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
+        # avatar = 'https://res.cloudinary.com/dxjkpbzmo/image/upload/v1669562707/user_admin-removebg-preview_xtqp2h.png'
+        # user = UserAccount(name=name, username=username, password=password, avatar=avatar, user_role=UserRole.ADMIN)
+        # db.session.add(user)
+        # db.session.commit()
