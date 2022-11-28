@@ -1,0 +1,23 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+{% if current_user.is_authenticated %}
+<h1 class = "text-center">THAY ĐỔI QUY ĐỊNH</h1>
+<form enctype="multipart/form-data" action="/admin/adjustview/change" method ="post">
+    <div class="form-floating mb-3 mt-3">
+        <label for="quantity_import">Số lượng nhập tối thiểu</label>
+        <input type="number" class="form-control" id="quantity_import" value = {{rules['quantity_import']}}
+               name="quantity_import" min = 1>
+    </div>
+    <div class="form-floating mb-3 mt-3">
+        <label for="quantity_in_stocks">Số lượng tồn tối thiểu</label>
+        <input type="number" class="form-control" id="quantity_in_stocks" value = {{rules['quantity_in_stocks']}}
+               name="quantity_in_stocks" min = 1>
+
+    </div>
+    <div>
+        <input type = "submit" value = "Xác nhận thay đổi" class = "btn btn-success">
+    </div>
+</form>
+{% endif %}
+{% endblock %}

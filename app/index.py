@@ -60,6 +60,18 @@ def load_user(user_id):
     return dao.get_user_by_id(user_id)
 
 
+@app.route("/admin/adjustview/change", methods=['post'])
+def adjust_rules():
+    quantity_import = request.form['quantity_import']
+    quantity_in_stocks = request.form['quantity_in_stocks']
+    rules = {
+        'quantity_import': quantity_import,
+        'quantity_in_stocks': quantity_in_stocks
+    }
+    utils.write_json('data/adjust_rules.json', file=rules)
+    return redirect("/admin")
+
+
 # Chạy trang web
 if __name__ == '__main__':
     app.run(debug=True)

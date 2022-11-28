@@ -1,6 +1,5 @@
-import getpass
 from app.models import Categories, Books, Orders, OrderDetails
-from app import db, app
+from app import db, app, utils
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
@@ -9,6 +8,7 @@ import cloudinary.uploader
 
 
 # Rang buoc so luong nhap toi thieu
+quantity_limit = 150
 
 
 # Upload ảnh lên cloudinary
@@ -96,7 +96,16 @@ class InputBooksView(ModelView):
         return current_user.is_authenticated
 
 
+class AdjustView(BaseView):
+    @expose('/')  # vào expose tham chiếu đến một trang custom mới
+    def index(self):  # Ghi đè lên hàm index
+        # Lấy thông tin về số lượng
+        rules = utils.read_rules()
+        return self.render('admin/adjust_rules.html', rules=rules)
+
+
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
 admin.add_view(CategoriesView(Categories, db.session, name='Danh mục'))
 admin.add_view(InputBooksView(Books, db.session, name='Nhập kho', endpoint='admin-input-quantity'))
+admin.add_view(AdjustView(name='Thay đổi quy định'))
