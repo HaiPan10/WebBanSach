@@ -1,5 +1,7 @@
 import datetime
 
+from flask import flash
+from flask_admin.babel import gettext
 from wtforms.validators import InputRequired, NumberRange
 
 from app.models import Categories, Books, Orders, OrderDetails
@@ -101,28 +103,26 @@ class InputBooksView(ModelView):
     }
     can_create = False
     can_delete = False
-    # So luong hien tai tren model
-    model_quantity = 0
 
     def on_form_prefill(self, form, id):
         # Doc lai quy dinh them lan nua
         self.rules = utils.read_rules()
         form['quantity'].data = self.rules['quantity_import']
-        self.model_quantity = Books.query.get(id).quantity
 
-    def on_model_change(self, form, model, is_created):
+    def update_model(self, form, model):
         if form['quantity'].data < int(self.rules['quantity_import']):
-            # thiet lap lai gia tri
-            model.quantity = self.model_quantity
-
+            flash(gettext('Số lượng nhập dưới mức tối thiểu'), 'error')
+            return False
         else:
-            model.quantity = self.model_quantity + form['quantity'].data
-            # Lay thoi gian hien tai lam ngay nhap kho
+            # Dữ liệu nhập đúng cập nhật lên database
+            model.quantity += form['quantity'].data
             model.import_date = datetime.datetime.now()
+            db.session.add(model)
+            db.session.commit()
+            return True
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
-
 
 class AdjustView(BaseView):
     @expose('/')  # vào expose tham chiếu đến một trang custom mới
