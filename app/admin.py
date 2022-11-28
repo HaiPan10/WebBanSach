@@ -27,9 +27,10 @@ def upload_cloudinary(image):
 
 # Kế thừa model view có sẵn
 class BooksView(ModelView):
+    column_formatters = dict(category_id=lambda v, c, m, p: Categories.query.get(m.category_id).category_name)
     column_list = ['id', 'book_name', 'author_name', 'unit_price',
                    'quantity', 'import_date', 'category_id']
-    column_searchable_list = ['book_name', 'id']
+    column_searchable_list = ['id', 'book_name']
     column_filters = ['book_name', 'unit_price']
     can_view_details = True
     column_exclude_list = ['image']
@@ -39,15 +40,15 @@ class BooksView(ModelView):
         'author_name': 'Tên tác giả',
         'unit_price': 'Đơn giá',
         'quantity': 'Số lượng',
-        'import_date': 'Ngày nhập',
-        'category_id': 'Mã thể loại'
+        'import_date': 'Ngày nhập kho',
+        'category_id': 'Tên thể loại'
     }
 
     with app.app_context():
         form_create_rules = ('book_name', 'author_name', 'unit_price', 'image', 'category_id', 'descriptions')
         form_edit_rules = ('book_name', 'author_name', 'unit_price', 'category_id', 'descriptions')
         form_extra_fields = {
-            'category_id': SelectField('Loại sản phẩn', coerce=int,
+            'category_id': SelectField('Loại sản phẩm', coerce=int,
                                        choices=lambda: [(c.id, c.category_name) for c in Categories.query.all()],
                                        validators=[InputRequired()]),
             'image': FileField('Ảnh minh họa', validators=[InputRequired()])
@@ -82,6 +83,7 @@ class CategoriesView(ModelView):
 
 
 class InputBooksView(ModelView):
+    column_formatters = dict(category_id=lambda v, c, m, p: Categories.query.get(m.category_id).category_name)
     column_list = ['id', 'book_name', 'author_name', 'unit_price',
                    'quantity', 'import_date', 'category_id']
     column_labels = {
@@ -90,13 +92,13 @@ class InputBooksView(ModelView):
         'author_name': 'Tên tác giả',
         'unit_price': 'Đơn giá',
         'quantity': 'Số lượng',
-        'import_date': 'Ngày nhập',
-        'category_id': 'Mã thể loại'
+        'import_date': 'Ngày nhập kho',
+        'category_id': 'Tên thể loại'
     }
     # Mot doi tuong dict ve quy dinh nhap
     rules = utils.read_rules()
 
-    form_edit_rules = ('quantity', )
+    form_edit_rules = ('quantity',)
     # validators ràng buộc cho cái input
     form_extra_fields = {
         'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
@@ -107,11 +109,11 @@ class InputBooksView(ModelView):
     def on_form_prefill(self, form, id):
         # Doc lai quy dinh them lan nua
         self.rules = utils.read_rules()
-        form['quantity'].data = self.rules['quantity_import']
+        form['quantity'].data = 0
 
     def update_model(self, form, model):
         if form['quantity'].data < int(self.rules['quantity_import']):
-            flash(gettext('Số lượng nhập dưới mức tối thiểu'), 'error')
+            flash(gettext('Số lượng nhập dưới mức tối thiểu ' + self.rules['quantity_import']), 'error')
             return False
         else:
             # Dữ liệu nhập đúng cập nhật lên database
@@ -123,6 +125,7 @@ class InputBooksView(ModelView):
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
+
 
 class AdjustView(BaseView):
     @expose('/')  # vào expose tham chiếu đến một trang custom mới
