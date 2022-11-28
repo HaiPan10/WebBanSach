@@ -11,6 +11,11 @@ def read_json(path):
         return json.load(f)
 
 
+def write_json(path, file):
+    with open(os.path.join(app.root_path, path), "w") as f:
+        json.dump(file, f)
+
+
 # Đọc category
 def load_categories():
     return read_json(os.path.join(app.root_path, 'data/categories.json'))
@@ -39,7 +44,10 @@ def load_products(cate_id=None, kw=None, from_price=None, to_price=None):
 # Lấy products từ mã
 def get_product_by_id(product_id):
     products = read_json(os.path.join(app.root_path, 'data/products.json'))
-
     for p in products:
         if p['id'] == product_id:
             return p
+
+
+def read_rules():
+    return read_json(os.path.join(app.root_path, 'data/adjust_rules.json'))

@@ -62,6 +62,7 @@ def load_user(user_id):
     return dao.get_user_by_id(user_id)
 
 
+<<<<<<< HEAD
 # register người dùng
 @app.route("/register", methods=['get', 'post'])
 def register():
@@ -105,6 +106,18 @@ def login_my_user():
 def logout_my_user():
     logout_user()
     return redirect('/')
+=======
+@app.route("/admin/adjustview/change", methods=['post'])
+def adjust_rules():
+    quantity_import = request.form['quantity_import']
+    quantity_in_stocks = request.form['quantity_in_stocks']
+    rules = {
+        'quantity_import': quantity_import,
+        'quantity_in_stocks': quantity_in_stocks
+    }
+    utils.write_json('data/adjust_rules.json', file=rules)
+    return redirect("/admin")
+>>>>>>> c217c572891ebff871661c163bdfae356a524226
 
 
 # Chạy trang web
