@@ -1,4 +1,4 @@
-from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole
+from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
 from app import db
 import hashlib
 
@@ -36,6 +36,13 @@ def auth_user(username, password):
     pw = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     return UserAccount.query.filter(UserAccount.username.__eq__(username),
                                     UserAccount.password.__eq__(pw)).first()
+
+
+def register(name, username, password, avatar):
+    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    u = UserAccount(name=name, username=username, password=password, avatar=avatar)
+    db.session.add(u)
+    db.session.commit()
 
 
 def get_user_by_id(user_id):

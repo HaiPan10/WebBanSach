@@ -15,7 +15,8 @@
 /**************** common css start ****************/
 /* line 4, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_common.scss */
 body {
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
+  font-family: 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
   font-size: 14px;
@@ -157,7 +158,7 @@ h4,
 h5,
 h6 {
   color: #000;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -5384,7 +5385,7 @@ ul {
   font-size: 26px;
   line-height: 36px;
   font-weight: 700;
-  margin-bottom: 80px;
+  margin-bottom: 30px;
 }
 
 @media (max-width: 991px) {
@@ -7423,6 +7424,20 @@ h6 {
   background-size: cover;
 }
 
+.breadcrumb_bg_register {
+  background-image: url("../img/breadcrumb_register.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.breadcrumb_bg_login {
+  background-image: url("../img/breadcrumb_login.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 /* line 5, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_breadcrumb.scss */
 .breadcrumb {
   position: relative;
@@ -7780,4 +7795,7 @@ h6 {
   }
 }
 
+html{
+    scroll-behavior: smooth;
+}
 /*# sourceMappingURL=style.css.map */
