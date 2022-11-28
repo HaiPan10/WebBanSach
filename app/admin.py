@@ -1,6 +1,5 @@
 import datetime
-
-from flask import flash
+from flask import flash, redirect
 from flask_admin.babel import gettext
 from wtforms.validators import InputRequired, NumberRange
 
@@ -126,11 +125,6 @@ class InputBooksView(ModelView):
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
-
-    def list_form(self, obj=None):
-        list = super(ModelView, self).get_list(obj)
-
-        return list
 
 
 class AdjustView(BaseView):
