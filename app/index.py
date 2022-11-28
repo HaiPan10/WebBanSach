@@ -5,6 +5,8 @@ from flask import render_template, redirect
 # Dùng request để đổ product theo cate_id
 from flask import request
 from flask_login import login_user, logout_user
+import cloudinary.uploader
+from app.decorator import annonymous_user
 
 
 # Định nghĩa đường dẫn
@@ -58,6 +60,51 @@ def admin_login():
 @login.user_loader
 def load_user(user_id):
     return dao.get_user_by_id(user_id)
+
+
+# register người dùng
+@app.route("/register", methods=['get', 'post'])
+def register():
+    err_msg = ''
+    if request.method.__eq__('POST'):
+        password = request.form['password']
+        confirm = request.form['repassword']
+        if password.__eq__(confirm):
+            if request.files:
+                res = cloudinary.uploader.upload(request.files['avatar'])
+                avatar = res['secure_url']
+            try:
+                dao.register(name=request.form['name'],
+                             username=request.form['username'],
+                             password=password,
+                             avatar=avatar)
+                return redirect('/login')
+            except:
+                err_msg = "Hệ thống đang có lỗi! Vui lòng quay lại sau"
+        else:
+            err_msg = 'Mật khẩu không khớp'
+    return render_template("register.html", err_msg=err_msg)
+
+
+# login người dùng
+@app.route("/login", methods=['get', 'post'])
+@annonymous_user
+def login_my_user():
+    if request.method.__eq__('POST'):
+        username = request.form['username']
+        password = request.form['password']
+        user = dao.auth_user(username=username, password=password)
+        if user:
+            login_user(user=user)
+            return redirect('/')
+    return render_template('login.html')
+
+
+# logout
+@app.route('/logout')
+def logout_my_user():
+    logout_user()
+    return redirect('/')
 
 
 # Chạy trang web

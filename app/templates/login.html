@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<!-- breadcrumb start-->
+    <section class="breadcrumb breadcrumb_bg_login">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item">
+                            <h2>Đăng nhập</h2>
+                            <p>Chức năng <span>-</span> Đăng nhập</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- breadcrumb start-->
+
+ <section class="login_part padding_top" id="scroll_this">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_text text-center">
+                        <div class="login_part_text_iner">
+                            <h2>Chưa có tài khoản?</h2>
+                            <p>Tạo ngay tài khoản mới để nhận thêm nhiều ưu đãi về
+                                chất lượng dịch vụ và mở khóa chức năng thanh toán momo</p>
+                            <a href="/register" class="btn_3">Tạo tài khoản</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_form">
+                        <div class="login_part_form_iner">
+                            <h3>Chào mừng trở lại ! <br>
+                                Đăng nhập ngay</h3>
+                            <form class="row contact_form" action="/login" method="post" novalidate="novalidate">
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="username" name="username" value=""
+                                        placeholder="Nhập tên tài khoản">
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="password" class="form-control" id="password" name="password" value=""
+                                        placeholder="Nhập mật khẩu">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="creat_account d-flex align-items-center">
+                                        <input type="checkbox" id="f-option" name="selector">
+                                        <label for="f-option">Ghi nhớ tài khoản</label>
+                                    </div>
+                                    <button type="submit" value="submit" class="btn_3">
+                                        Đăng nhập
+                                    </button>
+                                    <a class="lost_pass" href="#">Quên mật khẩu?</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
