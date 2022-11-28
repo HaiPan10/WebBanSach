@@ -1,15 +1,14 @@
 import getpass
-
-from flask_admin.contrib.sqla.fields import QuerySelectField
-
 from app.models import Categories, Books, Orders, OrderDetails
 from app import db, app
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from flask_admin.form import rules, fields, form, Select2Widget
 from wtforms import SelectField, StringField, FileField
 import cloudinary.uploader
+
+
+# Rang buoc so luong nhap toi thieu
 
 
 # Upload ảnh lên cloudinary
@@ -41,18 +40,15 @@ class BooksView(ModelView):
         form_create_rules = ('book_name', 'author_name', 'unit_price', 'image', 'category_id', 'descriptions')
         form_edit_rules = ('book_name', 'author_name', 'unit_price', 'category_id', 'descriptions')
         form_extra_fields = {
-            'category_id': QuerySelectField(
-                label='Thể loại',
-                query_factory=lambda: Categories.query.all(),
-                widget=Select2Widget()),
+            'category_id': SelectField('Loại sản phẩn', coerce=int,
+                                       choices=lambda: [(c.id, c.category_name) for c in Categories.query.all()]),
             'image': FileField('Ảnh minh họa')
         }
 
     def on_model_change(self, form, model, is_created):
         # lay noi dung form cua nguoi dung
         if is_created:
-            curr_user = getpass.getuser()
-            model.updatedby = curr_user
+            # chi khi nao tao moi moi upload anh len cloudinary
             # chinh sua lai image thanh chuoi duong dan
             model.image = upload_cloudinary(form['image'].data)
 
@@ -70,8 +66,6 @@ class CategoriesView(ModelView):
     def on_model_change(self, form, model, is_created):
         if is_created:
             # lay noi dung form cua nguoi dung
-            curr_user = getpass.getuser()
-            model.updatedby = curr_user
             # chinh sua lai image thanh chuoi duong dan
             model.image = upload_cloudinary(form['image'].data)
 
@@ -94,6 +88,9 @@ class InputBooksView(ModelView):
     form_edit_rules = ('import_date', 'quantity')
     can_create = False
     can_delete = False
+
+    def on_model_change(self, form, model, is_created):
+        quantity = form['quantity'].data
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
