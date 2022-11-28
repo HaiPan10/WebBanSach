@@ -28,7 +28,7 @@ def load_orders():
 
 def create_account(name, username, password, avatar):
     pw = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    user = UserAccount(name=name, username=username, password=pw, avatar=avatar, user_role=UserRole.USER)
+    user = UserAccount(name=name, username=username, password=pw, avatar=avatar)
 
 
 def auth_user(username, password):
