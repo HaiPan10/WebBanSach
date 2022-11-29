@@ -1,8 +1,10 @@
 import datetime
+import html
+
 from flask import flash, redirect
 from flask_admin.babel import gettext
+from flask_admin.model import typefmt
 from wtforms.validators import InputRequired, NumberRange
-
 from app.models import Categories, Books, Orders, OrderDetails
 from app import db, app, utils
 from flask_admin import Admin, BaseView, expose
@@ -10,6 +12,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField
 import cloudinary.uploader
+from markupsafe import Markup
 
 
 # Upload ảnh lên cloudinary
@@ -82,21 +85,24 @@ class CategoriesView(ModelView):
 
 
 class InputBooksView(ModelView):
-    column_formatters = dict(category_id=lambda v, c, m, p: Categories.query.get(m.category_id).category_name)
-    column_list = ['id', 'book_name', 'author_name', 'unit_price',
-                   'quantity', 'import_date', 'category_id']
+    # Mot doi tuong dict ve quy dinh nhap
+    input_rules = utils.read_rules()
+    column_formatters = dict(category_id=lambda v, c, m, p: Categories.query.get(m.category_id).category_name,
+                             quantity_in_stocks_status=lambda v, c, m, p:
+                             'Dưới mức' if m.quantity < int(
+                                 v.input_rules['quantity_in_stocks'])
+                             else True)
+    column_list = ['book_name', 'author_name', 'unit_price',
+                   'quantity', 'import_date', 'category_id', 'quantity_in_stocks_status']
     column_labels = {
-        'id': 'Mã sản phẩm',
-        'book_name': 'Tên sản phẩm',
-        'author_name': 'Tên tác giả',
+        'book_name': 'Tên sách',
+        'author_name': 'Tác giả',
         'unit_price': 'Đơn giá',
         'quantity': 'Số lượng',
         'import_date': 'Ngày nhập kho',
-        'category_id': 'Tên thể loại'
+        'category_id': 'Thể loại',
+        'quantity_in_stocks_status': 'Tình trạng tồn kho'
     }
-    # Mot doi tuong dict ve quy dinh nhap
-    rules = utils.read_rules()
-
     form_edit_rules = ('quantity',)
     # validators ràng buộc cho cái input
     form_extra_fields = {
@@ -107,13 +113,13 @@ class InputBooksView(ModelView):
 
     def on_form_prefill(self, form, id):
         # Doc lai quy dinh them lan nua
-        self.rules = utils.read_rules()
+        self.input_rules = utils.read_rules()
         form['quantity'].data = 0
 
     # Ràng buộc việc nhập số lượng ghi đè update_model
     def update_model(self, form, model):
-        if form['quantity'].data < int(self.rules['quantity_import']):
-            flash(gettext('Số lượng nhập dưới mức tối thiểu ' + self.rules['quantity_import']), 'error')
+        if form['quantity'].data < int(self.input_rules['quantity_import']):
+            flash(gettext('Số lượng nhập dưới mức tối thiểu ' + self.input_rules['quantity_import']), 'error')
             return False
         else:
             # Dữ liệu nhập đúng cập nhật lên database
@@ -123,6 +129,9 @@ class InputBooksView(ModelView):
             db.session.commit()
             return True
 
+    def read_rules(self):
+        self.input_rules = utils.read_rules()
+
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
         return current_user.is_authenticated
 
@@ -131,8 +140,8 @@ class AdjustView(BaseView):
     @expose('/')  # vào expose tham chiếu đến một trang custom mới
     def index(self):  # Ghi đè lên hàm index
         # Lấy thông tin về số lượng
-        rules = utils.read_rules()
-        return self.render('admin/adjust_rules.html', rules=rules)
+        input_rules = utils.read_rules()
+        return self.render('admin/adjust_rules.html', rules=input_rules)
 
 
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')

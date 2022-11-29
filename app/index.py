@@ -1,6 +1,7 @@
 # Định tuyến tới biến app trang init.py
+from app.admin import InputBooksView
 from app.models import UserRole
-from app import app, dao, login, utils, admin
+from app import app, dao, login, utils, admin as ad
 # Import render_template để dùng render_template
 from flask import render_template, redirect
 # Dùng request để đổ product theo cate_id
@@ -115,6 +116,10 @@ def adjust_rules():
         'quantity_in_stocks': quantity_in_stocks
     }
     utils.write_json('data/adjust_rules.json', file=rules)
+    # Cập nhật lại thông tin của input books view
+    for view in ad.admin.__getattribute__('_views'):
+        if isinstance(view, InputBooksView):
+            view.read_rules()
     return redirect("/admin")
 
 
