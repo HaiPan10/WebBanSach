@@ -34,15 +34,25 @@
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a href="/products">Tất cả</a>
-                                        <span>(gọi hàm count)</span>
+                                        <a id="all_cate" href="/products">Tất cả</a>
                                     </li>
                                     {% for c in categories %}
                                     <li>
-                                        <a href="/products?category_id={{ c.id }}">{{ c.category_name }}</a>
-                                        <span>(gọi hàm count)</span>
+                                        <a id="{{ c.id }}"  href="/products?category_id={{ c.id }}">{{ c.category_name }}</a>
                                     </li>
                                     {% endfor %}
+
+                                    {% if cate_id  %}
+                                    <script>
+                                        document.getElementById("{{ cate_id }}").style.fontWeight = "bold";
+                                        document.getElementById("{{ cate_id }}").style.color = "#ff3368";
+                                    </script>
+                                    {% else %}
+                                    <script>
+                                        document.getElementById("all_cate").style.fontWeight = "bold";
+                                        document.getElementById("all_cate").style.color = "#ff3368";
+                                    </script>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </aside>
@@ -177,42 +187,50 @@
                     </div>
 
                     <div class="row align-items-center latest_product_inner">
-                        {% for p in products %}
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="{{ p.image }}" alt="{{ p.name }}">
-                                <div class="single_product_text">
-                                    <h4>{{ p.book_name }}</h4>
-                                    <h3>{{ p.unit_price }}</h3>
-                                    <a href="#" class="add_cart">Thêm vào giỏ hàng</a>
+                        {% for i in range( (page - 1) * max_amount_per_page, page * max_amount_per_page) %}
+                            {% if products[i] %}
+                                <div class="col-lg-4 col-sm-6">
+                                    <div class="single_product_item">
+                                        <img src="{{ products[i].image }}" alt="{{ products[i].name }}">
+                                        <div class="single_product_text">
+                                            <h4>{{ products[i].book_name }}</h4>
+                                            <h3>{{ products[i].unit_price }}</h3>
+                                            <a href="#" class="add_cart">Thêm vào giỏ hàng</a>
+                                        </div>
+                                    </div>
                                 </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="col-lg-12">
+                            <div class="pageination">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        {% if page != 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="/products?page={{ page - 1 }}" aria-label="Previous">
+                                                <i class="ti-angle-double-left"></i>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% for x in range(page_count) %}
+                                            {% if cate_id %}
+                                                <li class="page-item"><a class="page-link {{ page }}" href="/products?category_id={{ cate_id }}?page={{ x + 1 }}">{{ x + 1 }}</a></li>
+                                            {% else %}
+                                                <li class="page-item"><a class="page-link" href="/products?page={{ x + 1 }}">{{ x + 1 }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if page != page_count %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="/products?page={{ page + 1 }}" aria-label="Next">
+                                                <i class="ti-angle-double-right"></i>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
-                        {% endfor %}
-<!--                        <div class="col-lg-12">-->
-<!--                            <div class="pageination">-->
-<!--                                <nav aria-label="Page navigation example">-->
-<!--                                    <ul class="pagination justify-content-center">-->
-<!--                                        <li class="page-item">-->
-<!--                                            <a class="page-link" href="#" aria-label="Previous">-->
-<!--                                                <i class="ti-angle-double-left"></i>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#">4</a></li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#">5</a></li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#">6</a></li>-->
-<!--                                        <li class="page-item">-->
-<!--                                            <a class="page-link" href="#" aria-label="Next">-->
-<!--                                                <i class="ti-angle-double-right"></i>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </nav>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
