@@ -35,6 +35,9 @@ class Books(BaseModel):
     image = Column(String(250), nullable=False)
     descriptions = Column(String(250))
 
+    def __str__(self):
+        return self.book_name
+
 
 class UserRole(UserEnum):
     USER = 1

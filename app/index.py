@@ -34,7 +34,7 @@ def product_list():
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
     products = dao.load_books(cate_id=cate_id)
-    page_count = int(len(products)/max_amount_per_page)
+    page_count = int(len(products) / max_amount_per_page)
     if len(products) % max_amount_per_page != 0:
         page_count = page_count + 1
     categories = dao.load_categories()
@@ -44,7 +44,7 @@ def product_list():
     else:
         page = int(page)
     return render_template('products.html', products=products, categories=categories,
-                           page_count = page_count, page = page, max_amount_per_page = max_amount_per_page,
+                           page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
                            cate_id=cate_id)
 
 

@@ -10,7 +10,7 @@ from app import db, app, utils
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField
+from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField, SelectMultipleField
 import cloudinary.uploader
 from markupsafe import Markup
 
@@ -68,8 +68,8 @@ class BooksView(ModelView):
 
 
 class CategoriesView(ModelView):
-    form_create_rules = ('category_name', 'image', 'descriptions')
-    form_edit_rules = ('category_name', 'descriptions')
+    form_create_rules = ('category_name', 'image', 'descriptions', 'books')
+    form_edit_rules = ('category_name', 'descriptions', 'books')
     form_extra_fields = {
         'image': FileField('Ảnh minh họa', validators=[InputRequired()])
     }
@@ -86,6 +86,7 @@ class CategoriesView(ModelView):
 
 class InputBooksView(ModelView):
     # Mot doi tuong dict ve quy dinh nhap
+
     input_rules = utils.read_rules()
     column_formatters = dict(category_id=lambda v, c, m, p: Categories.query.get(m.category_id).category_name,
                              quantity_in_stocks_status=lambda v, c, m, p:
