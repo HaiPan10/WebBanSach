@@ -16,7 +16,7 @@ class BaseModel(db.Model):
 class Categories(BaseModel):
     category_name = Column(String(50), nullable=False)
     books = relationship('Books', backref='Categories', lazy=True)
-    descriptions = Column(String(50))
+    descriptions = Column(Text)
     image = Column(String(250))
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Books(BaseModel):
     order_details = relationship('OrderDetails', backref='Books', lazy=True)
     sold_numbers = Column(Integer, default=0)
     image = Column(String(250), nullable=False)
-    descriptions = Column(String(250))
+    descriptions = Column(Text)
 
     def __str__(self):
         return self.book_name
@@ -69,8 +69,8 @@ class OrderDetails(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        pass
-        # db.create_all()
+        # pass
+        db.create_all()
         # name = 'Admin'
         # username = 'admin'
         # password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
@@ -78,3 +78,4 @@ if __name__ == '__main__':
         # user = UserAccount(name=name, username=username, password=password, avatar=avatar, user_role=UserRole.ADMIN)
         # db.session.add(user)
         # db.session.commit()
+        # db.drop_all()

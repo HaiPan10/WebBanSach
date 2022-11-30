@@ -14,6 +14,9 @@
         el.scrollIntoView(true);
     }
     </script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.xx.x/js/uikit.min.js"></script>
 
     <!--  css   -->
     <link href=" {{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
@@ -25,11 +28,15 @@
     <link href=" {{ url_for('static', filename='css/magnific-popup.css') }}" rel="stylesheet"/>
     <link href=" {{ url_for('static', filename='css/slick.css') }}" rel="stylesheet"/>
     <link href=" {{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
+    <link href=" {{ url_for('static', filename='css/uikit.min.css') }}" rel="stylesheet" />
 
     <!--  Google Font  -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,300,400i,400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500i,700" rel="stylesheet">
+
+    <!-- uikit -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.xx.x/css/uikit.min.css" />
 
     {% block css %} {% endblock %}
     {% block js %} {% endblock %}
