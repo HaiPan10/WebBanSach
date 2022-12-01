@@ -144,6 +144,9 @@ class AdjustView(BaseView):
         input_rules = utils.read_rules()
         return self.render('admin/adjust_rules.html', rules=input_rules)
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
 
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
