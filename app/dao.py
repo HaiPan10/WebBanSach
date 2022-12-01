@@ -49,5 +49,9 @@ def register(name, username, password, avatar):
     db.session.commit()
 
 
+def get_category_name(category_id):
+    return Categories.query.get(category_id).category_name
+
+
 def get_user_by_id(user_id):
     return UserAccount.query.get(user_id)

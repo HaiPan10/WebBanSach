@@ -52,11 +52,12 @@ def product_list():
 @app.route("/products/<int:book_id>", methods=['get', 'post'])
 def product_detail(book_id):
     product = dao.get_book_by_id(book_id)
+    category_name = dao.get_category_name(product.category_id)
     products = dao.load_books()
     curr = None
     if request.method.__eq__('POST'):
         curr = request.form['curr']
-    return render_template('product_detail.html', product=product)
+    return render_template('product_detail.html', product=product, category_name=category_name)
 
 
 @app.route("/login-admin", methods=['post'])
