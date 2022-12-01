@@ -106,7 +106,10 @@
                             {% if products[i] %}
                                 <div class="col-lg-4 col-sm-6">
                                     <div class="single_product_item">
-                                        <div class="image-container" onclick="location.href='/products/{{products[i].id}}';" >
+                                    <!--category_id sẽ nhận giá trị lấy từ cate_id, giá trị được đổ ra từ template trong index-->
+                                    <!--i sẽ là giá trị truyền vào từ vòng lặp for-->
+                                        <div class="image-container"
+                                             onclick="location.href='/products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i}}';" >
                                             <img src="{{ products[i].image }}" alt="{{ products[i].name }}">
                                             <div class="after"> <p><span class="ti-new-window"></span> Xem thêm chi tiết</p></div>
                                         </div>

@@ -1,67 +1,67 @@
 {% extends 'layout/base.html' %}
 {% block content %}
- <!-- breadcrumb start-->
-  <section class="breadcrumb breadcrumb_bg_details">
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg_details">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="breadcrumb_iner">
-            <div class="breadcrumb_iner_item">
-              <h2>Chi tiết sản phẩm</h2>
-              <p>Cửa hàng <span>-</span> Chi tiết sản phẩm</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Chi tiết sản phẩm</h2>
+                        <p>Cửa hàng <span>-</span> Chi tiết sản phẩm</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!-- breadcrumb start-->
+</section>
+<!-- breadcrumb start-->
 
-  <!--================Single Product Area =================-->
-  <div class="product_image_area section_padding">
+<!--================Single Product Area =================-->
+<div class="product_image_area section_padding">
     <div class="container">
-      <div class="row s_product_inner justify-content-between">
-        <div class="col-lg-7 col-xl-7">
-          <div class="product_slider_img">
-            <div id="vertical">
-              <div>
-                <img src="{{ product.image }}" />
-              </div>
+        <div class="row s_product_inner justify-content-between">
+            <div class="col-lg-7 col-xl-7">
+                <div class="product_slider_img">
+                    <div id="vertical">
+                        <div>
+                            <img src="{{ products[i].image }}"/>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-5 col-xl-4">
-          <div class="s_product_text">
-            <h5><span>sản phẩm trước</span>
-            <span>|</span> sản phẩm sau</h5>
-            <h3>{{ product.book_name }}</h3>
-            <h4>Tác giả: {{ product.author_name }}</h4>
-            <h2>{{ product.unit_price }} VNĐ</h2>
-            <ul class="list">
-              <li>
-                <h4>Thể loại: {{category_name}} </h4>
-              </li>
-              <li>
-                <h4>Đã bán: {{ product.sold_numbers }}</h4>
-              </li>
-            </ul>
-            <p>
-              Mô tả:<br>
-              {{ product.descriptions }}
-            </p>
-            <div class="card_area d-flex justify-content-between align-items-center">
-              <div class="product_count">
-                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                <input class="input-number" type="text" value="1" min="0" max="10">
-                <span class="number-increment"> <i class="ti-plus"></i></span>
-              </div>
-              <a href="#" class="btn_3">Thêm vào giỏ hàng</a>
-<!--              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>-->
+            <div class="col-lg-5 col-xl-4">
+                <div class="s_product_text">
+                    <h5><a href="/products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i - 1 if i > 0 else size}}" class = "feature_btn">sản phẩm trước</a>
+                        <span>|</span> <a href="/products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i + 1 if size > i else 0}}" class = "feature_btn">sản phẩm sau</a></h5>
+                    <h3>{{ products[i].book_name }}</h3>
+                    <h4>Tác giả: {{ products[i].author_name }}</h4>
+                    <h2>{{ products[i].unit_price }} VNĐ</h2>
+                    <ul class="list">
+                        <li>
+                            <h4>Thể loại: {{category_name}} </h4>
+                        </li>
+                        <li>
+                            <h4>Đã bán: {{ products[i].sold_numbers }}</h4>
+                        </li>
+                    </ul>
+                    <p>
+                        Mô tả:<br>
+                        {{ products[i].descriptions }}
+                    </p>
+                    <div class="card_area d-flex justify-content-between align-items-center">
+                        <div class="product_count">
+                            <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                            <input class="input-number" type="text" value="1" min="0" max="10">
+                            <span class="number-increment"> <i class="ti-plus"></i></span>
+                        </div>
+                        <a href="#" class="btn_3">Thêm vào giỏ hàng</a>
+                        <!--              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>-->
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!--================End Single Product Area =================-->
+</div>
+<!--================End Single Product Area =================-->
 {% endblock %}
