@@ -1,21 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Chi tiết sản phẩm</title>
-  <link href=" {{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
-</head>
-<body>
-  <h1 class="subject">CHI TIET SAN PHAM</h1>
-  <div class="container flex">
-      <div>
-          <img src="{{ url_for('static', filename=product.image) }}" alt=" {{ product.name }} ">
+{% extends 'layout/base.html' %}
+{% block content %}
+ <!-- breadcrumb start-->
+  <section class="breadcrumb breadcrumb_bg_details">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Chi tiết sản phẩm</h2>
+              <p>Cửa hàng <span>-</span> Chi tiết sản phẩm</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-          <h2>{{ product.name }}</h2>
-          <p>{{ product.description }}</p>
-          <h4>{{ "{:,.1f}".format(product.price) }} VND</h4>
+    </div>
+  </section>
+  <!-- breadcrumb start-->
+
+  <!--================Single Product Area =================-->
+  <div class="product_image_area section_padding">
+    <div class="container">
+      <div class="row s_product_inner justify-content-between">
+        <div class="col-lg-7 col-xl-7">
+          <div class="product_slider_img">
+            <div id="vertical">
+              <div>
+                <img src="{{ product.image }}" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-xl-4">
+          <div class="s_product_text">
+            <h5><span>sản phẩm trước</span>
+            <span>|</span> sản phẩm sau</h5>
+            <h3>{{ product.book_name }}</h3>
+            <h4>Tác giả: {{ product.author_name }}</h4>
+            <h2>{{ product.unit_price }} VNĐ</h2>
+            <ul class="list">
+              <li>
+                <h4>Thể loại: </h4>
+              </li>
+              <li>
+                <h4>Đã bán: {{ product.sold_numbers }}</h4>
+              </li>
+            </ul>
+            <p>
+              Mô tả:<br>
+              {{ product.descriptions }}
+            </p>
+            <div class="card_area d-flex justify-content-between align-items-center">
+              <div class="product_count">
+                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                <input class="input-number" type="text" value="1" min="0" max="10">
+                <span class="number-increment"> <i class="ti-plus"></i></span>
+              </div>
+              <a href="#" class="btn_3">Thêm vào giỏ hàng</a>
+<!--              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>-->
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
-</body>
-</html>
+  <!--================End Single Product Area =================-->
+{% endblock %}

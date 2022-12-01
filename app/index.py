@@ -49,9 +49,13 @@ def product_list():
 
 
 # Cấu hình trang chi tiết sản phẩm
-@app.route("/products/<int:id>")
+@app.route("/products/<int:book_id>", methods=['get', 'post'])
 def product_detail(book_id):
-    product = dao.get_book_by_id()
+    product = dao.get_book_by_id(book_id)
+    products = dao.load_books()
+    curr = None
+    if request.method.__eq__('POST'):
+        curr = request.form['curr']
     return render_template('product_detail.html', product=product)
 
 

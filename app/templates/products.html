@@ -63,7 +63,8 @@
                             </div>
                             <div class="widgets_inner">
                                 <div class="range_item">
-                                    <!-- <div id="slider-range"></div> -->
+<!--                                    <div id="slider-range"></div>-->
+
                                     <input type="text" class="js-range-slider" value="" />
                                     <div class="d-flex">
                                         <div class="price_text">
@@ -100,12 +101,15 @@
                         </div>
                     </div>
 
-                    <div class="row align-items-center latest_product_inner">
+                    <div class="row align-items-center latest_product_inner" >
                         {% for i in range( (page - 1) * max_amount_per_page, page * max_amount_per_page) %}
                             {% if products[i] %}
                                 <div class="col-lg-4 col-sm-6">
                                     <div class="single_product_item">
-                                        <img src="{{ products[i].image }}" alt="{{ products[i].name }}">
+                                        <div class="image-container" onclick="location.href='/products/{{products[i].id}}';" >
+                                            <img src="{{ products[i].image }}" alt="{{ products[i].name }}">
+                                            <div class="after"> <p><span class="ti-new-window"></span> Xem thêm chi tiết</p></div>
+                                        </div>
                                         <div class="single_product_text">
                                             <h4>{{ products[i].book_name }}</h4>
                                             <h3>{{ products[i].unit_price }}</h3>
