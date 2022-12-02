@@ -20,6 +20,12 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None):
     return query.all()
 
 
+def load_author(keyword=None):
+    query = Books.query
+    if keyword:
+        query = query.filter(Books.author_name.contains(keyword))
+
+
 def get_book_by_id(book_id):
     return Books.query.get(book_id)
 

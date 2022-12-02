@@ -51,6 +51,7 @@ def product_list():
     list_products_name = []
     for p in all_products:
         list_products_name.append(str(p.book_name))
+        list_products_name.append(str(p.author_name))
     if page is None:
         page = 1
     else:
