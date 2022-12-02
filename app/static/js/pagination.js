@@ -1,4 +1,3 @@
-
 const pg = document.getElementById("pagination");
 const btnNextPg = document.querySelector("button.next-page");
 const btnPrevPg = document.querySelector("button.prev-page");
@@ -166,8 +165,8 @@ function handleButtonRight() {
 }
 
 $(function(){
-    $("#pagination").on('click', function(event){
-        event.preventDefault();
-        return true;
+    $("#pagination").on('click' ,function(event){
+        let a = $(this).children("li.pg-item.active").children("a.pg-link")
+        window.location.href = a.attr("href");
     });
 });
