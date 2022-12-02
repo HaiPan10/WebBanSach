@@ -3,127 +3,131 @@
 {% block title %}Web bán sách{% endblock %}
 
 {% block content %}
- <!-- banner part start-->
-    <section class="banner_part">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <div class="banner_slider owl-carousel">
-                        {% for cate in categories %}
-                        <div class="single_banner_slider">
-                            <div class="row">
-                                <div class="col-lg-5 col-md-8">
-                                    <div class="banner_text">
-                                        <div class="banner_text_iner">
-                                            <h1>{{ cate.category_name }}
-                                            </h1>
-                                            <p>{{ cate.descriptions }}</p>
-                                            <a href="/products?category_id={{ cate.id }}" class="btn_2">Tìm hiểu ngay</a>
-                                        </div>
+{% if error_mesesage: %}
+<h1>{{error_message}}</h1>
+{% else %}
+<!-- banner part start-->
+<section class="banner_part">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="banner_slider owl-carousel">
+                    {% for cate in categories %}
+                    <div class="single_banner_slider">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-8">
+                                <div class="banner_text">
+                                    <div class="banner_text_iner">
+                                        <h1>{{ cate.category_name }}
+                                        </h1>
+                                        <p>{{ cate.descriptions }}</p>
+                                        <a href="/products?category_id={{ cate.id }}" class="btn_2">Tìm hiểu ngay</a>
                                     </div>
-                                </div>
-                                <div class="banner_img d-none d-lg-block">
-                                    <img width="300px" height="400px" src="{{ cate.image }}" alt="">
                                 </div>
                             </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-<!--                    <div class="slider-counter"></div>-->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- banner part start-->
-
-    <!-- feature_part start-->
-    <section class="feature_part padding_top">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="section_tittle text-center">
-                        <h2>Loại sách nổi bật</h2>
-                    </div>
-                </div>
-            </div>
-
-<!--            LOẠI SÁCH CÓ SỐ LƯỢNG SÁCH BÁN NHIỀU NHẤT (SELECT TOP 4)-->
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-7 col-sm-6">
-                    <div class="single_feature_post_text">
-                        <p>...</p>
-                        <h3>aa</h3>
-                        <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
-                        <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-5 col-sm-6">
-                    <div class="single_feature_post_text">
-                        <p>...</p>
-                        <h3>bb</h3>
-                        <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
-                        <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-5 col-sm-6">
-                    <div class="single_feature_post_text">
-                        <p>...</p>
-                        <h3>cc</h3>
-                        <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
-                        <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-7 col-sm-6">
-                    <div class="single_feature_post_text">
-                        <p>...</p>
-                        <h3>dd</h3>
-                        <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
-                        <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- upcoming_event part start-->
-
-    <!-- product_list start-->
-    <section class="product_list section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-<!--                        <h2>Cửa hàng<span>shop</span></h2>-->
-                        <h2>Cửa hàng</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="product_list_slider owl-carousel">
-                        <div class="single_product_list_slider">
-                            <div class="row align-items-center justify-content-between">
-                                {% for p in products %}
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="{{ url_for('static', filename=p.image) }}" width="120px" alt="{{ p.name }} " alt="">
-                                        <div class="single_product_text">
-                                            <h4>{{ p.name }}</h4>
-                                            <h3>{{ p.price }}</h3>
-                                            <a href="#" class="add_cart">Thêm vào giỏ hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
+                            <div class="banner_img d-none d-lg-block">
+                                <img width="300px" height="400px" src="{{ cate.image }}" alt="">
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
+                </div>
+                <!--                    <div class="slider-counter"></div>-->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- banner part start-->
+
+<!-- feature_part start-->
+<section class="feature_part padding_top">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section_tittle text-center">
+                    <h2>Loại sách nổi bật</h2>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- product_list part start-->
 
-    <!-- awesome_shop start-->
+        <!--            LOẠI SÁCH CÓ SỐ LƯỢNG SÁCH BÁN NHIỀU NHẤT (SELECT TOP 4)-->
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-7 col-sm-6">
+                <div class="single_feature_post_text">
+                    <p>...</p>
+                    <h3>aa</h3>
+                    <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
+                    <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-5 col-sm-6">
+                <div class="single_feature_post_text">
+                    <p>...</p>
+                    <h3>bb</h3>
+                    <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
+                    <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-5 col-sm-6">
+                <div class="single_feature_post_text">
+                    <p>...</p>
+                    <h3>cc</h3>
+                    <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
+                    <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-7 col-sm-6">
+                <div class="single_feature_post_text">
+                    <p>...</p>
+                    <h3>dd</h3>
+                    <a href="#" class="feature_btn">Khám phá ngay <i class="fas fa-play"></i></a>
+                    <img src="{{ url_for('static', filename='img/img_temp.png') }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- upcoming_event part start-->
+
+<!-- product_list start-->
+<section class="product_list section_padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section_tittle text-center">
+                    <!--                        <h2>Cửa hàng<span>shop</span></h2>-->
+                    <h2>Cửa hàng</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="product_list_slider owl-carousel">
+                    <div class="single_product_list_slider">
+                        <div class="row align-items-center justify-content-between">
+                            {% for p in products %}
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="single_product_item">
+                                    <img src="{{ url_for('static', filename=p.image) }}" width="120px"
+                                         alt="{{ p.name }} " alt="">
+                                    <div class="single_product_text">
+                                        <h4>{{ p.name }}</h4>
+                                        <h3>{{ p.price }}</h3>
+                                        <a href="#" class="add_cart">Thêm vào giỏ hàng<i class="ti-heart"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product_list part start-->
+
+<!-- awesome_shop start-->
 <!--    <section class="our_offer section_padding">-->
 <!--        <div class="container">-->
 <!--            <div class="row align-items-center justify-content-between">-->
@@ -156,39 +160,39 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </section>-->
-    <!-- awesome_shop part start-->
+<!-- awesome_shop part start-->
 
-    <!-- product_list part start-->
-    <section class="product_list best_seller section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-<!--                        <h2>Bán chạy nhất<span>shop</span></h2>-->
-                        <h2>Bán chạy nhất</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        {% for p in products %}
-                        <div class="single_product_item">
-                            <img src="{{ url_for('static', filename=p.image) }}" alt="">
-                            <div class="single_product_text">
-                                <h4>{{ p.name }}</h4>
-                                <h3>{{ p.price }}</h3>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
+<!-- product_list part start-->
+<section class="product_list best_seller section_padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section_tittle text-center">
+                    <!--                        <h2>Bán chạy nhất<span>shop</span></h2>-->
+                    <h2>Bán chạy nhất</h2>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- product_list part end-->
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-12">
+                <div class="best_product_slider owl-carousel">
+                    {% for p in products %}
+                    <div class="single_product_item">
+                        <img src="{{ url_for('static', filename=p.image) }}" alt="">
+                        <div class="single_product_text">
+                            <h4>{{ p.name }}</h4>
+                            <h3>{{ p.price }}</h3>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- product_list part end-->
 
-    <!-- subscribe_area part start-->
+<!-- subscribe_area part start-->
 <!--    <section class="subscribe_area section_padding">-->
 <!--        <div class="container">-->
 <!--            <div class="row justify-content-center">-->
@@ -209,9 +213,9 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </section>-->
-    <!--::subscribe_area part end::-->
+<!--::subscribe_area part end::-->
 
-    <!-- subscribe_area part start-->
+<!-- subscribe_area part start-->
 <!--    <section class="client_logo padding_top">-->
 <!--        <div class="container">-->
 <!--            <div class="row align-items-center">-->
@@ -250,7 +254,7 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </section>-->
-    <!--::subscribe_area part end::-->
+<!--::subscribe_area part end::-->
 
 <!--<div class="container">-->
 <!--    <div class="row">-->
@@ -264,4 +268,5 @@
 <!--        <li><a href="{{ url_for('product_list', category_id=c.id) }}">{{ c.name }}</a></li>-->
 <!--        {% endfor %}-->
 <!--    </ul>-->
+{% endif %}
 {% endblock %}

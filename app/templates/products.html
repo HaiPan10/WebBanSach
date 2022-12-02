@@ -5,6 +5,7 @@
 {% block css %}
 <!--    auto-complete-->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="static/css/pagination.css">
 {% endblock %}
 
 {% block js %}
@@ -20,6 +21,7 @@
         source: availableTags
         });
     });
+
 </script>
 {% endblock %}
 
@@ -66,11 +68,13 @@
                                 <script>
                                         document.getElementById("{{ cate_id }}").style.fontWeight = "bold";
                                         document.getElementById("{{ cate_id }}").style.color = "#ff3368";
+
                                 </script>
                                 {% else %}
                                 <script>
                                         document.getElementById("all_cate").style.fontWeight = "bold";
                                         document.getElementById("all_cate").style.color = "#ff3368";
+
                                 </script>
                                 {% endif %}
                             </ul>
@@ -143,121 +147,126 @@
                     {% endif %}
                     {% endfor %}
                     <div class="col-lg-12">
-                        <div class="pageination">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    {% if page != 1 %}
-                                    {% if cate_id %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="/products?category_id={{ cate_id }}&page={{ 1 }}"
-                                           aria-label="Previous">
-                                            <i class="ti-angle-double-left"></i>
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="/products?page={{ 1 }}" aria-label="Previous">
-                                            <i class="ti-angle-double-left"></i>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% endif %}
-                                    {% if page != 1 %}
-                                    {% if cate_id %}
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="/products?category_id={{ cate_id }}&page={{ page - 1 }}"
-                                           aria-label="Previous">
-                                            <i class="ti-angle-left"></i>
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="/products?page={{ page - 1 }}" aria-label="Previous">
-                                            <i class="ti-angle-left"></i>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% endif %}
-                                    {% for x in range(page_count) %}
-                                    {% if cate_id %}
-                                    <li class="page-item"><a id="cate{{ cate_id }}_page{{ x + 1 }}"
-                                                             class="page-link {{ page }}"
-                                                             href="/products?category_id={{ cate_id }}&page={{ x + 1 }}">{{
-                                        x + 1 }}</a></li>
-                                    {% else %}
-                                    <li class="page-item"><a id="page{{ x + 1 }}" class="page-link"
-                                                             href="/products?page={{ x + 1 }}">{{ x + 1 }}</a></li>
-                                    {% endif %}
-                                    {% endfor %}
-
-                                    {% if page != page_count %}
-                                    {% if cate_id %}
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="/products?category_id={{ cate_id }}&page={{ page + 1 }}"
-                                           aria-label="Next">
-                                            <i class="ti-angle-right"></i>
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="/products?page={{ page + 1 }}" aria-label="Next">
-                                            <i class="ti-angle-right"></i>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% endif %}
-
-                                    {% if page != page_count %}
-                                    {% if cate_id %}
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="/products?category_id={{ cate_id }}&page={{ page_count }}"
-                                           aria-label="Next">
-                                            <i class="ti-angle-double-right"></i>
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="/products?page={{ page_count }}" aria-label="Next">
-                                            <i class="ti-angle-double-right"></i>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% endif %}
-
-                                    {% if cate_id %}
-                                    <script>
-                                                document.getElementById("cate{{ cate_id }}_page{{ page }}").style.color = "#ff3368";
-
-
-
-
-
-
-
-                                    </script>
-                                    {% else %}
-                                    <script>
-                                                document.getElementById("page{{ page }}").style.color = "#ff3368";
-
-
-
-
-
-
-
-                                    </script>
-                                    {% endif %}
-                                </ul>
-                            </nav>
+                        <!--Dynamic pagination here-->
+                        <div class="page-container">
+                            <button class="first-page" disabled>
+                                <i class="fas fa-angle-double-left"></i>
+                            </button>
+                            <button class="prev-page" disabled>
+                                <i class="fas fa-angle-left"></i>
+                            </button>
+                            <div id="pagination"></div>
+                            <button class="next-page">
+                                <i class="fas fa-angle-right"></i>
+                            </button>
+                            <button class="last-page">
+                                <i class="fas fa-angle-double-right"></i>
+                            </button>
                         </div>
+<!--                        <div class="pageination">-->
+<!--                            <nav aria-label="Page navigation example">-->
+<!--                                <ul class="pagination justify-content-center">-->
+<!--                                    {% if page != 1 %}-->
+<!--                                    {% if cate_id %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link" href="/products?category_id={{ cate_id }}&page={{ 1 }}"-->
+<!--                                           aria-label="Previous">-->
+<!--                                            <i class="ti-angle-double-left"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% else %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link" href="/products?page={{ 1 }}" aria-label="Previous">-->
+<!--                                            <i class="ti-angle-double-left"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% endif %}-->
+<!--                                    {% endif %}-->
+<!--                                    {% if page != 1 %}-->
+<!--                                    {% if cate_id %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link"-->
+<!--                                           href="/products?category_id={{ cate_id }}&page={{ page - 1 }}"-->
+<!--                                           aria-label="Previous">-->
+<!--                                            <i class="ti-angle-left"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% else %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link" href="/products?page={{ page - 1 }}" aria-label="Previous">-->
+<!--                                            <i class="ti-angle-left"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% endif %}-->
+<!--                                    {% endif %}-->
+<!--                                    {% for x in range(page_count) %}-->
+<!--                                    {% if cate_id %}-->
+<!--                                    <li class="page-item"><a id="cate{{ cate_id }}_page{{ x + 1 }}"-->
+<!--                                                             class="page-link {{ page }}"-->
+<!--                                                             href="/products?category_id={{ cate_id }}&page={{ x + 1 }}">{{x + 1 }}</a></li>-->
+<!--                                    {% else %}-->
+<!--                                    <li class="page-item"><a id="page{{ x + 1 }}" class="page-link"-->
+<!--                                                             href="/products?page={{ x + 1 }}">{{ x + 1 }}</a></li>-->
+<!--                                    {% endif %}-->
+<!--                                    {% endfor %}-->
+
+<!--                                    {% if page != page_count %}-->
+<!--                                    {% if cate_id %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link"-->
+<!--                                           href="/products?category_id={{ cate_id }}&page={{ page + 1 }}"-->
+<!--                                           aria-label="Next">-->
+<!--                                            <i class="ti-angle-right"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% else %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link" href="/products?page={{ page + 1 }}" aria-label="Next">-->
+<!--                                            <i class="ti-angle-right"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% endif %}-->
+<!--                                    {% endif %}-->
+
+<!--                                    {% if page != page_count %}-->
+<!--                                    {% if cate_id %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link"-->
+<!--                                           href="/products?category_id={{ cate_id }}&page={{ page_count }}"-->
+<!--                                           aria-label="Next">-->
+<!--                                            <i class="ti-angle-double-right"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% else %}-->
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link" href="/products?page={{ page_count }}" aria-label="Next">-->
+<!--                                            <i class="ti-angle-double-right"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    {% endif %}-->
+<!--                                    {% endif %}-->
+
+<!--                                    {% if cate_id %}-->
+<!--                                    <script>-->
+<!--                                                document.getElementById("cate{{ cate_id }}_page{{ page }}").style.color = "#ff3368";-->
+
+<!--                                    </script>-->
+<!--                                    {% else %}-->
+<!--                                    <script>-->
+<!--                                                document.getElementById("page{{ page }}").style.color = "#ff3368";-->
+
+<!--                                    </script>-->
+<!--                                    {% endif %}-->
+<!--                                </ul>-->
+<!--                            </nav>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!--run pagination-->
+<script src="static/js/pagination.js"></script>
 <!--================End Category Product Area =================-->
 {% endblock %}

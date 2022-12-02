@@ -18,15 +18,17 @@ import numpy
 @app.route("/")
 def home():
     # Đổ dữ liệu category
-    categories = dao.load_categories()
-
+    error_message = None
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
     from_price = request.args.get("from_price")
     to_price = request.args.get("to_price")
-    products = dao.load_books(cate_id=cate_id)
-
-    return render_template('index.html', categories=categories, count=0, products=products)
+    try:
+        products = dao.load_books(cate_id=cate_id)
+        categories = dao.load_categories()
+    except:
+        error_message = 'Hệ thống bảo trì'
+    return render_template('index.html', categories=categories, count=0, products=products, error_message=error_message)
 
 
 # Chuyển trang product
