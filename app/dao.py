@@ -9,7 +9,8 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None):
         query = query.filter(Books.category_id.__eq__(cate_id))
 
     if keyword:
-        query = query.filter(Books.book_name.contains(keyword))
+        query_book_name = query.filter(Books.book_name.contains(keyword))
+        query_author_name = query.filter(Books.author_name.contains(keyword))
 
     if from_price:
         query = query.filter(Books.unit_price.__ge__(from_price))
@@ -18,12 +19,6 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None):
         query = query.filter(Books.unit_price.__le__(to_price))
 
     return query.all()
-
-
-def load_author(keyword=None):
-    query = Books.query
-    if keyword:
-        query = query.filter(Books.author_name.contains(keyword))
 
 
 def get_book_by_id(book_id):
