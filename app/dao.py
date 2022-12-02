@@ -9,8 +9,12 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None):
         query = query.filter(Books.category_id.__eq__(cate_id))
 
     if keyword:
+        # query danh muc va ten sach tuong ung keyword
         query_book_name = query.filter(Books.book_name.contains(keyword))
+
+        # query danh muc va ten tac gia tuong ung keyword
         query_author_name = query.filter(Books.author_name.contains(keyword))
+        query = query_book_name.union(query_author_name)
 
     if from_price:
         query = query.filter(Books.unit_price.__ge__(from_price))
