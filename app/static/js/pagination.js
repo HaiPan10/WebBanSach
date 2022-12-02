@@ -166,9 +166,9 @@ function handleButtonRight() {
 }
 
 $(function(){
-    $("#pagination").on('click', function(event){
-        event.preventDefault();
-        return true;
+    $("#pagination").on('click' ,function(event){
+        let a = $(this).children("li.pg-item.active").children("a.pg-link")
+        window.location.href = a.attr("href");
     });
 });
 
