@@ -45,7 +45,7 @@ def product_list():
         page = int(page)
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
-                           cate_id=cate_id)
+                           cate_id=cate_id, products_length = len(products))
 
 
 # Cấu hình trang chi tiết sản phẩm
