@@ -2,6 +2,56 @@
 
 {% block title %}Cửa hàng{% endblock %}
 
+{% block css %}
+<!--    auto-complete-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+{% endblock %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+
+
+<script>
+    const auto_string = [];
+    {% for i in range(products_length) %}
+        auto_string[i] = {{ products[i].book_name }}
+    {% endfor %}
+    console.log(auto_string);
+  $( function() {
+<!--    var availableTags = [-->
+<!--      "ActionScript",-->
+<!--      "AppleScript",-->
+<!--      "Asp",-->
+<!--      "BASIC",-->
+<!--      "C",-->
+<!--      "C++",-->
+<!--      "Clojure",-->
+<!--      "COBOL",-->
+<!--      "ColdFusion",-->
+<!--      "Erlang",-->
+<!--      "Fortran",-->
+<!--      "Groovy",-->
+<!--      "Haskell",-->
+<!--      "Java",-->
+<!--      "JavaScript",-->
+<!--      "Lisp",-->
+<!--      "Perl",-->
+<!--      "PHP",-->
+<!--      "Python",-->
+<!--      "Ruby",-->
+<!--      "Scala",-->
+<!--      "Scheme"-->
+<!--    ];-->
+    var availableTags = auto_string;
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });
+  </script>
+{% endblock %}
+
 {% block content %}
 <!--================Home Banner Area =================-->
 <!-- breadcrumb start-->
@@ -31,7 +81,7 @@
                             <h3>Chọn loại sách</h3>
                         </div>
                         <div class="widgets_inner">
-                            <ul class="list">
+                            <ul class="list" style="padding-left: 0px">
                                 <li>
                                     <a id="all_cate" href="/products">Tất cả</a>
                                 </li>
@@ -70,9 +120,9 @@
                                         <p>Từ :</p>
                                     </div>
                                     <div class="price_value d-flex justify-content-center">
-                                        <input type="text" class="js-input-from" id="amount" readonly/>
+                                        <input type="text" class="js-input-from" id="amount_from" readonly/>
                                         <span>Đến</span>
-                                        <input type="text" class="js-input-to" id="amount" readonly/>
+                                        <input type="text" class="js-input-to" id="amount_to" readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -87,8 +137,8 @@
                             <div class="single_product_menu d-flex">
                             </div>
                             <div class="single_product_menu d-flex">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Tìm kiếm"
+                                <div class="input-group ui-widget">
+                                    <input type="text" class="form-control" id="tags" placeholder="Tìm kiếm"
                                            aria-describedby="inputGroupPrepend">
                                     <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend"><i
