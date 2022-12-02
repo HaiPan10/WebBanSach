@@ -2,14 +2,14 @@ const pg = document.getElementById("pagination");
 const btnNextPg = document.querySelector("button.next-page");
 const btnPrevPg = document.querySelector("button.prev-page");
 const btnFirstPg = document.querySelector("button.first-page");
-const btnLastPg = document.querySelector("button.last-page");
+const btnLastPg = document.querySelector("button.last-page");;
 // when page load
 // curPage.setAttribute('max', pages.value);
 const valuePage = {
   truncate: true,
   curPage: 1,
   numLinksTwoSide: 1,
-  totalPages: 10
+  totalPages: page_count
 };
 
 pg.onclick = (e) => {
@@ -80,15 +80,22 @@ function pagination(categoryId) {
     }
 }
 
+<<<<<<< HEAD
 function renderPage(index, active = "", categoryId = "") {
     let url = window.location.pathname
     let stringPath = null
+=======
+function renderPage(index, active = "") {
+    let url = window.location.pathname;
+    let stringPath = null;
+>>>>>>> e13b4962c2685aeb7f7e7ab80fbd816163e5eb7e
     if (!(index === "...")){
-        stringPath = url + "?page=" + index
+        stringPath = url + "?page=" + index;
     }
-    return ` <li class="pg-item ${active}" data-page="${index}">
+    return `<li class="pg-item  ${active}" href="${stringPath}" data-page="${index}">
             <a class="pg-link" href="${stringPath}">${index}</a></li>`;
 }
+
 function handleCurPage() {
     if (+curPage.value > pages.value) {
         curPage.value = 1;
@@ -167,3 +174,4 @@ $(function(){
         window.location.href = a.attr("href");
     });
 });
+
