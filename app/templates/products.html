@@ -4,52 +4,23 @@
 
 {% block css %}
 <!--    auto-complete-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 {% endblock %}
 
 {% block js %}
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
-
-
 <script>
-    const auto_string = [];
-    {% for i in range(products_length) %}
-        auto_string[i] = {{ products[i].book_name }}
-    {% endfor %}
-    console.log(auto_string);
-  $( function() {
-<!--    var availableTags = [-->
-<!--      "ActionScript",-->
-<!--      "AppleScript",-->
-<!--      "Asp",-->
-<!--      "BASIC",-->
-<!--      "C",-->
-<!--      "C++",-->
-<!--      "Clojure",-->
-<!--      "COBOL",-->
-<!--      "ColdFusion",-->
-<!--      "Erlang",-->
-<!--      "Fortran",-->
-<!--      "Groovy",-->
-<!--      "Haskell",-->
-<!--      "Java",-->
-<!--      "JavaScript",-->
-<!--      "Lisp",-->
-<!--      "Perl",-->
-<!--      "PHP",-->
-<!--      "Python",-->
-<!--      "Ruby",-->
-<!--      "Scala",-->
-<!--      "Scheme"-->
-<!--    ];-->
-    var availableTags = auto_string;
-    $( "#tags" ).autocomplete({
-      source: availableTags
+    $(function(){
+        var availableTags = []
+        {% for p in list_products_name %}
+            availableTags.push("{{p}}")
+        {% endfor %}
+        $( "#tags" ).autocomplete({
+        source: availableTags
+        });
     });
-  });
-  </script>
+</script>
 {% endblock %}
 
 {% block content %}
@@ -263,10 +234,16 @@
 
 
 
+
+
+
                                     </script>
                                     {% else %}
                                     <script>
                                                 document.getElementById("page{{ page }}").style.color = "#ff3368";
+
+
+
 
 
 

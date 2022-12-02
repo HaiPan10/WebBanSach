@@ -1,4 +1,6 @@
 # Định tuyến tới biến app trang init.py
+from array import array
+
 from app.admin import InputBooksView
 from app.models import UserRole
 from app import app, dao, login, utils, admin as ad
@@ -9,6 +11,7 @@ from flask import request
 from flask_login import login_user, logout_user, login_required
 import cloudinary.uploader
 from app.decorator import annonymous_user
+import numpy
 
 
 # Định nghĩa đường dẫn
@@ -33,19 +36,22 @@ def product_list():
     max_amount_per_page = 6
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
-    products = dao.load_books(cate_id=cate_id)
+    products = list(dao.load_books(cate_id=cate_id))
     page_count = int(len(products) / max_amount_per_page)
     if len(products) % max_amount_per_page != 0:
         page_count = page_count + 1
     categories = dao.load_categories()
     page = request.args.get("page")
+    list_products_name = []
+    for p in products:
+        list_products_name.append(str(p.book_name))
     if page is None:
         page = 1
     else:
         page = int(page)
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
-                           cate_id=cate_id, products_length = len(products))
+                           cate_id=cate_id, list_products_name=list_products_name)
 
 
 # Cấu hình trang chi tiết sản phẩm
