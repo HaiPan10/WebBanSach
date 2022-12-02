@@ -11,7 +11,6 @@ const valuePage = {
   numLinksTwoSide: 1,
   totalPages: 10
 };
-pagination();
 
 pg.onclick = (e) => {
   const ele = e.target;
@@ -28,61 +27,60 @@ pg.onclick = (e) => {
 };
 
 // DYNAMIC PAGINATION
-function pagination() {
-  const { totalPages, curPage, truncate, numLinksTwoSide: delta } = valuePage;
+function pagination(categoryId) {
+    console.log(categoryId);
+    const { totalPages, curPage, truncate, numLinksTwoSide: delta } = valuePage;
 
-  const range = delta + 4; // use for handle visible number of links left side
+    const range = delta + 4; // use for handle visible number of links left side
 
-  let render = "";
-  let renderTwoSide = "";
-  let dot = `<li class="pg-item"><a class="pg-link">...</a></li>`;
-  let countTruncate = 0; // use for ellipsis - truncate left side or right side
+    let render = "";
+    let renderTwoSide = "";
+    let dot = `<li class="pg-item"><a class="pg-link">...</a></li>`;
+    let countTruncate = 0; // use for ellipsis - truncate left side or right side
 
-  // use for truncate two side
-  const numberTruncateLeft = curPage - delta;
-  const numberTruncateRight = curPage + delta;
+    // use for truncate two side
+    const numberTruncateLeft = curPage - delta;
+    const numberTruncateRight = curPage + delta;
 
-  let active = "";
-  for (let pos = 1; pos <= totalPages; pos++) {
-    active = pos === curPage ? "active" : "";
+    let active = "";
+    for (let pos = 1; pos <= totalPages; pos++) {
+        active = pos === curPage ? "active" : "";
 
-    // truncate
-    if (totalPages >= 2 * range - 1 && truncate) {
-      if (numberTruncateLeft > 3 && numberTruncateRight < totalPages - 3 + 1) {
-        // truncate 2 side
-        if (pos >= numberTruncateLeft && pos <= numberTruncateRight) {
-          renderTwoSide += renderPage(pos, active);
-        }
-      } else {
-        // truncate left side or right side
-        if (
-          (curPage < range && pos <= range) ||
-          (curPage > totalPages - range && pos >= totalPages - range + 1) ||
-          pos === totalPages ||
-          pos === 1
-        ) {
-          render += renderPage(pos, active);
+        // truncate
+        if (totalPages >= 2 * range - 1 && truncate) {
+        if (numberTruncateLeft > 3 && numberTruncateRight < totalPages - 3 + 1) {
+            // truncate 2 side
+            if (pos >= numberTruncateLeft && pos <= numberTruncateRight) {
+                renderTwoSide += renderPage(pos, active);
+            }
         } else {
-          countTruncate++;
-          if (countTruncate === 1) render += dot;
+            // truncate left side or right side
+            if ((curPage < range && pos <= range) ||
+                (curPage > totalPages - range && pos >= totalPages - range + 1) ||
+                pos === totalPages ||
+                pos === 1) {
+                render += renderPage(pos, active);
+            } else {
+                countTruncate++;
+                if (countTruncate === 1) render += dot;
+            }
         }
-      }
-    } else {
-      // not truncate
-      render += renderPage(pos, active);
+        } else {
+        // not truncate
+        render += renderPage(pos, active);
+        }
     }
-  }
 
-  if (renderTwoSide) {
-    renderTwoSide =
-      renderPage(1) + dot + renderTwoSide + dot + renderPage(totalPages);
-    pg.innerHTML = renderTwoSide;
-  } else {
-    pg.innerHTML = render;
-  }
+    if (renderTwoSide) {
+        renderTwoSide =
+        renderPage(1) + dot + renderTwoSide + dot + renderPage(totalPages);
+        pg.innerHTML = renderTwoSide;
+    } else {
+        pg.innerHTML = render;
+    }
 }
 
-function renderPage(index, active = "") {
+function renderPage(index, active = "", categoryId = "") {
     let url = window.location.pathname
     let stringPath = null
     if (!(index === "...")){
@@ -92,35 +90,34 @@ function renderPage(index, active = "") {
             <a class="pg-link" href="${stringPath}">${index}</a></li>`;
 }
 function handleCurPage() {
-  if (+curPage.value > pages.value) {
-    curPage.value = 1;
-    valuePage.curPage = 1;
-  } else {
-    valuePage.curPage = parseInt(curPage.value, 10);
-  }
-}
-function handleCheckTruncate() {
-  const truncate = document.querySelector("input[type=radio]:checked");
-
-  if (truncate.id === "enable") {
-    valuePage.truncate = true;
-  } else {
-    if (pages.value > 1000) {
-      let isTruncate = confirm(
-        `Are you sure you want to render all the links? number of pages: ${pages.value}`
-      );
-      // true => disable truncate
-      if (isTruncate) {
-        valuePage.truncate = false;
-      } else {
-        valuePage.truncate = true;
-        truncate.removeAttribute("checked");
-        document.getElementById("enable").checked = true;
-      }
+    if (+curPage.value > pages.value) {
+        curPage.value = 1;
+        valuePage.curPage = 1;
     } else {
-      valuePage.truncate = false;
+        valuePage.curPage = parseInt(curPage.value, 10);
     }
-  }
+}
+
+function handleCheckTruncate() {
+    const truncate = document.querySelector("input[type=radio]:checked");
+
+    if (truncate.id === "enable") {
+        valuePage.truncate = true;
+    } else {
+        if (pages.value > 1000) {
+        let isTruncate = confirm(`Are you sure you want to render all the links? number of pages: ${pages.value}`);
+            // true => disable truncate
+            if (isTruncate) {
+                valuePage.truncate = false;
+            } else {
+                valuePage.truncate = true;
+                truncate.removeAttribute("checked");
+                document.getElementById("enable").checked = true;
+            }
+        } else {
+            valuePage.truncate = false;
+        }
+    }
 }
 
 document.querySelector(".page-container").onclick = function (e) {
