@@ -3,13 +3,19 @@ from app import db
 import hashlib
 
 
-def load_books(cate_id=None, keyword=None):
+def load_books(cate_id=None, keyword=None, from_price=None, to_price=None):
     query = Books.query
     if cate_id:
         query = query.filter(Books.category_id.__eq__(cate_id))
 
     if keyword:
         query = query.filter(Books.book_name.contains(keyword))
+
+    if from_price:
+        query = query.filter(Books.unit_price.__ge__(from_price))
+
+    if to_price:
+        query = query.filter(Books.unit_price.__le__(to_price))
 
     return query.all()
 

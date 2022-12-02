@@ -12,6 +12,7 @@ from flask_login import login_user, logout_user, login_required
 import cloudinary.uploader
 from app.decorator import annonymous_user
 import numpy
+import json
 
 
 # Định nghĩa đường dẫn
@@ -36,22 +37,35 @@ def product_list():
     max_amount_per_page = 6
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
-    products = list(dao.load_books(cate_id=cate_id))
+    all_products = list(dao.load_books())
+    from_price = request.args.get("from_price")
+    to_price = request.args.get("to_price")
+    products = list(dao.load_books(cate_id=cate_id, keyword=kw, from_price=from_price, to_price=to_price))
     page_count = int(len(products) / max_amount_per_page)
     if len(products) % max_amount_per_page != 0:
         page_count = page_count + 1
     categories = dao.load_categories()
     page = request.args.get("page")
     list_products_name = []
-    for p in products:
+    for p in all_products:
         list_products_name.append(str(p.book_name))
     if page is None:
         page = 1
     else:
         page = int(page)
+
+    from_price_pos = request.args.get("from_price_left")
+    to_price_pos = request.args.get("to_price_left")
+
+    if from_price_pos is None:
+        from_price_pos = 0
+    if to_price_pos is None:
+        to_price_pos = 0
+
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
-                           cate_id=cate_id, list_products_name=list_products_name)
+                           cate_id=cate_id, list_products_name=list_products_name,
+                           from_price_pos=int(from_price_pos), to_price_pos=int(to_price_pos))
 
 
 # Cấu hình trang chi tiết sản phẩm
