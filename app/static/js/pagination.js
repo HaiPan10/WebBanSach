@@ -28,6 +28,8 @@ pg.onclick = (e) => {
 
 // DYNAMIC PAGINATION
 function pagination() {
+    handleButtonLeft();
+    handleButtonRight();
     const { totalPages, curPage, truncate, numLinksTwoSide: delta } = valuePage;
 
     const range = delta + 4; // use for handle visible number of links left side
@@ -80,9 +82,7 @@ function pagination() {
 }
 
 function renderPage(index, active = "") {
-
     let stringPath = "";
-    console.log(categoryId);
     let url = window.location.pathname;
     if(typeof categoryId === 'undefined'){
         stringPath = `${url}?page=${index}`;
@@ -90,7 +90,12 @@ function renderPage(index, active = "") {
     else{
         stringPath = `${url}?category_id=${categoryId}&page=${index}`;
     }
-    return `<li class="pg-item ${active}" data-page="${index}">
+    if(active === ""){
+        return `<li class="pg-item ${active}" data-page="${index}">
+            <a class="pg-link" href="${stringPath}">${index}</a></li>`;
+    }
+    else
+        return `<li class="pg-item ${active}" data-page="${index}">
             <a class="pg-link" href="${stringPath}">${index}</a></li>`;
 }
 
@@ -125,51 +130,61 @@ function handleCheckTruncate() {
     }
 }
 
-document.querySelector(".page-container").onclick = function (e) {
-  handleButton(e.target);
-};
-
 function handleButton(element) {
-  if (element.classList.contains("first-page")) {
-    valuePage.curPage = 1;
-  } else if (element.classList.contains("last-page")) {
-    valuePage.curPage = parseInt(pages.value, 10);
-  } else if (element.classList.contains("prev-page")) {
-    valuePage.curPage--;
-    handleButtonLeft();
-    btnNextPg.disabled = false;
-    btnLastPg.disabled = false;
-  } else if (element.classList.contains("next-page")) {
-    valuePage.curPage++;
-    handleButtonRight();
-    btnPrevPg.disabled = false;
-    btnFirstPg.disabled = false;
-  }
-  pagination();
+    let isChange = false;
+    if (element.classList.contains("first-page")) {
+        valuePage.curPage = 1;
+        isChange = true;
+    } else if (element.classList.contains("last-page")) {
+        valuePage.curPage = parseInt(page_count, 10);
+        isChange = true;
+    } else if (element.classList.contains("prev-page")) {
+        valuePage.curPage--;
+        handleButtonLeft();
+        btnNextPg.disabled = false;
+        btnLastPg.disabled = false;
+        isChange = true;
+    } else if (element.classList.contains("next-page")) {
+        valuePage.curPage++;
+        handleButtonRight();
+        btnPrevPg.disabled = false;
+        btnFirstPg.disabled = false;
+        isChange = true;
+    }
+    if(isChange){
+        pagination();
+    }
+    return isChange;
 }
 function handleButtonLeft() {
-  if (valuePage.curPage === 1) {
-    btnPrevPg.disabled = true;
-    btnFirstPg.disabled = true;
-  } else {
-    btnPrevPg.disabled = false;
-    btnFirstPg.disabled = false;
-  }
+    // Xu ly khi toi nut cuoi ben tay trai
+    if (valuePage.curPage === 1) {
+        btnPrevPg.disabled = true;
+        btnFirstPg.disabled = true;
+    } else {
+        btnPrevPg.disabled = false;
+        btnFirstPg.disabled = false;
+    }
 }
 function handleButtonRight() {
-  if (valuePage.curPage === valuePage.totalPages) {
-    btnNextPg.disabled = true;
-    btnLastPg.disabled = true;
-  } else {
-    btnNextPg.disabled = false;
-    btnLastPg.disabled = false;
-  }
+    // Xu ly khi nut toi trang cuoi ben phai
+    if (valuePage.curPage === valuePage.totalPages) {
+        btnNextPg.disabled = true;
+        btnLastPg.disabled = true;
+    } else {
+        btnNextPg.disabled = false;
+        btnLastPg.disabled = false;
+    }
 }
 
 $(function(){
     $("#pagination").on('click' ,function(event){
-        let a = $(this).children("li.pg-item.active").children("a.pg-link")
+        let a = $(this).children("li.pg-item.active").children("a.pg-link");
         window.location.href = a.attr("href");
     });
+    $(".page-container").on('click', function(event){
+        if(handleButton(event.target)){
+            window.location.href = $("#pagination").children("li.pg-item.active").children("a.pg-link").attr("href");
+        }
+    })
 });
-

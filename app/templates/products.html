@@ -171,7 +171,7 @@
                             <div class="single_product_text">
                                 <h4>{{ products[i].book_name }}</h4>
                                 <h5>Tác giả: {{ products[i].author_name }}</h5>
-                                <h3>{{ products[i].unit_price }} VNĐ</h3>
+                                <h3>{{ "{:,.0f}".format(products[i].unit_price) }} VNĐ</h3>
                                 <a href="#" class="add_cart">Thêm vào giỏ hàng</a>
                             </div>
                         </div>
@@ -303,11 +303,11 @@
 <script>
     var page_count = {{ page_count }};
     var page_index = {{ page }};
-    var categoryId = {{cate_id}};
+    var categoryId = {{ cate_id }};
 </script>
 <script src="static/js/pagination.js"></script>
 <script>
-    pagination()
+    pagination();
 </script>
 <!--================End Category Product Area =================-->
 {% endblock %}

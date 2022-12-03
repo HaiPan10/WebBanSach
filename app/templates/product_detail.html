@@ -36,7 +36,7 @@
                         <span>|</span> <a href="/products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i + 1 if size > i else 0}}" class = "feature_btn">sản phẩm sau</a></h5>
                     <h3>{{ products[i].book_name }}</h3>
                     <h4>Tác giả: {{ products[i].author_name }}</h4>
-                    <h2>{{ products[i].unit_price }} VNĐ</h2>
+                    <h2>{{ "{:,.0f}".format(products[i].unit_price) }} VNĐ</h2>
                     <ul class="list">
                         <li>
                             <h4>Thể loại: {{category_name}} </h4>
