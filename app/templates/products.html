@@ -30,6 +30,7 @@
         });
     });
 
+
 </script>
 {% endblock %}
 
@@ -77,11 +78,13 @@
                                         document.getElementById("{{ cate_id }}").style.fontWeight = "bold";
                                         document.getElementById("{{ cate_id }}").style.color = "#ff3368";
 
+
                                 </script>
                                 {% else %}
                                 <script>
                                         document.getElementById("all_cate").style.fontWeight = "bold";
                                         document.getElementById("all_cate").style.color = "#ff3368";
+
 
                                 </script>
                                 {% endif %}
@@ -106,13 +109,15 @@
                                             <input type="text" class="js-range-slider" value=""/>
                                             <form>
                                                 <div class="d-flex">
-                                                <div class="price_text">
+                                                    <div class="price_text">
                                                         <p style="margin: 0;">Từ :</p>
                                                     </div>
                                                     <div class="price_value d-flex justify-content-center">
-                                                        <input type="text" class="js-input-from" id="from_price" name="from_price" readonly/>
+                                                        <input type="text" class="js-input-from" id="from_price"
+                                                               name="from_price" readonly/>
                                                         <span>đến</span>
-                                                        <input type="text" class="js-input-to" id="to_price" name="to_price" readonly/>
+                                                        <input type="text" class="js-input-to" id="to_price"
+                                                               name="to_price" readonly/>
                                                         <span>VNĐ</span>
                                                     </div>
                                                     <button type="submit" onclick="getLeft()">Xác nhận</button>
@@ -124,15 +129,16 @@
                             </div>
                             <form>
                                 <div class="single_product_menu d-flex">
-                                <div class="input-group ui-widget">
-                                    <input type="text" name="keyword" class="form-control" id="tags" placeholder="Tìm kiếm"
-                                           aria-describedby="inputGroupPrepend">
-                                    <button id="search" type="submit">
-                                        <div class="input-group-prepend">
+                                    <div class="input-group ui-widget">
+                                        <input type="text" name="keyword" class="form-control" id="tags"
+                                               placeholder="Tìm kiếm"
+                                               aria-describedby="inputGroupPrepend">
+                                        <button id="search" type="submit">
+                                            <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend"><i
                                                     class="ti-search"></i></span>
-                                        </div>
-                                        <script>
+                                            </div>
+                                            <script>
                                             var input = document.getElementById("tags");
                                             input.addEventListener("keypress", function(event) {
                                               if (event.key === "Enter") {
@@ -140,9 +146,10 @@
                                                 document.getElementById("search").click();
                                               }
                                             });
-                                        </script>
-                                    </button>
-                                </div>
+
+                                            </script>
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -188,116 +195,119 @@
                                 <i class="fas fa-angle-double-right"></i>
                             </button>
                         </div>
-<!--                        <div class="pageination">-->
-<!--                            <nav aria-label="Page navigation example">-->
-<!--                                <ul class="pagination justify-content-center">-->
-<!--                                    {% if page != 1 %}-->
-<!--                                    {% if cate_id %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link" href="/products?category_id={{ cate_id }}&page={{ 1 }}"-->
-<!--                                           aria-label="Previous">-->
-<!--                                            <i class="ti-angle-double-left"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% else %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link" href="/products?page={{ 1 }}" aria-label="Previous">-->
-<!--                                            <i class="ti-angle-double-left"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% endif %}-->
-<!--                                    {% if page != 1 %}-->
-<!--                                    {% if cate_id %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link"-->
-<!--                                           href="/products?category_id={{ cate_id }}&page={{ page - 1 }}"-->
-<!--                                           aria-label="Previous">-->
-<!--                                            <i class="ti-angle-left"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% else %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link" href="/products?page={{ page - 1 }}" aria-label="Previous">-->
-<!--                                            <i class="ti-angle-left"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% endif %}-->
-<!--                                    {% for x in range(page_count) %}-->
-<!--                                    {% if cate_id %}-->
-<!--                                    <li class="page-item"><a id="cate{{ cate_id }}_page{{ x + 1 }}"-->
-<!--                                                             class="page-link {{ page }}"-->
-<!--                                                             href="/products?category_id={{ cate_id }}&page={{ x + 1 }}">{{x + 1 }}</a></li>-->
-<!--                                    {% else %}-->
-<!--                                    <li class="page-item"><a id="page{{ x + 1 }}" class="page-link"-->
-<!--                                                             href="/products?page={{ x + 1 }}">{{ x + 1 }}</a></li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% endfor %}-->
+                        <!--                        <div class="pageination">-->
+                        <!--                            <nav aria-label="Page navigation example">-->
+                        <!--                                <ul class="pagination justify-content-center">-->
+                        <!--                                    {% if page != 1 %}-->
+                        <!--                                    {% if cate_id %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link" href="/products?category_id={{ cate_id }}&page={{ 1 }}"-->
+                        <!--                                           aria-label="Previous">-->
+                        <!--                                            <i class="ti-angle-double-left"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% else %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link" href="/products?page={{ 1 }}" aria-label="Previous">-->
+                        <!--                                            <i class="ti-angle-double-left"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% if page != 1 %}-->
+                        <!--                                    {% if cate_id %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link"-->
+                        <!--                                           href="/products?category_id={{ cate_id }}&page={{ page - 1 }}"-->
+                        <!--                                           aria-label="Previous">-->
+                        <!--                                            <i class="ti-angle-left"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% else %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link" href="/products?page={{ page - 1 }}" aria-label="Previous">-->
+                        <!--                                            <i class="ti-angle-left"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% for x in range(page_count) %}-->
+                        <!--                                    {% if cate_id %}-->
+                        <!--                                    <li class="page-item"><a id="cate{{ cate_id }}_page{{ x + 1 }}"-->
+                        <!--                                                             class="page-link {{ page }}"-->
+                        <!--                                                             href="/products?category_id={{ cate_id }}&page={{ x + 1 }}">{{x + 1 }}</a></li>-->
+                        <!--                                    {% else %}-->
+                        <!--                                    <li class="page-item"><a id="page{{ x + 1 }}" class="page-link"-->
+                        <!--                                                             href="/products?page={{ x + 1 }}">{{ x + 1 }}</a></li>-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% endfor %}-->
 
-<!--                                    {% if page != page_count %}-->
-<!--                                    {% if cate_id %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link"-->
-<!--                                           href="/products?category_id={{ cate_id }}&page={{ page + 1 }}"-->
-<!--                                           aria-label="Next">-->
-<!--                                            <i class="ti-angle-right"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% else %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link" href="/products?page={{ page + 1 }}" aria-label="Next">-->
-<!--                                            <i class="ti-angle-right"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% endif %}-->
+                        <!--                                    {% if page != page_count %}-->
+                        <!--                                    {% if cate_id %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link"-->
+                        <!--                                           href="/products?category_id={{ cate_id }}&page={{ page + 1 }}"-->
+                        <!--                                           aria-label="Next">-->
+                        <!--                                            <i class="ti-angle-right"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% else %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link" href="/products?page={{ page + 1 }}" aria-label="Next">-->
+                        <!--                                            <i class="ti-angle-right"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% endif %}-->
 
-<!--                                    {% if page != page_count %}-->
-<!--                                    {% if cate_id %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link"-->
-<!--                                           href="/products?category_id={{ cate_id }}&page={{ page_count }}"-->
-<!--                                           aria-label="Next">-->
-<!--                                            <i class="ti-angle-double-right"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% else %}-->
-<!--                                    <li class="page-item">-->
-<!--                                        <a class="page-link" href="/products?page={{ page_count }}" aria-label="Next">-->
-<!--                                            <i class="ti-angle-double-right"></i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    {% endif %}-->
-<!--                                    {% endif %}-->
+                        <!--                                    {% if page != page_count %}-->
+                        <!--                                    {% if cate_id %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link"-->
+                        <!--                                           href="/products?category_id={{ cate_id }}&page={{ page_count }}"-->
+                        <!--                                           aria-label="Next">-->
+                        <!--                                            <i class="ti-angle-double-right"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% else %}-->
+                        <!--                                    <li class="page-item">-->
+                        <!--                                        <a class="page-link" href="/products?page={{ page_count }}" aria-label="Next">-->
+                        <!--                                            <i class="ti-angle-double-right"></i>-->
+                        <!--                                        </a>-->
+                        <!--                                    </li>-->
+                        <!--                                    {% endif %}-->
+                        <!--                                    {% endif %}-->
 
-<!--                                    {% if cate_id %}-->
-<!--                                    <script>-->
-<!--                                                document.getElementById("cate{{ cate_id }}_page{{ page }}").style.color = "#ff3368";-->
+                        <!--                                    {% if cate_id %}-->
+                        <!--                                    <script>-->
+                        <!--                                                document.getElementById("cate{{ cate_id }}_page{{ page }}").style.color = "#ff3368";-->
 
-<!--                                    </script>-->
-<!--                                    {% else %}-->
-<!--                                    <script>-->
-<!--                                                document.getElementById("page{{ page }}").style.color = "#ff3368";-->
+                        <!--                                    </script>-->
+                        <!--                                    {% else %}-->
+                        <!--                                    <script>-->
+                        <!--                                                document.getElementById("page{{ page }}").style.color = "#ff3368";-->
 
-<!--                                    </script>-->
-<!--                                    {% endif %}-->
-<!--                                </ul>-->
-<!--                            </nav>-->
-<!--                        </div>-->
+                        <!--                                    </script>-->
+                        <!--                                    {% endif %}-->
+                        <!--                                </ul>-->
+                        <!--                            </nav>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div></section>
+    </div>
+</section>
 <!--run pagination-->
 <script>
     var page_count = {{ page_count }};
+    var page_index = {{ page }};
+    var categoryId = {{cate_id}};
 </script>
 <script src="static/js/pagination.js"></script>
 <script>
-    pagination('{{cate_id}}')
+    pagination()
 </script>
 <!--================End Category Product Area =================-->
 {% endblock %}

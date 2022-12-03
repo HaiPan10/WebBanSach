@@ -7,7 +7,7 @@ const btnLastPg = document.querySelector("button.last-page");;
 // curPage.setAttribute('max', pages.value);
 const valuePage = {
   truncate: true,
-  curPage: 1,
+  curPage: page_index,
   numLinksTwoSide: 1,
   totalPages: page_count
 };
@@ -27,8 +27,7 @@ pg.onclick = (e) => {
 };
 
 // DYNAMIC PAGINATION
-function pagination(categoryId) {
-    console.log(categoryId);
+function pagination() {
     const { totalPages, curPage, truncate, numLinksTwoSide: delta } = valuePage;
 
     const range = delta + 4; // use for handle visible number of links left side
@@ -66,33 +65,32 @@ function pagination(categoryId) {
             }
         }
         } else {
-        // not truncate
-        render += renderPage(pos, active);
+            // not truncate
+            render += renderPage(pos, active);
         }
     }
 
     if (renderTwoSide) {
-        renderTwoSide =
-        renderPage(1) + dot + renderTwoSide + dot + renderPage(totalPages);
+        renderTwoSide = renderPage(1) + dot +
+            renderTwoSide + dot + renderPage(totalPages);
         pg.innerHTML = renderTwoSide;
     } else {
         pg.innerHTML = render;
     }
 }
 
-<<<<<<< HEAD
-function renderPage(index, active = "", categoryId = "") {
-    let url = window.location.pathname
-    let stringPath = null
-=======
 function renderPage(index, active = "") {
+
+    let stringPath = "";
+    console.log(categoryId);
     let url = window.location.pathname;
-    let stringPath = null;
->>>>>>> e13b4962c2685aeb7f7e7ab80fbd816163e5eb7e
-    if (!(index === "...")){
-        stringPath = url + "?page=" + index;
+    if(typeof categoryId === 'undefined'){
+        stringPath = `${url}?page=${index}`;
     }
-    return `<li class="pg-item  ${active}" href="${stringPath}" data-page="${index}">
+    else{
+        stringPath = `${url}?category_id=${categoryId}&page=${index}`;
+    }
+    return `<li class="pg-item ${active}" data-page="${index}">
             <a class="pg-link" href="${stringPath}">${index}</a></li>`;
 }
 
