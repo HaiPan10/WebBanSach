@@ -2,7 +2,7 @@ const pg = document.getElementById("pagination");
 const btnNextPg = document.querySelector("button.next-page");
 const btnPrevPg = document.querySelector("button.prev-page");
 const btnFirstPg = document.querySelector("button.first-page");
-const btnLastPg = document.querySelector("button.last-page");;
+const btnLastPg = document.querySelector("button.last-page");
 // when page load
 // curPage.setAttribute('max', pages.value);
 const valuePage = {

@@ -70,6 +70,7 @@ class OrderDetails(BaseModel):
 if __name__ == '__main__':
     with app.app_context():
         # pass
+        # db.drop_all()
         db.create_all()
         # name = 'Admin'
         # username = 'admin'
