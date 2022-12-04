@@ -1,3 +1,5 @@
+from sqlalchemy import func
+
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
 from app import db
 import hashlib
@@ -27,6 +29,14 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None):
 
 def get_book_by_id(book_id):
     return Books.query.get(book_id)
+
+
+def get_max_price():
+    return db.session.query(func.max(Books.unit_price)).scalar()
+
+
+def get_min_price():
+    return db.session.query(func.min(Books.unit_price)).scalar()
 
 
 def load_categories():

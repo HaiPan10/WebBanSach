@@ -59,18 +59,13 @@ def product_list():
     else:
         page = int(page)
 
-    from_price_pos = request.args.get("from_price_left")
-    to_price_pos = request.args.get("to_price_left")
 
-    if from_price_pos is None:
-        from_price_pos = 0
-    if to_price_pos is None:
-        to_price_pos = 0
 
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
                            cate_id=cate_id, list_products_name=list_products_name,
-                           from_price_pos=int(from_price_pos), to_price_pos=int(to_price_pos))
+                           from_price=from_price, to_price=to_price,
+                           min_price=dao.get_min_price(), max_price=dao.get_max_price())
 
 
 # Cấu hình trang chi tiết sản phẩm

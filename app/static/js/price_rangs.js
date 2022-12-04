@@ -2377,8 +2377,8 @@ var $range = $(".js-range-slider"),
     $inputFrom = $(".js-input-from"),
     $inputTo = $(".js-input-to"),
     instance,
-    min = 0,
-    max = 400000,
+    min = min_price,
+    max = max_price,
     from = 10,
     to = 100;
 

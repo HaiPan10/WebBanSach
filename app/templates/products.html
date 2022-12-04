@@ -309,5 +309,12 @@
 <script>
     pagination();
 </script>
+
+<!--run range slider-->
+<script>
+    var min_price = {{ min_price }};
+    var max_price = {{ max_price }};
+</script>
+<script src="{{ url_for('static', filename='js/price_rangs.js') }}"></script>
 <!--================End Category Product Area =================-->
 {% endblock %}
