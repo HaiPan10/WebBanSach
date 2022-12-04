@@ -10,7 +10,7 @@ import cloudinary
 app = Flask(__name__)
 app.secret_key = 'ahdfpiwqeuiqudasdasdncblzbvjlhajz,nfm,sandkqwpuep'
 
-#Cau hinh database
+#Cau hinh database trong day
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sql6582479:REVLUdhU9S@sql6.freemysqlhosting.net' \
                                         '/sql6582479?charset=utf8mb4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True

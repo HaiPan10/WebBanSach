@@ -20,6 +20,8 @@ import json
 def home():
     # Đổ dữ liệu category
     error_message = None
+    products = []
+    categories = []
     cate_id = request.args.get("category_id")
     kw = request.args.get("keyword")
     from_price = request.args.get("from_price")
