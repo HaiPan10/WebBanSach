@@ -58,9 +58,6 @@ def product_list():
         page = 1
     else:
         page = int(page)
-
-
-
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
                            cate_id=cate_id, list_products_name=list_products_name,
