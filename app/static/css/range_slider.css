@@ -1,8 +1,4 @@
 /* This line can be removed it was just for display on CodePen: */
-.container {
-  margin-top: 125px;
-}
-
 .slider-labels {
   margin-top: 10px;
 }
@@ -84,7 +80,7 @@
   border-radius: 50%;
   left: -7px;
   top: -7px;
-  background-color: #345DBB;
+  background-color: #FF3368;
 }
 
 /* Styling;
@@ -94,7 +90,7 @@
 }
 
 .noUi-connect {
-  background: #345DBB;
+  background: #FF3368;
   -webkit-transition: background 450ms;
   transition: background 450ms;
 }

@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote
 from flask_login import LoginManager
 import cloudinary
+from flask_babelex import Babel
 
 
 # Khởi tạo packet
@@ -18,3 +19,10 @@ cloudinary.config(cloud_name='dxjkpbzmo', api_key='728767975167981', api_secret=
 db = SQLAlchemy(app=app)
 # Khai báo 1 đối tượng login mananger để quản lý login
 login = LoginManager(app=app)
+
+# Dịch admin sang tiếng Việt
+babel = Babel(app=app)
+
+@babel.localeselector
+def load_locale():
+    return 'vi'
