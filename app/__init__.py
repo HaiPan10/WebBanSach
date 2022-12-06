@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote
 from flask_login import LoginManager
 import cloudinary
-from flask_babel import Babel
+from flask_babelex import Babel
 
 # Khởi tạo packet
 app = Flask(__name__)
