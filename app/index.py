@@ -53,6 +53,7 @@ def product_list():
         page = 1
     else:
         page = int(page)
+
     sort_value = request.args.get('sort_choice')
     if sort_value is None:
         sort_value = 1

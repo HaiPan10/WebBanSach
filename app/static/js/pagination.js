@@ -84,11 +84,12 @@ function pagination() {
 function renderPage(index, active = "") {
     let stringPath = "";
     let url = window.location.pathname;
+    console.log(sort_value);
     if(typeof categoryId === 'undefined'){
-        stringPath = `${url}?page=${index}`;
+        stringPath = `${url}?sort_choice=${sort_value}&page=${index}`;
     }
     else{
-        stringPath = `${url}?category_id=${categoryId}&page=${index}`;
+        stringPath = `${url}?category_id=${categoryId}&sort_choice=${sort_value}&page=${index}`;
     }
     if(active === ""){
         return `<li class="pg-item ${active}" data-page="${index}">
