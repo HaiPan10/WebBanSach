@@ -67,11 +67,11 @@
                         <div class="widgets_inner">
                             <ul class="list" style="padding-left: 0px">
                                 <li>
-                                    <a id="all_cate" href="/products">Tất cả</a>
+                                    <a id="all_cate" href="/products?sort_choice={{ sort_value }}">Tất cả</a>
                                 </li>
                                 {% for c in categories %}
                                 <li>
-                                    <a id="{{ c.id }}" href="/products?category_id={{ c.id }}">{{ c.category_name }}</a>
+                                    <a id="{{ c.id }}" href="/products?category_id={{ c.id }}&sort_choice={{ sort_value }}">{{ c.category_name }}</a>
                                 </li>
                                 {% endfor %}
 
@@ -133,9 +133,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <form id="sort_product" action="{{ url_for('product_list') }}">
+                            <form id="sort_product" action="/products?category_id={{ cate_id }}">
                                 <div class="single_product_menu d-flex">
                                     <h4 style="color: #FF3368; font-weight: bold">Sắp xếp theo: </h4>
+                                    {% if cate_id %}
+                                    <input type="hidden" name="category_id" value="{{ cate_id }}">
+                                    {% endif %}
                                     <select id="sort_choice" name="sort_choice" onchange="this.form.submit()">
                                         <option value="1">Tên sản phẩm tăng</option>
                                         <option value="2">Tên sản phẩm giảm</option>
@@ -220,16 +223,6 @@
     </div>
 </section>
 <!--run pagination-->
-<script>
-    var page_count = {{ page_count }};
-    var page_index = {{ page }};
-    var categoryId = {{ cate_id }};
-</script>
-<script src="static/js/pagination.js"></script>
-<script>
-    pagination();
-</script>
-
 <!--run range slider-->
 <script>
     var min_price = {{ min_price }};
@@ -249,5 +242,16 @@
     document.getElementById('sort_choice').value= {{ sort_value }};
 </script>
 <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
+
+<script>
+    var page_count = {{ page_count }};
+    var page_index = {{ page }};
+    var categoryId = {{ cate_id }};
+    var sort_value = {{ sort_value }};
+</script>
+<script src="static/js/pagination.js"></script>
+<script>
+    pagination();
+</script>
 <!--================End Category Product Area =================-->
 {% endblock %}
