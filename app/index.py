@@ -58,6 +58,25 @@ def product_list():
         page = 1
     else:
         page = int(page)
+    sort_value = request.args.get('sort_choice')
+    if sort_value is None:
+        sort_value = 1
+        products = sorted(products, key=lambda x: x.book_name, reverse=False)
+
+    if int(sort_value) == 4:
+        products = sorted(products, key=lambda x: x.unit_price, reverse=True)
+    elif int(sort_value) == 3:
+        products = sorted(products, key=lambda x: x.unit_price, reverse=False)
+    elif int(sort_value) == 2:
+        products = sorted(products, key=lambda x: x.book_name, reverse=True)
+    else:
+        products = sorted(products, key=lambda x: x.book_name, reverse=False)
+    return render_template('products.html', products=products, categories=categories,
+                           page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
+                           cate_id=cate_id, list_products_name=list_products_name,
+                           from_price= from_price, to_price=to_price,
+                           min_price=dao.get_min_price(), max_price=dao.get_max_price(),
+                           sort_value=sort_value)
 
 
 # Cấu hình trang chi tiết sản phẩm

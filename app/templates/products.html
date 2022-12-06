@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="static/css/pagination.css">
 <link href=" {{ url_for('static', filename='css/range_slider.css') }}" rel="stylesheet" />
+<link href=" {{ url_for('static', filename='css/nice-select.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block js %}
@@ -132,6 +133,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <form id="sort_product" action="{{ url_for('product_list') }}">
+                                <div class="single_product_menu d-flex">
+                                    <h4 style="color: #FF3368; font-weight: bold">Sắp xếp theo: </h4>
+                                    <select id="sort_choice" name="sort_choice" onchange="this.form.submit()">
+                                        <option value="1">Tên sản phẩm tăng</option>
+                                        <option value="2">Tên sản phẩm giảm</option>
+                                        <option value="3">Giá sản phẩm tăng</option>
+                                        <option value="4">Giá sản phẩm giảm</option>
+                                    </select>
+                                </div>
+                            </form>
                             <form>
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group ui-widget">
@@ -231,5 +243,11 @@
     }
 </script>
 <script src="{{ url_for('static', filename='js/range_slider.js') }}"></script>
+
+<!--Select Sort-->
+<script>
+    document.getElementById('sort_choice').value= {{ sort_value }};
+</script>
+<script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
 <!--================End Category Product Area =================-->
 {% endblock %}

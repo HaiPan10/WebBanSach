@@ -38,7 +38,7 @@
     margin: 0 3px;
   }
   #pagination li.active {
-    background-color: #39f;
+    background-color: #FF3368;
   }
   #pagination li.active a {
     color: #fff;
