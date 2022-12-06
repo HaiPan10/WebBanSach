@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     margin-top: 2rem;
     background-color: #fff;
     box-shadow: 0 0 10px #d3d3d3;

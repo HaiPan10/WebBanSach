@@ -13,6 +13,21 @@ from flask_login import current_user
 from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField, SelectMultipleField
 import cloudinary.uploader
 from markupsafe import Markup
+from wtforms import TextAreaField
+from wtforms.widgets import TextArea
+
+
+class CKTextAreaWidget(TextArea):
+    def __call__(self, field, **kwargs):
+        if kwargs.get('class'):
+            kwargs['class'] += ' ckeditor'
+        else:
+            kwargs.setdefault('class', 'ckeditor')
+        return super(CKTextAreaWidget, self).__call__(field, **kwargs)
+
+
+class CKTextAreaField(TextAreaField):
+    widget = CKTextAreaWidget()
 
 
 # Upload ảnh lên cloudinary
@@ -45,7 +60,10 @@ class BooksView(ModelView):
         'import_date': 'Ngày nhập kho',
         'category_id': 'Tên thể loại'
     }
-
+    extra_js = ['//cdn.ckeditor.com/4.6.0/standard/ckeditor.js']
+    form_overrides = {
+        'descriptions': CKTextAreaField
+    }
     with app.app_context():
         form_create_rules = ('book_name', 'author_name', 'unit_price', 'image', 'category_id', 'descriptions')
         form_edit_rules = ('book_name', 'author_name', 'unit_price', 'category_id', 'descriptions')
@@ -70,6 +88,15 @@ class BooksView(ModelView):
 class CategoriesView(ModelView):
     form_create_rules = ('category_name', 'image', 'descriptions', 'books')
     form_edit_rules = ('category_name', 'descriptions', 'books')
+    column_labels = {
+        'category_name': 'Tên loại sách',
+        'descriptions': 'Mô tả',
+        'books': 'Bao gồm sách: ',
+    }
+    extra_js = ['//cdn.ckeditor.com/4.6.0/standard/ckeditor.js']
+    form_overrides = {
+        'descriptions': CKTextAreaField
+    }
     form_extra_fields = {
         'image': FileField('Ảnh minh họa', validators=[InputRequired()])
     }

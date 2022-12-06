@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Web bán sách{% endblock %}
+{% block title %}ThuienBookStore{% endblock %}
 
 {% block content %}
 {% if error_mesesage: %}
@@ -20,12 +20,13 @@
                                     <div class="banner_text_iner">
                                         <h1>{{ cate.category_name }}
                                         </h1>
-                                        <p>{{ cate.descriptions }}</p>
+                                        <p>{{ cate.descriptions|safe }}</p>
                                         <a href="/products?category_id={{ cate.id }}" class="btn_2">Tìm hiểu ngay</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="banner_img d-none d-lg-block">
+
+                            <div class="banner_img d-none d-lg-block" style="margin-top: -10%;" >
                                 <img width="300px" height="400px" src="{{ cate.image }}" alt="">
                             </div>
                         </div>
