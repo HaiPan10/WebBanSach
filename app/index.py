@@ -1,6 +1,4 @@
 # Định tuyến tới biến app trang init.py
-from array import array
-
 from app.admin import InputBooksView
 from app.models import UserRole
 from app import app, dao, login, utils, admin as ad
@@ -11,9 +9,6 @@ from flask import request
 from flask_login import login_user, logout_user, login_required
 import cloudinary.uploader
 from app.decorator import annonymous_user
-import numpy
-import json
-
 
 # Định nghĩa đường dẫn
 @app.route("/")
