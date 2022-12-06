@@ -59,8 +59,6 @@ def product_list():
     else:
         page = int(page)
 
-
-
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
                            cate_id=cate_id, list_products_name=list_products_name,
@@ -78,12 +76,13 @@ def product_detail(book_id):
     i = int(request.args.get("i"))
     cate_id = request.args.get("category_id")
     products = dao.load_books(cate_id=cate_id) if not cate_id.__eq__('None') else dao.load_books()
+    product = dao.get_book_by_id(book_id)
     category_name = dao.get_category_name(products[i].category_id)
     size = len(products) - 1
     curr = None
     if request.method.__eq__('POST'):
         curr = request.form['curr']
-    return render_template('product_detail.html', cate_id=cate_id, products=products,
+    return render_template('product_detail.html', product=product, cate_id=cate_id, products=products,
                            category_name=category_name, i=i, size=size)
 
 
