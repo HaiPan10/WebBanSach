@@ -22,6 +22,9 @@ login = LoginManager(app=app)
 # Dịch admin sang tiếng Việt
 babel = Babel(app=app)
 
+# thiet lap cart key
+app.config['CART_KEY'] = 'cart'
+
 
 @babel.localeselector
 def load_locale():

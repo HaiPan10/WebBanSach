@@ -17,8 +17,8 @@
         {% for c in session['cart'].values() %}
         <tr id="cart{{c.id}}">
             <td>{{c.id}}</td>
-            <td>{{ c.name }}</td>
-            <td>{{ "{:,.0f}".format(c.price) }} VNĐ</td>
+            <td>{{ c.book_name }}</td>
+            <td>{{ "{:,.0f}".format(c.unit_price) }} VNĐ</td>
             <td>
                 <input onblur="updateCart({{c.id}}, this)" type="number" value="{{c.quantity}}" class="form-control"/>
             </td>

@@ -3,7 +3,7 @@ from app.admin import InputBooksView
 from app.models import UserRole
 from app import app, dao, login, utils, admin as ad
 # Import render_template để dùng render_template
-from flask import render_template, redirect
+from flask import render_template, redirect, session, jsonify
 # Dùng request để đổ product theo cate_id
 from flask import request
 from flask_login import login_user, logout_user, login_required
@@ -180,9 +180,33 @@ def adjust_rules():
     return redirect("/admin")
 
 
+@app.route("/api/cart", methods=['post'])
+def add_to_cart():
+    key = app.config['CART_KEY']
+    cart = session[key] if key in session else {}
+    # lay 1 dictionary
+    data = request.json
+    id = str(data['id'])
+
+    if id in cart:
+        cart[id]['quantity'] += 1
+    else:
+        name = data['book_name']
+        price = data['unit_price']
+        cart[id] = {
+            "id": id,
+            "book_name": name,
+            "unit_price": price,
+            "quantity": 1
+        }
+    # session luu lai key va value
+    session[key] = cart
+    # Tra ve 1 doi tuong dictionary
+    return jsonify(utils.cart_stats(cart))
+
+
 @app.route("/cart_details")
 def cart_view():
-
     return render_template('cart_detail.html')
 
 

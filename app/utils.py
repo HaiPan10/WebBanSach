@@ -51,3 +51,18 @@ def get_product_by_id(product_id):
 
 def read_rules():
     return read_json(os.path.join(app.root_path, 'data/adjust_rules.json'))
+
+
+def cart_stats(cart):
+    # Kiem tra tinh trang cua cart
+    total_amount, total_quantity = 0, 0
+
+    if cart:
+        for c in cart.values():
+            total_quantity += c['quantity']
+            total_amount += c['quantity'] * c['unit_price']
+
+    return {
+        'total_amount': total_amount,
+        'total_quantity': total_quantity
+    }
