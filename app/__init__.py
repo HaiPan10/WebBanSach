@@ -4,14 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote
 from flask_login import LoginManager
 import cloudinary
-from flask_babelex import Babel
-
+from flask_babel import Babel
 
 # Khởi tạo packet
 app = Flask(__name__)
 app.secret_key = 'ahdfpiwqeuiqudasdasdncblzbvjlhajz,nfm,sandkqwpuep'
 
-#Cau hinh database trong day
+# Cau hinh database trong day
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sql6582479:REVLUdhU9S@sql6.freemysqlhosting.net' \
                                         '/sql6582479?charset=utf8mb4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -22,6 +21,7 @@ login = LoginManager(app=app)
 
 # Dịch admin sang tiếng Việt
 babel = Babel(app=app)
+
 
 @babel.localeselector
 def load_locale():

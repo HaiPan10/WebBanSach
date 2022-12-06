@@ -175,8 +175,9 @@ def adjust_rules():
     return redirect("/admin")
 
 
-@app.route('/cart_details')
-def cart_details():
+@app.route("/cart_details")
+def cart_view():
+
     return render_template('cart_detail.html')
 
 
