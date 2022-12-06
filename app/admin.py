@@ -88,6 +88,15 @@ class BooksView(ModelView):
 class CategoriesView(ModelView):
     form_create_rules = ('category_name', 'image', 'descriptions', 'books')
     form_edit_rules = ('category_name', 'descriptions', 'books')
+    column_labels = {
+        'category_name': 'Tên loại sách',
+        'descriptions': 'Mô tả',
+        'books': 'Bao gồm sách: ',
+    }
+    extra_js = ['//cdn.ckeditor.com/4.6.0/standard/ckeditor.js']
+    form_overrides = {
+        'descriptions': CKTextAreaField
+    }
     form_extra_fields = {
         'image': FileField('Ảnh minh họa', validators=[InputRequired()])
     }
