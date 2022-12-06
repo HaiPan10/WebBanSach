@@ -10,6 +10,7 @@ from flask_login import login_user, logout_user, login_required
 import cloudinary.uploader
 from app.decorator import annonymous_user
 
+
 # Định nghĩa đường dẫn
 @app.route("/")
 def home():
@@ -69,7 +70,7 @@ def product_list():
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
                            cate_id=cate_id, list_products_name=list_products_name,
-                           from_price= from_price, to_price=to_price,
+                           from_price=from_price, to_price=to_price,
                            min_price=dao.get_min_price(), max_price=dao.get_max_price(),
                            sort_value=sort_value)
 
@@ -171,6 +172,11 @@ def adjust_rules():
         if isinstance(view, InputBooksView):
             view.read_rules()
     return redirect("/admin")
+
+
+@app.route('/cart_details')
+def cart_details():
+    return render_template('cart_detail.html')
 
 
 # Chạy trang web
