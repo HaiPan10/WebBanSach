@@ -40,6 +40,11 @@ def product_list():
     all_products = list(dao.load_books())
     from_price = request.args.get("from_price")
     to_price = request.args.get("to_price")
+    if from_price is None:
+        from_price = dao.get_min_price()
+    if to_price is None:
+        to_price = dao.get_max_price()
+
     products = list(dao.load_books(cate_id=cate_id, keyword=kw, from_price=from_price, to_price=to_price))
     page_count = int(len(products) / max_amount_per_page)
     if len(products) % max_amount_per_page != 0:
