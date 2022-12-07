@@ -1,5 +1,8 @@
 function addToCart(id, bookName, unitPrice){
     //console.info("hello")
+    console.info(id);
+    console.info(bookName)
+    console.info(unitPrice)
     fetch("/api/cart", {
         method: "post",
         body: JSON.stringify({
@@ -7,7 +10,7 @@ function addToCart(id, bookName, unitPrice){
             "book_name": bookName,
             "unit_price": unitPrice
         }),
-        header: {
+        headers: {
             'Content-Type': 'application/json'
         }
         }).then(res => res.json()).then(data => {

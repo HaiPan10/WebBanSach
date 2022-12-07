@@ -187,12 +187,13 @@ def add_to_cart():
     # lay 1 dictionary
     data = request.json
     id = str(data['id'])
-
     if id in cart:
+        print(data)
         cart[id]['quantity'] += 1
     else:
         name = data['book_name']
         price = data['unit_price']
+        print(data)
         cart[id] = {
             "id": id,
             "book_name": name,
