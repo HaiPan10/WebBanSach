@@ -7424,6 +7424,13 @@ h6 {
   background-size: cover;
 }
 
+.breadcrumb_cart {
+  background-image: url("../img/breadcrumb_cart.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .breadcrumb_bg_details {
   background-image: url("../img/breadcrumb_details.png");
   background-position: center;

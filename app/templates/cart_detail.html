@@ -1,8 +1,26 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+<!--================Home Banner Area =================-->
+  <!-- breadcrumb start-->
+  <section class="breadcrumb breadcrumb_cart">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Giỏ hàng</h2>
+              <p>Trang chủ <span>-</span>Xem giỏ hàng</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb start-->
+
+
 <div>
-    <h1 class="text-center text-info">GIỎ HÀNG</h1>
 
     {% if 'cart' in session and session['cart'] %}
     <table class="table">
