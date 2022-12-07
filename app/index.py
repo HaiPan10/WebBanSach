@@ -206,9 +206,39 @@ def add_to_cart():
     return jsonify(utils.cart_stats(cart))
 
 
+@app.route('/api/cart/<product_id>', methods=['delete'])
+def delete_cart(product_id):
+    key = app.config['CART_KEY']
+    cart = session.get(key)
+    if cart and product_id in cart:
+        del cart[product_id]
+
+    session[key] = cart
+    return jsonify(utils.cart_stats(cart))
+
+
+# product_id (string type)
+@app.route('/api/cart/<product_id>', methods=['put'])
+def update_cart(product_id):
+    key = app.config['CART_KEY']
+    cart = session.get(key)
+    if cart and product_id in cart:
+        cart[product_id]['quantity'] = int(request.json['quantity'])
+
+    session[key] = cart
+    return jsonify(utils.cart_stats(cart))
+
+
 @app.route("/cart_details")
 def cart_view():
     return render_template('cart_detail.html')
+
+
+@app.context_processor
+def common_attr():
+    return {
+        'cart': utils.cart_stats(session.get(app.config['CART_KEY']))
+    }
 
 
 # Chạy trang web

@@ -54,12 +54,12 @@
                             <div class="product_count">
                                 <!--                    <input onblur="updateCart({{c.id}}, this)" type="number" value="{{c.quantity}}" class="form-control"/>-->
                                 <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                                <input class="input-number" type="text" value="1" min="0" max="10">
+                                <input onblur="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="text" value="{{c.quantity}}" min="0" max="10">
                                 <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
                             </div>
                         </td>
                         <td>
-                            <h5>{{ "{:,.0f}".format(c.unit_price) }} VNĐ</h5>
+                            <h5 id="cart{{c.id}}-amount">{{ "{:,.0f}".format(c.unit_price * c.quantity) }} VNĐ</h5>
                         </td>
                         <td>
                             <input type="button" value="Xóa" onclick="deleteCart({{c.id}})" class="btn btn-danger"/>
@@ -85,7 +85,7 @@
                             <h5>Tổng cộng</h5>
                         </td>
                         <td>
-                            <h5>$2160.00</h5>
+                            <h5 class="cart-amount">{{"{:,.0f}".format(cart.total_amount)}} VNĐ</h5>
                         </td>
                     </tr>
                     <tr class="shipping_area">
