@@ -27,7 +27,8 @@
                 {% if 'cart' in session and session['cart'] %}
                 <table class="table">
                     <thead>
-                    <tr>
+                    <tr style="text-align: center">
+                        <th scope="col" style="width: 10%">Hình minh họa</th>
                         <th scope="col">Tên sản phẩm</th>
                         <th scope="col">Giá</th>
                         <th scope="col">Số lượng</th>
@@ -38,99 +39,41 @@
                     {% for c in session['cart'].values() %}
                     <tr id="cart{{c.id}}">
                         <td>
-                            <div class="media">
-                                <div class="d-flex">
+                          <div class="media">
+                                <div class="d-flex" style="padding-right: 0px;">
                                     <img src="{{ c.image }}" alt=""/>
                                 </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="media">
                                 <div class="media-body">
                                     <p>{{ c.book_name }}</p>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <h5>{{ "{:,.0f}".format(c.unit_price) }} VNĐ</h5>
+                            <h5 style="text-align: center">{{ "{:,.0f}".format(c.unit_price) }} VNĐ</h5>
                         </td>
-                        <td>
-                            <div class="product_count">
-                                <!--                    <input onblur="updateCart({{c.id}}, this)" type="number" value="{{c.quantity}}" class="form-control"/>-->
+                        <td >
+                            <div class="product_count width_max-res">
                                 <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
                                 <input onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="text" value="{{c.quantity}}" min="0" max="10">
                                 <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
                             </div>
                         </td>
                         <td>
-                            <h5 id="cart{{c.id}}-amount">{{ "{:,.0f}".format(c.unit_price * c.quantity) }} VNĐ</h5>
+                            <h5 id="cart{{c.id}}-amount" style="text-align: center">{{ "{:,.0f}".format(c.unit_price * c.quantity) }} VNĐ</h5>
                         </td>
                         <td>
-                            <input type="button" value="Xóa" onclick="deleteCart({{c.id}})" class="btn btn-danger"/>
+                            <input type="button" value="Xóa" onclick="deleteCart({{c.id}})" class="btn btn-danger width_max-res"/>
                         </td>
                     </tr>
                     {% endfor %}
-                    <tr class="bottom_button">
-                        <td>
-                            <a class="btn_1" href="#">Update Cart</a>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <div class="cupon_text float-right">
-                                <a class="btn_1" href="#">Close Coupon</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <h5>Tổng cộng</h5>
-                        </td>
-                        <td>
-                            <h5 class="cart-amount">{{"{:,.0f}".format(cart.total_amount)}} VNĐ</h5>
-                        </td>
-                    </tr>
-                    <tr class="shipping_area">
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <h5>Shipping</h5>
-                        </td>
-                        <td>
-                            <div class="shipping_box">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Flat Rate: $5.00</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Free Shipping</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Flat Rate: $10.00</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Local Delivery: $2.00</a>
-                                    </li>
-                                </ul>
-                                <h6>
-                                    Calculate Shipping
-                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                </h6>
-                                <select class="shipping_select">
-                                    <option value="1">Bangladesh</option>
-                                    <option value="2">India</option>
-                                    <option value="4">Pakistan</option>
-                                </select>
-                                <select class="shipping_select section_bg">
-                                    <option value="1">Select a State</option>
-                                    <option value="2">Select a State</option>
-                                    <option value="4">Select a State</option>
-                                </select>
-                                <input type="text" placeholder="Postcode/Zipcode"/>
-                                <a class="btn_1" href="#">Update Details</a>
-                            </div>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
+                <h5>Tổng cộng</h5>
+                <h5 class="cart-amount">{{"{:,.0f}".format(cart.total_amount)}} VNĐ</h5>
                 {% else %}
                 <h1 class="text-center">Giỏ hàng không có hàng</h1>
                 {% endif %}
