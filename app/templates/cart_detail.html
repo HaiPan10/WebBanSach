@@ -54,7 +54,7 @@
                             <div class="product_count">
                                 <!--                    <input onblur="updateCart({{c.id}}, this)" type="number" value="{{c.quantity}}" class="form-control"/>-->
                                 <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                                <input onblur="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="text" value="{{c.quantity}}" min="0" max="10">
+                                <input onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="text" value="{{c.quantity}}" min="0" max="10">
                                 <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
                             </div>
                         </td>

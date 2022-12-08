@@ -57,7 +57,8 @@ fetch(`/api/cart/${productId}`, {
 
         let amount = document.getElementById(`cart${productId}-amount`)
         console.log(amount)
-        amount.innerText = parseInt(obj.value) * unitPrice
+        let money = new Intl.NumberFormat().format(parseInt(obj.value) * unitPrice)
+        amount.innerText = `${money} VNĐ`
 
 
     }).catch(err => console.info(err))
