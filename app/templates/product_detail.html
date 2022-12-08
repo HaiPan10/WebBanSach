@@ -44,17 +44,27 @@
                         <li>
                             <h4>Đã bán: {{ product.sold_numbers }}</h4>
                         </li>
+                        {% if product.quantity != 0 %}
+                            <li>
+                            <h4>Còn tồn kho: {{ product.quantity }}</h4>
+                        </li>
+                        {% endif  %}
                     </ul>
                     <p>
                         Mô tả: {{ product.descriptions|safe }}<br>
                     </p>
                     <div class="card_area d-flex justify-content-between align-items-center">
-                        <div class="product_count">
+                        {% if product.quantity == 0 %}
+                            <a href="#" class="disable-btn">Hết hàng</a>
+                        {% else  %}
+                            <div class="product_count">
                             <span class="inumber-decrement"> <i class="ti-minus"></i></span>
                             <input class="input-number" type="text" value="1" min="0" max="10">
                             <span class="number-increment"> <i class="ti-plus"></i></span>
-                        </div>
+                            </div>
                         <a href="#" class="btn_3">Thêm vào giỏ hàng</a>
+                        {% endif %}
+
                         <!--              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>-->
                     </div>
                 </div>

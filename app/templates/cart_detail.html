@@ -86,42 +86,4 @@
     </div>
 </section>
 <!--================End Cart Area =================-->
-
-<!--<div>-->
-
-<!--    {% if 'cart' in session and session['cart'] %}-->
-<!--    <table class="table">-->
-<!--        <tr>-->
-<!--            <th>Tên sản phẩm</th>-->
-<!--            <th>Giá sản phẩm</th>-->
-<!--            <th>Số lượng</th>-->
-<!--            <th></th>-->
-<!--        </tr>-->
-
-<!--        {% for c in session['cart'].values() %}-->
-<!--        <tr id="cart{{c.id}}">-->
-<!--            <td>{{ c.book_name }}</td>-->
-<!--            <td>{{ "{:,.0f}".format(c.unit_price) }} VNĐ</td>-->
-<!--            <td>-->
-<!--                <input onblur="updateCart({{c.id}}, this)" type="number" value="{{c.quantity}}" class="form-control"/>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <input type="button" value="Xóa" onclick="deleteCart({{c.id}})" class="btn btn-danger"/>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        {% endfor %}-->
-<!--    </table>-->
-<!--    <div class="alert alert-info">-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        {% if current_user.is_authenticated %}-->
-<!--        <input type="button" onclick="pay()" value="Thanh toán" class="btn-success"/>-->
-<!--        {% else %}-->
-<!--        <p>Vui lòng <a href="/login?next=/cart">Đăng nhập</a> để thanh toán</p>-->
-<!--        {% endif %}-->
-<!--    </div>-->
-<!--    {% else %}-->
-<!--    <h1 class="text-center">Giỏ hàng không có hàng</h1>-->
-<!--    {% endif %}-->
-<!--</div>-->
 {% endblock %}
