@@ -8026,8 +8026,22 @@ a.btn_3:hover{
     margin: 0 auto;
 }
 
-.cart_area .product_count .input-number-increment:active,
-.cart_area .product_count .input-number-decrement:active {
-    color: #ccc;
+.number-decrement,
+.number-increment{
+    cursor: pointer;
+}
+
+#input-quantity::-webkit-inner-spin-button,
+#input-quantity::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.s_product_text .disable_addCart{
+    background-color: #ccc;
+    border: hidden;
+    color: white;
+    pointer-events: none;
+    cursor: default;
 }
 

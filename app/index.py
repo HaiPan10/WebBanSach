@@ -207,7 +207,10 @@ def add_to_cart():
     id = str(data['id'])
     quantity = data['quantity']
     if id in cart:
-        cart[id]['quantity'] += quantity
+        if cart[id]['quantity'] + quantity >= dao.get_quantity_by_id(book_id=cart[id]['id']):
+            print("SL Lớn")
+        else:
+            cart[id]['quantity'] += quantity
     else:
         name = data['book_name']
         price = data['unit_price']

@@ -59,11 +59,11 @@
                             <a href="#" class="disable-btn">Hết hàng</a>
                         {% else  %}
                             <div class="product_count">
-                                <span class="number-decrement"> <i class="ti-minus"></i></span>
-                                <input id="input-quantity" class="input-number" type="text" value="1" min="1" max="{{product.quantity}}">
-                                <span class="number-increment"> <i class="ti-plus"></i></span>
+                                <span class="number-decrement" onclick="decreaseValue()"> <i class="ti-minus"></i></span>
+                                <input id="input-quantity" onchange="checkQuantity()" class="input-number" type="number" value="1" min="1" max="{{product.quantity}}">
+                                <span class="number-increment" onclick="increaseValue()"> <i class="ti-plus"></i></span>
                             </div>
-                        <a href="javascript:;" onclick="addToCart({{product.id}}, '{{product.book_name}}',
+                        <a id="btn_addToCart" href="javascript:;" onclick="addToCart({{product.id}}, '{{product.book_name}}',
                         {{product.unit_price}}, '{{product.image}}', getInputQuantity(), {{product.quantity}})" class="btn_3">Thêm vào giỏ hàng</a>
                         {% endif %}
                     </div>
@@ -73,4 +73,32 @@
     </div>
 </div>
 <!--================End Single Product Area =================-->
+
+<script>
+    function increaseValue() {
+        var value = parseInt(document.getElementById('input-quantity').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById('input-quantity').value = value;
+    }
+
+    function decreaseValue() {
+        var value = parseInt(document.getElementById('input-quantity').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value < 1 ? value = 1 : '';
+        value--;
+        document.getElementById('input-quantity').value = value;
+    }
+
+    function checkQuantity() {
+        var value = parseInt(document.getElementById('input-quantity').value, 10);
+        if(value > {{ product.quantity }}){
+            document.getElementById('input-quantity').value = {{ product.quantity }};
+        }
+        else if(value <= 0){
+             document.getElementById('input-quantity').value = 1;
+        }
+    }
+
+</script>
 {% endblock %}
