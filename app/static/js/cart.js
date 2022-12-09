@@ -1,3 +1,5 @@
+let timer;
+
 function addToCart(id, bookName, unitPrice, image, quantity, quantityInStocks){
     //console.info("hello")
     fetch("/api/cart", {
@@ -19,9 +21,7 @@ function addToCart(id, bookName, unitPrice, image, quantity, quantityInStocks){
             for (let i = 0; i < d.length; i++)
                 d[i].innerText = data.total_quantity
             //handle add to cart message in here
-            $("#message").html(data.message.toLocaleString("en-US"))
-            $(".cart_confirmation").fadeIn("slow");
-            setTimeout(function(){ $(".cart_confirmation").fadeOut("slow"); }, 1000);
+            popup(data);
         })
 }
 
@@ -37,8 +37,13 @@ function deleteCart(productId){
         for (let i = 0; i < d2.length; i++)
             d2[i].innerText = data.total_amount.toLocaleString("en-US")
 
+        popup(data);
         let c = document.getElementById(`cart${productId}`)
         c.style.display = 'none'
+
+        if(parseFloat(document.getElementById('total-amount').innerHTML) == 0){
+            location.reload();
+        }
     }).catch(err => console.info(err))
 }
 
@@ -64,7 +69,7 @@ fetch(`/api/cart/${productId}`, {
         let amount = document.getElementById(`cart${productId}-amount`)
         let money = new Intl.NumberFormat().format(parseInt(obj.value) * unitPrice)
         amount.innerText = `${money} VNĐ`
-
+        popup(data);
 
     }).catch(err => console.info(err))
 }
@@ -95,3 +100,25 @@ $(function(){
     })
 
 })
+
+function popup(data){
+    $("#message").html(data.message.toLocaleString("en-US"))
+    $(".cart_confirmation").hide();
+    $(".cart_confirmation").fadeIn();
+    timer = setTimeout(() => {
+        $(".cart_confirmation").fadeOut();
+    }, 1000);
+}
+
+$(document).ready(function(){
+    $('.pop-up_click').click(function(){
+        clearTimeout(timer);
+        timer = null;
+    });
+})
+
+//document.getElementsByClassName('pop-up_click').addEventListener('click', () => {
+////    clearTimeout(timer);
+////    timer = null;
+//
+//});

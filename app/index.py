@@ -239,9 +239,9 @@ def add_to_cart():
 
 @app.route('/api/cart/<product_id>', methods=['delete'])
 def delete_cart(product_id):
-    message = 'Xóa thành công'
     key = app.config['CART_KEY']
     cart = session.get(key)
+    message = 'Đã xóa thành công {}'.format(cart[product_id]['book_name'])
     if cart and product_id in cart:
         del cart[product_id]
 
@@ -252,7 +252,7 @@ def delete_cart(product_id):
 # product_id (string type)
 @app.route('/api/cart/<product_id>', methods=['put'])
 def update_cart(product_id):
-    message = ''
+    message = 'Cập nhật giỏ hàng thành công!'
     key = app.config['CART_KEY']
     cart = session.get(key)
     if cart and product_id in cart:

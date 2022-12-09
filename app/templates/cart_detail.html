@@ -20,7 +20,7 @@
 <!-- breadcrumb start-->
 
 <!--================Cart Area =================-->
-<section class="cart_area padding_top" id="scroll_this">
+<section class="cart_area padding_top padding_bottom" id="scroll_this">
     <div class="container">
         <div class="cart_inner">
             <div class="table-responsive">
@@ -57,7 +57,7 @@
                         </td>
                         <td >
                             <div class="product_count width_max-res">
-                                <input onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number"
+                                <input onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number pop-up_click"
                                         type="number" value="{{c.quantity}}" min="1" max="{{c.quantity_in_stocks}}">
                             </div>
                         </td>
@@ -65,21 +65,28 @@
                             <h5 id="cart{{c.id}}-amount" style="text-align: center">{{ "{:,.0f}".format(c.unit_price * c.quantity) }} VNĐ</h5>
                         </td>
                         <td>
-                            <input type="button" value="Xóa" onclick="deleteCart({{c.id}})" class="btn btn-danger width_max-res"/>
+                            <input type="button" value="Xóa" onclick="deleteCart({{c.id}})" class="btn btn-danger width_max-res pop-up_click"/>
                         </td>
                     </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                <h5>Tổng cộng</h5>
-                <h5 class="cart-amount">{{"{:,.0f}".format(cart.total_amount)}} VNĐ</h5>
-                {% else %}
-                <h1 class="text-center">Giỏ hàng không có hàng</h1>
-                {% endif %}
-                <div class="checkout_btn_inner float-right">
-                    <a class="btn_1" href="/products">Continue Shopping</a>
-                    <a class="btn_1 checkout_btn_1" href="/checkout">Proceed to checkout</a>
+                <div class="subtotal">
+                    <h5>Tổng cộng: <span class="cart-amount" id="total-amount">{{"{:,.0f}".format(cart.total_amount)}} VNĐ</span></h5>
                 </div>
+
+                <div class="checkout_btn_inner float-right">
+                    <a class="btn_1" href="/products">Xem cửa hàng</a>
+                    <a class="btn_1 checkout_btn_1" href="/checkout">Thanh toán</a>
+                </div>
+                {% else %}
+                <div>
+                    <div class="empty-page">Giỏ hàng trống</div>
+                    <div class="checkout_btn_inner float-right">
+                        <a class="btn_1" href="/products">Xem cửa hàng</a>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

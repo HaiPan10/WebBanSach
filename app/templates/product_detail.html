@@ -56,7 +56,6 @@
                         Mô tả: {{ product.descriptions|safe }}<br>
                     </p>
                     <div class="card_area d-flex justify-content-between align-items-center">
-
                         {% if product.quantity == 0 %}
                             <a href="#" class="disable-btn">Hết hàng</a>
                         {% else  %}
@@ -66,7 +65,7 @@
                                 <span class="number-increment" onclick="increaseValue()"> <i class="ti-plus"></i></span>
                             </div>
                         <a id="btn_addToCart" href="javascript:;" onclick="addToCart({{product.id}}, '{{product.book_name}}',
-                        {{product.unit_price}}, '{{product.image}}', getInputQuantity(), {{product.quantity}})" class="btn_3">Thêm vào giỏ hàng</a>
+                        {{product.unit_price}}, '{{product.image}}', getInputQuantity(), {{product.quantity}})" class="btn_3 pop-up_click">Thêm vào giỏ hàng</a>
                         {% endif %}
                     </div>
                 </div>

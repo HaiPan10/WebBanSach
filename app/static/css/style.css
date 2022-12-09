@@ -109,10 +109,17 @@ input:focus {
   padding-top: 140px;
 }
 
+.padding_bottom {
+  padding-bottom: 140px;
+}
+
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   /* line 64, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_common.scss */
   .padding_top {
     padding-top: 100px;
+  }
+  .padding_bottom {
+    padding-bottom: 100px;
   }
 }
 
@@ -120,6 +127,9 @@ input:focus {
   /* line 64, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_common.scss */
   .padding_top {
     padding-top: 70px;
+  }
+  .padding_bottom {
+    padding-bottom: 70px;
   }
 }
 
@@ -8064,4 +8074,19 @@ a.btn_3:hover{
     text-shadow:1px 1px 0px #000;
     font-size:18px;
     font-weight:bold;
+}
+
+.btn_1:hover {
+    text-decoration: none;
+}
+
+.subtotal{
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+}
+
+.subtotal h5, .subtotal span{
+    font-size: 30px;
+    font-weight: bold;
 }

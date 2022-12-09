@@ -215,7 +215,7 @@
                                 <h3>{{ "{:,.0f}".format(products[i].unit_price) }} VNĐ</h3>
                                 {% if products[i].quantity != 0 %}
                                     <a href="javascript:;" onclick="addToCart({{products[i].id}}, '{{products[i].book_name}}',
-                                    {{products[i].unit_price}}, '{{products[i].image}}', 1, {{products[i].quantity}})" class="add_cart">Thêm vào giỏ hàng</a>
+                                    {{products[i].unit_price}}, '{{products[i].image}}', 1, {{products[i].quantity}})" class="add_cart pop-up_click">Thêm vào giỏ hàng</a>
                                 {% endif %}
                             </div>
                         </div>
