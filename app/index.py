@@ -7,8 +7,9 @@ from flask import render_template, redirect, session, jsonify
 # Dùng request để đổ product theo cate_id
 from flask import request
 from flask_login import login_user, logout_user, login_required
-import cloudinary.uploader
 from app.decorator import annonymous_user
+import cloudinary
+import cloudinary.uploader
 
 
 # Định nghĩa đường dẫn
@@ -96,7 +97,7 @@ def product_list():
                            cate_id=cate_id, list_products_name=list_products_name,
                            from_price=from_price, to_price=to_price,
                            min_price=dao.get_min_price(), max_price=dao.get_max_price(),
-                           sort_value=sort_value, product_count = len(products))
+                           sort_value=sort_value, product_count=len(products))
 
 
 # Cấu hình trang chi tiết sản phẩm
