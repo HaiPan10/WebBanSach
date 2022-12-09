@@ -32,10 +32,6 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None, is_av
 
         if to_price:
             query = query.filter(Books.unit_price.__le__(to_price))
-<<<<<<< HEAD
-=======
-
->>>>>>> 9a3cd264eb66c98d2a1232554a2047ab3b3ef1a4
     return query.all()
 
 
