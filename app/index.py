@@ -288,6 +288,11 @@ def cart_view():
     return render_template('cart_detail.html')
 
 
+@app.route("/checkout")
+def checkout():
+    return render_template('checkout.html')
+
+
 @app.context_processor
 def common_attr():
     return {
