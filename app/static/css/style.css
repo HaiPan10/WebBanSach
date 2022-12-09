@@ -3979,6 +3979,7 @@ ul {
   padding: 7px;
   border-left: 1px solid #dddddd;
   display: inline-block;
+  cursor: pointer;
 }
 
 /* line 727, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
@@ -3992,6 +3993,7 @@ ul {
   background-color: #dddddd;
 }
 
+
 /* line 739, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
 .cart_area .product_count .input-number-decrement {
   position: absolute;
@@ -4000,6 +4002,7 @@ ul {
   padding: 7px;
   border-left: 1px solid #dddddd;
   display: inline-block;
+  cursor: pointer;
 }
 
 @media (max-width: 576px) {
@@ -8022,3 +8025,9 @@ a.btn_3:hover{
     text-align: center;
     margin: 0 auto;
 }
+
+.cart_area .product_count .input-number-increment:active,
+.cart_area .product_count .input-number-decrement:active {
+    color: #ccc;
+}
+
