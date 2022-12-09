@@ -18,6 +18,7 @@ function addToCart(id, bookName, unitPrice, image, quantity, quantityInStocks){
             let d = document.getElementsByClassName('cart-counter')
             for (let i = 0; i < d.length; i++)
                 d[i].innerText = data.total_quantity
+            //handle add to cart message in here
         })
 }
 
@@ -58,12 +59,21 @@ fetch(`/api/cart/${productId}`, {
             d2[i].innerText = data.total_amount.toLocaleString("en-US")
 
         let amount = document.getElementById(`cart${productId}-amount`)
-        console.log(amount)
+        //console.log(amount)
         let money = new Intl.NumberFormat().format(parseInt(obj.value) * unitPrice)
         amount.innerText = `${money} VNĐ`
 
 
     }).catch(err => console.info(err))
+}
+
+function pay() {
+    fetch("/api/pay").then(res => res.json()).then(data => {
+            if(data.status === 200)
+                location.reload()
+            else
+                alert("Hệ thống đang bị lỗi!")
+        })
 }
 
 function getInputQuantity(){
@@ -73,4 +83,10 @@ function getInputQuantity(){
 
 $(function(){
     //code jquery in here for cart.js
+    $(".input-number").on('change', function(event){
+        if(parseInt($(this).val()) > parseInt($(this).attr("max"))){
+            $(this).val(parseInt($(this).attr("max")))
+        }
+    })
+
 })
