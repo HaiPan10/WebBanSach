@@ -19,6 +19,9 @@ function addToCart(id, bookName, unitPrice, image, quantity, quantityInStocks){
             for (let i = 0; i < d.length; i++)
                 d[i].innerText = data.total_quantity
             //handle add to cart message in here
+            $("#message").html(data.message.toLocaleString("en-US"))
+            $(".cart_confirmation").fadeIn("slow");
+            setTimeout(function(){ $(".cart_confirmation").fadeOut("slow"); }, 1000);
         })
 }
 
@@ -59,7 +62,6 @@ fetch(`/api/cart/${productId}`, {
             d2[i].innerText = data.total_amount.toLocaleString("en-US")
 
         let amount = document.getElementById(`cart${productId}-amount`)
-        //console.log(amount)
         let money = new Intl.NumberFormat().format(parseInt(obj.value) * unitPrice)
         amount.innerText = `${money} VNĐ`
 
@@ -86,6 +88,9 @@ $(function(){
     $(".input-number").on('change', function(event){
         if(parseInt($(this).val()) > parseInt($(this).attr("max"))){
             $(this).val(parseInt($(this).attr("max")))
+        }
+        else if (parseInt($(this).val()) <= 0){
+            $(this).val(1)
         }
     })
 

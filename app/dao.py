@@ -43,8 +43,8 @@ def get_max_price():
     return db.session.query(func.max(Books.unit_price)).scalar()
 
 
-def get_quantity_by_id(book_id):
-    return db.session.query(Books).filter(Books.id.__eq__(book_id)).first().quantity
+# def get_quantity_by_id(book_id):
+#     return db.session.query(Books).filter(Books.id.__eq__(book_id)).first().quantity
 
 
 def get_min_price():

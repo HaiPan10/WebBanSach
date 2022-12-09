@@ -200,11 +200,11 @@ def adjust_rules():
 
 @app.route("/api/cart", methods=['post'])
 def add_to_cart():
-    message = 'Đơn hàng thêm thành công'
     key = app.config['CART_KEY']
     cart = session[key] if key in session else {}
     # lay 1 dictionary
     data = request.json
+    message = 'Thêm thành công {} sản phẩm!'.format(data['quantity'])
     id = str(data['id'])
     if id in cart:
         # Check if user can add more book
@@ -228,6 +228,7 @@ def add_to_cart():
                 'image': image,
                 "quantity_in_stocks": quantity_in_stocks
             }
+
         else:
             message = 'Quá số lượng tồn kho'
     # session luu lai key va value
