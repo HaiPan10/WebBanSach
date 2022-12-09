@@ -57,9 +57,7 @@
                         </td>
                         <td >
                             <div class="product_count width_max-res">
-                                <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                                <input onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="text" value="{{c.quantity}}" min="0" max="10">
-                                <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+                                <input  onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="number" value="{{c.quantity}}" min="0" max="10">
                             </div>
                         </td>
                         <td>
