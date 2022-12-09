@@ -53,7 +53,7 @@ def read_rules():
     return read_json(os.path.join(app.root_path, 'data/adjust_rules.json'))
 
 
-def cart_stats(cart):
+def cart_stats(cart, message):
     # Kiem tra tinh trang cua cart
     total_amount, total_quantity = 0, 0
 
@@ -65,4 +65,5 @@ def cart_stats(cart):
     return {
         'total_amount': total_amount,
         'total_quantity': total_quantity,
+        'message': message,
     }

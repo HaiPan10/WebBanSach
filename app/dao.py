@@ -1,3 +1,4 @@
+from flask_login import current_user
 from sqlalchemy import func
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
@@ -31,6 +32,10 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None, is_av
 
         if to_price:
             query = query.filter(Books.unit_price.__le__(to_price))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9a3cd264eb66c98d2a1232554a2047ab3b3ef1a4
     return query.all()
 
 
@@ -87,3 +92,16 @@ def get_category_name(category_id):
 
 def get_user_by_id(user_id):
     return UserAccount.query.get(user_id)
+
+
+def save_receipt(cart):
+    if cart:
+        order = Orders(user=current_user)
+        db.session.add(order)
+
+        for c in cart.values():
+            d = OrderDetails(quantity=c['quantity'], price=c['price'],
+                             Orders=order, product_id=c['id'])
+            db.session.add(d)
+
+        db.session.commit()

@@ -200,57 +200,94 @@ def adjust_rules():
 
 @app.route("/api/cart", methods=['post'])
 def add_to_cart():
+    message = 'Đơn hàng thêm thành công'
     key = app.config['CART_KEY']
     cart = session[key] if key in session else {}
     # lay 1 dictionary
     data = request.json
     id = str(data['id'])
-    quantity = data['quantity']
     if id in cart:
+<<<<<<< HEAD
         if cart[id]['quantity'] + quantity >= dao.get_quantity_by_id(book_id=cart[id]['id']):
             print("SL Lớn")
         else:
             cart[id]['quantity'] += quantity
+=======
+        # Check if user can add more book
+        cart_quantity = cart[id]['quantity']
+        if cart_quantity + data['quantity'] <= data['quantity_in_stocks']:
+            cart[id]['quantity'] += data['quantity']
+        else:
+            message = 'Quá số lượng tồn kho'
+>>>>>>> 9a3cd264eb66c98d2a1232554a2047ab3b3ef1a4
     else:
-        name = data['book_name']
-        price = data['unit_price']
-        image = data['image']
-        quantity_in_stocks = data['quantity_in_stocks']
-        cart[id] = {
-            "id": id,
-            "book_name": name,
-            "unit_price": price,
-            "quantity": quantity,
-            'image': image,
-            "quantity_in_stocks": quantity_in_stocks
-        }
+        if data['quantity'] <= data['quantity_in_stocks']:
+            name = data['book_name']
+            price = data['unit_price']
+            image = data['image']
+            quantity_in_stocks = data['quantity_in_stocks']
+            quantity = data['quantity']
+            cart[id] = {
+                "id": id,
+                "book_name": name,
+                "unit_price": price,
+                "quantity": quantity,
+                'image': image,
+                "quantity_in_stocks": quantity_in_stocks
+            }
+        else:
+            message = 'Quá số lượng tồn kho'
     # session luu lai key va value
     session[key] = cart
     # Tra ve 1 doi tuong dictionary
-    return jsonify(utils.cart_stats(cart))
+    return jsonify(utils.cart_stats(cart, message=message))
 
 
 @app.route('/api/cart/<product_id>', methods=['delete'])
 def delete_cart(product_id):
+    message = 'Xóa thành công'
     key = app.config['CART_KEY']
     cart = session.get(key)
     if cart and product_id in cart:
         del cart[product_id]
 
     session[key] = cart
-    return jsonify(utils.cart_stats(cart))
+    return jsonify(utils.cart_stats(cart, message=message))
 
 
 # product_id (string type)
 @app.route('/api/cart/<product_id>', methods=['put'])
 def update_cart(product_id):
+    message = ''
     key = app.config['CART_KEY']
     cart = session.get(key)
     if cart and product_id in cart:
-        cart[product_id]['quantity'] = int(request.json['quantity'])
-
+        input_quantity = int(request.json['quantity'])
+        if input_quantity <= cart[product_id]['quantity_in_stocks']:
+            cart[product_id]['quantity'] = input_quantity
+        else:
+            # gán lại bằng giá trị tối đa trong tồn kho
+            cart[product_id]['quantity'] = cart[product_id]['quantity_in_stocks']
     session[key] = cart
-    return jsonify(utils.cart_stats(cart))
+    return jsonify(utils.cart_stats(cart, message=message))
+
+
+@app.route('/api/pay')
+@login_required
+def pay():
+    key = app.config['CART_KEY']
+    cart = session.get(key)
+
+    if cart:
+        try:
+            dao.save_receipt(cart=cart)
+        except Exception as ex:
+            print(str(ex))
+            return jsonify({"status": 500})
+        else:
+            del session[key]
+
+    return jsonify({"status": 200})
 
 
 @app.route("/cart_details")
@@ -261,7 +298,7 @@ def cart_view():
 @app.context_processor
 def common_attr():
     return {
-        'cart': utils.cart_stats(session.get(app.config['CART_KEY']))
+        'cart': utils.cart_stats(session.get(app.config['CART_KEY']), message='')
     }
 
 
