@@ -212,12 +212,14 @@ def add_to_cart():
         name = data['book_name']
         price = data['unit_price']
         image = data['image']
+        quantity_in_stocks = data['quantity_in_stocks']
         cart[id] = {
             "id": id,
             "book_name": name,
             "unit_price": price,
             "quantity": quantity,
-            'image': image
+            'image': image,
+            "quantity_in_stocks": quantity_in_stocks
         }
     # session luu lai key va value
     session[key] = cart

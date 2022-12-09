@@ -1,4 +1,4 @@
-function addToCart(id, bookName, unitPrice, image, quantity){
+function addToCart(id, bookName, unitPrice, image, quantity, quantityInStocks){
     //console.info("hello")
     fetch("/api/cart", {
         method: "post",
@@ -7,7 +7,8 @@ function addToCart(id, bookName, unitPrice, image, quantity){
             "book_name": bookName,
             "unit_price": unitPrice,
             "image": image,
-            "quantity": quantity
+            "quantity": quantity,
+            "quantity_in_stocks": quantityInStocks
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -65,7 +66,11 @@ fetch(`/api/cart/${productId}`, {
     }).catch(err => console.info(err))
 }
 
-function getQuantity(){
+function getInputQuantity(){
     let quantity = parseInt(document.getElementById('input-quantity').value)
     return quantity
 }
+
+$(function(){
+    //code jquery in here for cart.js
+})

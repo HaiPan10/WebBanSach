@@ -57,7 +57,8 @@
                         </td>
                         <td >
                             <div class="product_count width_max-res">
-                                <input  onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number" type="number" value="{{c.quantity}}" min="0" max="10">
+                                <input onchange="updateCart({{c.id}}, this, {{c.unit_price}})" class="input-number"
+                                        type="number" value="{{c.quantity}}" min="1" max="{{c.quantity_in_stocks}}">
                             </div>
                         </td>
                         <td>
@@ -76,7 +77,7 @@
                 <h1 class="text-center">Giỏ hàng không có hàng</h1>
                 {% endif %}
                 <div class="checkout_btn_inner float-right">
-                    <a class="btn_1" href="#">Continue Shopping</a>
+                    <a class="btn_1" href="/products">Continue Shopping</a>
                     <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
                 </div>
             </div>
