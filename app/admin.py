@@ -131,13 +131,15 @@ class InputBooksView(ModelView):
         'category_id': 'Thể loại',
         'quantity_in_stocks_status': 'Tình trạng tồn kho'
     }
-    form_edit_rules = ('quantity',)
-    # validators ràng buộc cho cái input
-    form_extra_fields = {
-        'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
-    }
+    # form_edit_rules = ('quantity',)
+    # # validators ràng buộc cho cái input
+    # form_extra_fields = {
+    #     'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
+    # }
     can_create = False
+    column_editable_list = ('quantity',)
     can_delete = False
+    can_edit = True
 
     def on_form_prefill(self, form, id):
         # Doc lai quy dinh them lan nua

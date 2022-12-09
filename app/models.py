@@ -2,7 +2,7 @@ import hashlib
 
 from app import db, app
 from sqlalchemy.orm import relationship
-from sqlalchemy import Integer, Column, String, ForeignKey, DateTime, Float, Enum, Text
+from sqlalchemy import Integer, Column, String, ForeignKey, DateTime, Float, Enum, Text, Boolean
 from enum import Enum as UserEnum
 from flask_login import UserMixin
 
@@ -58,6 +58,7 @@ class Orders(BaseModel):
     user_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
     order_details = relationship('OrderDetails', backref='Orders', lazy=True)
     address = Column(String(250))
+    status = Column(Boolean, default=False)
 
 
 class OrderDetails(BaseModel):
