@@ -205,8 +205,9 @@ def add_to_cart():
     # lay 1 dictionary
     data = request.json
     id = str(data['id'])
+    quantity = data['quantity']
     if id in cart:
-        cart[id]['quantity'] += 1
+        cart[id]['quantity'] += quantity
     else:
         name = data['book_name']
         price = data['unit_price']
@@ -215,7 +216,7 @@ def add_to_cart():
             "id": id,
             "book_name": name,
             "unit_price": price,
-            "quantity": 1,
+            "quantity": quantity,
             'image': image
         }
     # session luu lai key va value

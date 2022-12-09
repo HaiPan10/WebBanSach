@@ -59,11 +59,11 @@
                             <a href="#" class="disable-btn">Hết hàng</a>
                         {% else  %}
                             <div class="product_count">
-                                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                                <input class="input-number" type="text" value="1" min="0" max="10">
+                                <span class="number-decrement"> <i class="ti-minus"></i></span>
+                                <input id="input-quantity" class="input-number" type="text" value="1" min="1" max="{{product.quantity}}">
                                 <span class="number-increment"> <i class="ti-plus"></i></span>
                             </div>
-                        <a href="javascript:;" onclick="addToCart({{product.id}}, '{{product.book_name}}', {{product.unit_price}}, '{{product.image}}')" class="btn_3">Thêm vào giỏ hàng</a>
+                        <a href="javascript:;" onclick="addToCart({{product.id}}, '{{product.book_name}}', {{product.unit_price}}, '{{product.image}}', getQuantity())" class="btn_3">Thêm vào giỏ hàng</a>
                         {% endif %}
                     </div>
                 </div>

@@ -214,7 +214,7 @@
                                 <h5>Tác giả: {{ products[i].author_name }}</h5>
                                 <h3>{{ "{:,.0f}".format(products[i].unit_price) }} VNĐ</h3>
                                 {% if products[i].quantity != 0 %}
-                                    <a href="javascript:;" onclick="addToCart({{products[i].id}}, '{{products[i].book_name}}', {{products[i].unit_price}}, '{{products[i].image}}')" class="add_cart">Thêm vào giỏ hàng</a>
+                                    <a href="javascript:;" onclick="addToCart({{products[i].id}}, '{{products[i].book_name}}', {{products[i].unit_price}}, '{{products[i].image}}', 1)" class="add_cart">Thêm vào giỏ hàng</a>
                                 {% endif %}
                             </div>
                         </div>

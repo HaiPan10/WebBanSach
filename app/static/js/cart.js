@@ -1,4 +1,4 @@
-function addToCart(id, bookName, unitPrice, image){
+function addToCart(id, bookName, unitPrice, image, quantity){
     //console.info("hello")
     fetch("/api/cart", {
         method: "post",
@@ -6,7 +6,8 @@ function addToCart(id, bookName, unitPrice, image){
             "id": id,
             "book_name": bookName,
             "unit_price": unitPrice,
-            "image": image
+            "image": image,
+            "quantity": quantity
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -62,4 +63,9 @@ fetch(`/api/cart/${productId}`, {
 
 
     }).catch(err => console.info(err))
+}
+
+function getQuantity(){
+    let quantity = parseInt(document.getElementById('input-quantity').value)
+    return quantity
 }
