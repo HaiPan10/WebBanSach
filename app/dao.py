@@ -32,10 +32,7 @@ def load_books(cate_id=None, keyword=None, from_price=None, to_price=None, is_av
 
         if to_price:
             query = query.filter(Books.unit_price.__le__(to_price))
-<<<<<<< HEAD
-=======
 
->>>>>>> 9a3cd264eb66c98d2a1232554a2047ab3b3ef1a4
     return query.all()
 
 
@@ -47,8 +44,8 @@ def get_max_price():
     return db.session.query(func.max(Books.unit_price)).scalar()
 
 
-def get_quantity_by_id(book_id):
-    return db.session.query(Books).filter(Books.id.__eq__(book_id)).first().quantity
+# def get_quantity_by_id(book_id):
+#     return db.session.query(Books).filter(Books.id.__eq__(book_id)).first().quantity
 
 
 def get_min_price():

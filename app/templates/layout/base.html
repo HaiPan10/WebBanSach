@@ -46,8 +46,10 @@
     {% block header %}
         {% include 'layout/header.html' %}
     {% endblock %}
-    {% block content required %} {% endblock %}
+    {% block content required %}
+    {% endblock %}
     {% block footer %}
+        {% include 'layout/popup.html' %}
         {% include 'layout/footer.html' %}
     {% endblock %}
 

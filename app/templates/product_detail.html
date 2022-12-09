@@ -1,4 +1,5 @@
 {% extends 'layout/base.html' %}
+
 {% block content %}
 <!-- breadcrumb start-->
 <script src="/static/js/cart.js"></script>
@@ -55,6 +56,7 @@
                         Mô tả: {{ product.descriptions|safe }}<br>
                     </p>
                     <div class="card_area d-flex justify-content-between align-items-center">
+
                         {% if product.quantity == 0 %}
                             <a href="#" class="disable-btn">Hết hàng</a>
                         {% else  %}
@@ -80,6 +82,7 @@
         value = isNaN(value) ? 0 : value;
         value++;
         document.getElementById('input-quantity').value = value;
+        checkQuantity();
     }
 
     function decreaseValue() {
@@ -88,6 +91,7 @@
         value < 1 ? value = 1 : '';
         value--;
         document.getElementById('input-quantity').value = value;
+        checkQuantity()
     }
 
     function checkQuantity() {
