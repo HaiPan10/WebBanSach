@@ -1,6 +1,7 @@
 {% extends 'layout/base.html' %}
 {% block content %}
 <!-- breadcrumb start-->
+<script src="/static/js/cart.js"></script>
 <section class="breadcrumb breadcrumb_bg_details">
     <div class="container">
         <div class="row justify-content-center">
@@ -58,14 +59,12 @@
                             <a href="#" class="disable-btn">Hết hàng</a>
                         {% else  %}
                             <div class="product_count">
-                            <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                            <input class="input-number" type="text" value="1" min="0" max="10">
-                            <span class="number-increment"> <i class="ti-plus"></i></span>
+                                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                                <input class="input-number" type="text" value="1" min="0" max="10">
+                                <span class="number-increment"> <i class="ti-plus"></i></span>
                             </div>
-                        <a href="#" class="btn_3">Thêm vào giỏ hàng</a>
+                        <a href="javascript:;" onclick="addToCart({{product.id}}, '{{product.book_name}}', {{product.unit_price}}, '{{product.image}}')" class="btn_3">Thêm vào giỏ hàng</a>
                         {% endif %}
-
-                        <!--              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>-->
                     </div>
                 </div>
             </div>
