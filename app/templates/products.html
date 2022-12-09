@@ -144,6 +144,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="single_product_menu">
+                                    <p><span>{{ product_count }}</span> Sản phẩm</p>
+                                </div>
                             <form id="sort_product">
                                 <div class="single_product_menu d-flex">
                                     <h4 style="color: #FF3368; font-weight: bold">Sắp xếp theo: </h4>
@@ -157,6 +160,7 @@
                                         <option value="2">Tên sản phẩm giảm</option>
                                         <option value="3">Giá sản phẩm tăng</option>
                                         <option value="4">Giá sản phẩm giảm</option>
+                                        <option value="5">Còn hàng</option>
                                     </select>
                                 </div>
                             </form>
@@ -189,6 +193,7 @@
                     </div>
                 </div>
 
+                {% if product_count > 0 %}
                 <div class="row align-items-center latest_product_inner">
                     {% for i in range( (page - 1) * max_amount_per_page, page * max_amount_per_page) %}
                     {% if products[i] %}
@@ -198,6 +203,9 @@
                             <!--i sẽ là giá trị truyền vào từ vòng lặp for-->
                             <div class="image-container"
                                  onclick="location.href='/products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i}}';">
+                                {% if products[i].quantity == 0 %}
+                                    <div class="ribbon ribbon-top-right"><span>Hết hàng</span></div>
+                                {% endif %}
                                 <img src="{{ products[i].image }}" alt="{{ products[i].name }}">
                                 <div class="after"><p><span class="ti-new-window"></span> Xem thêm chi tiết</p></div>
                             </div>
@@ -205,7 +213,9 @@
                                 <h4>{{ products[i].book_name }}</h4>
                                 <h5>Tác giả: {{ products[i].author_name }}</h5>
                                 <h3>{{ "{:,.0f}".format(products[i].unit_price) }} VNĐ</h3>
-                                <a href="javascript:;" onclick="addToCart({{products[i].id}}, '{{products[i].book_name}}', {{products[i].unit_price}}, '{{products[i].image}}')" class="add_cart">Thêm vào giỏ hàng</a>
+                                {% if products[i].quantity != 0 %}
+                                    <a href="javascript:;" onclick="addToCart({{products[i].id}}, '{{products[i].book_name}}', {{products[i].unit_price}}, '{{products[i].image}}')" class="add_cart">Thêm vào giỏ hàng</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -231,6 +241,11 @@
                     </div>
                 </div>
             </div>
+                {% else %}
+                <div class="row align-items-center latest_product_inner ">
+                    <div class="empty-page">Không tìm thấy sản phẩm phù hợp</div>
+                </div>
+                {% endif %}
         </div>
     </div>
     </div>

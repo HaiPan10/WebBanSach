@@ -33,11 +33,26 @@ def home():
 # Chuyển trang product
 @app.route("/products")
 def product_list():
-    # Đổ dữ liệu theo cate_id
+    # số sản phẩm hiện trong 1 trang
     max_amount_per_page = 6
+
+    # lấy loại sách được chọn
     cate_id = request.args.get("category_id")
+
+    # load dữ liệu category
+    categories = dao.load_categories()
+
+    # lấy chuỗi tìm kiếm
     kw = request.args.get("keyword")
+
+    # lấy tất cả sản phẩm đổ vào autocomplete
     all_products = list(dao.load_books())
+    list_products_name = []
+    for p in all_products:
+        list_products_name.append(str(p.book_name))
+        list_products_name.append(str(p.author_name))
+
+    # Xử lý lọc theo giá
     from_price = request.args.get("from_price")
     to_price = request.args.get("to_price")
     if from_price is None:
@@ -45,26 +60,23 @@ def product_list():
     if to_price is None:
         to_price = dao.get_max_price()
 
-    products = list(dao.load_books(cate_id=cate_id, keyword=kw, from_price=from_price, to_price=to_price))
-    page_count = int(len(products) / max_amount_per_page)
-    if len(products) % max_amount_per_page != 0:
-        page_count = page_count + 1
-    categories = dao.load_categories()
+    # Trang hiện tại
     page = request.args.get("page")
-    list_products_name = []
-    for p in all_products:
-        list_products_name.append(str(p.book_name))
-        list_products_name.append(str(p.author_name))
     if page is None:
         page = 1
     else:
         page = int(page)
 
+    # Lấy dữ liệu sản phẩm
+    products = list(dao.load_books(cate_id=cate_id, keyword=kw, from_price=from_price, to_price=to_price))
+
+    # Xử lý sort
     sort_value = request.args.get('sort_choice')
     if sort_value is None:
         sort_value = 1
         products = sorted(products, key=lambda x: x.book_name, reverse=False)
-
+    if int(sort_value) == 5:
+        products = dao.load_books(cate_id=cate_id, from_price=from_price, to_price=to_price, is_available=True)
     if int(sort_value) == 4:
         products = sorted(products, key=lambda x: x.unit_price, reverse=True)
     elif int(sort_value) == 3:
@@ -73,12 +85,18 @@ def product_list():
         products = sorted(products, key=lambda x: x.book_name, reverse=True)
     else:
         products = sorted(products, key=lambda x: x.book_name, reverse=False)
+
+    # Tính số trang
+    page_count = int(len(products) / max_amount_per_page)
+    if len(products) % max_amount_per_page != 0:
+        page_count = page_count + 1
+
     return render_template('products.html', products=products, categories=categories,
                            page_count=page_count, page=page, max_amount_per_page=max_amount_per_page,
                            cate_id=cate_id, list_products_name=list_products_name,
                            from_price=from_price, to_price=to_price,
                            min_price=dao.get_min_price(), max_price=dao.get_max_price(),
-                           sort_value=sort_value)
+                           sort_value=sort_value, product_count = len(products))
 
 
 # Cấu hình trang chi tiết sản phẩm
