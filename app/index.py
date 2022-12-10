@@ -15,20 +15,30 @@ import cloudinary.uploader
 # Định nghĩa đường dẫn
 @app.route("/")
 def home():
+    # số sản phẩm hiện trong 1 trang
+    max_product_card = 8
+
     # Đổ dữ liệu category
     error_message = None
-    products = []
+    products = list(dao.load_books())
     categories = []
     cate_id = request.args.get("category_id")
-    kw = request.args.get("keyword")
-    from_price = request.args.get("from_price")
-    to_price = request.args.get("to_price")
     try:
         products = dao.load_books(cate_id=cate_id)
         categories = dao.load_categories()
     except:
         error_message = 'Hệ thống bảo trì'
-    return render_template('index.html', categories=categories, count=0, products=products, error_message=error_message)
+
+    page_count = int(len(products) / max_product_card)
+    if len(products) % max_product_card != 0:
+        page_count = page_count + 1
+
+    best_seller = dao.select_top_best_seller(8)
+    best_cate = dao.select_top_category(4)
+
+    return render_template('index.html', categories=categories, count=0, products=products, error_message=error_message,
+                           product_length=len(products), page_count=page_count, max_product_card=int(max_product_card),
+                           best_seller=best_seller, best_cate=best_cate)
 
 
 # Chuyển trang product
