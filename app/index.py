@@ -34,10 +34,11 @@ def home():
         page_count = page_count + 1
 
     best_seller = dao.select_top_best_seller(8)
+    best_cate = dao.select_top_category(4)
 
     return render_template('index.html', categories=categories, count=0, products=products, error_message=error_message,
                            product_length=len(products), page_count=page_count, max_product_card=int(max_product_card),
-                           best_seller=best_seller)
+                           best_seller=best_seller, best_cate=best_cate)
 
 
 # Chuyển trang product

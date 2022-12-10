@@ -44,8 +44,14 @@ def get_max_price():
 
 
 def select_top_best_seller(top_num):
-    return db.session.query(Books.id, Books.book_name, Books.unit_price, Books.image, func.max(Books.sold_numbers)) \
-        .group_by(Books.id).order_by(Books.sold_numbers.asc()).limit(top_num).all()
+    return db.session.query(Books.id, Books.book_name, Books.unit_price, Books.image, Books.quantity ,func.max(Books.sold_numbers))\
+        .group_by(Books.id).order_by(Books.sold_numbers.desc()).limit(top_num).all()
+
+
+def select_top_category(top_num):
+    return db.session.query(Categories.id, Categories.category_name, Categories.image, func.max(Books.sold_numbers))\
+        .join(Books, Books.category_id.__eq__(Categories.id), isouter=True)\
+        .group_by(Categories.id).order_by(Books.sold_numbers.desc()).limit(top_num).all()
 
 
 def get_min_price():

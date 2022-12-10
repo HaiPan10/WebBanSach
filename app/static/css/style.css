@@ -8104,3 +8104,11 @@ a.btn_3:hover{
 .product_list{
     background-color: #ecfdff;
 }
+
+.best_cate_img-long{
+    width: 55%;
+}
+
+.best_cate_img-short{
+    width: 60%;
+}
