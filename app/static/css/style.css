@@ -3034,7 +3034,7 @@ ul {
 }
 
 .best_seller {
-    background-color: #ecfdff;
+    background-color: white;
 }
 
 /* line 7, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_best_seller.scss */
@@ -8076,7 +8076,9 @@ a.btn_3:hover{
     font-weight:bold;
 }
 
-.btn_1:hover {
+.btn_1:hover,
+ .btn_2:hover,
+ .to_product:hover{
     text-decoration: none;
 }
 
@@ -8089,4 +8091,16 @@ a.btn_3:hover{
 .subtotal h5, .subtotal span{
     font-size: 30px;
     font-weight: bold;
+}
+
+.to_product{
+    text-transform: none;
+    color: #ff3368;
+}
+.to_product:hover{
+    color: #ccc;
+}
+
+.product_list{
+    background-color: #ecfdff;
 }

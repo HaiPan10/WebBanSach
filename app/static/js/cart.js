@@ -116,9 +116,3 @@ $(document).ready(function(){
         timer = null;
     });
 })
-
-//document.getElementsByClassName('pop-up_click').addEventListener('click', () => {
-////    clearTimeout(timer);
-////    timer = null;
-//
-//});
