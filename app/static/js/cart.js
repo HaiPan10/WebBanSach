@@ -75,8 +75,9 @@ fetch(`/api/cart/${productId}`, {
 }
 
 function pay(address, status) {
-    let result = true
-    let info
+    if(address === ""){
+        address = "không có"
+    }
     fetch(`/api/pay`, {
         method: "post",
         body: JSON.stringify({
