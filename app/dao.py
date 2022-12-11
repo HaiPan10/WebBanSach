@@ -1,5 +1,7 @@
+import datetime
+
 from flask_login import current_user
-from sqlalchemy import func
+from sqlalchemy import func, update
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
 from app import db
@@ -97,14 +99,26 @@ def get_user_by_id(user_id):
     return UserAccount.query.get(user_id)
 
 
-def save_receipt(cart):
+def save_receipt(cart, address, status):
     if cart:
-        order = Orders(user=current_user)
+        order = Orders(UserAccount=current_user, order_date=datetime.datetime.now(), address=address, status=status)
         db.session.add(order)
-
         for c in cart.values():
-            d = OrderDetails(quantity=c['quantity'], price=c['price'],
-                             Orders=order, product_id=c['id'])
+            d = OrderDetails(quantity=c['quantity'], unit_price=c['unit_price'],
+                             Orders=order, book_id=c['id'])
             db.session.add(d)
-
         db.session.commit()
+        # Trả về order id vừa mới tạo
+        return order.id
+
+
+def get_max_order_id():
+    return Orders.query(func.max(Orders.id)).scalar()
+
+
+def load_book_by_order_id(order_id):
+    return db.session.query(Books.id, Books.book_name, OrderDetails.quantity,
+                            OrderDetails.unit_price, OrderDetails.id)\
+        .join(OrderDetails, Books.id.__eq__(OrderDetails.book_id)) \
+        .where(OrderDetails.order_id.__eq__(order_id)) \
+        .all()

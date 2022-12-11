@@ -74,13 +74,49 @@ fetch(`/api/cart/${productId}`, {
     }).catch(err => console.info(err))
 }
 
-function pay() {
-    fetch("/api/pay").then(res => res.json()).then(data => {
-            if(data.status === 200)
-                location.reload()
-            else
-                alert("Hệ thống đang bị lỗi!")
+function pay(address, status) {
+    let result = true
+    let info
+    fetch(`/api/pay`, {
+        method: "post",
+        body: JSON.stringify({
+            "address": address,
+            "status": status
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json()).then(data => {
+            if(data.status === 200){
+                // nếu là thanh toán trực tiếp thì redirect
+                //if(!status)
+                    //window.location.href = '/cart_details'
+                window.location.href = '/cart_details'
+            }
+            popup(data)
         })
+}
+
+function payWithMoMo(address, status){
+    fetch('/api/payWithMoMo', {
+        method: "post",
+        body: JSON.stringify({}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json()).then(data => {
+        console.log(data['payUrl'])
+        window.location = data['payUrl']
+    })
+}
+
+function rollback(){
+    fetch('api/rollback').then(res => res.json()).then(data => {
+        if(data.status === 200)
+            location.reload()
+        else
+            popup(data)
+    }).catch(error => console.info(error))
 }
 
 function getInputQuantity(){

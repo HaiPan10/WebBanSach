@@ -1,8 +1,14 @@
 # Đọc json
+import hashlib
+import hmac
 import json
 # Lấy đường dẫn tuyệt đối
 import os
-from app import app
+import uuid
+
+import requests
+
+from app import app, dao
 
 
 # Hàm đọc json
@@ -67,3 +73,38 @@ def cart_stats(cart, message):
         'total_quantity': total_quantity,
         'message': message,
     }
+
+
+def get_pay_url(info):
+    partnerCode = "MOMO"
+    accessKey = "F8BBA842ECF85"
+    secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
+    orderInfo = "pay with MoMo"
+    requestId = str(uuid.uuid4())
+    orderId = str(uuid.uuid4())
+    requestType = "captureWallet"
+    extraData = ""  # pass empty value or Encode base64 JsonString
+    rawSignature = "accessKey=" + accessKey + "&amount=" + str(int(info['amount'])) + "&extraData=" + extraData + \
+                   "&ipnUrl=" + info['ipn_url'] + "&orderId=" + orderId + "&orderInfo=" + orderInfo + \
+                   "&partnerCode=" + partnerCode + "&redirectUrl=" + info['redirect_url'] + "&requestId=" + \
+                   requestId + "&requestType=" + requestType
+    h = hmac.new(bytes(secretKey, 'ascii'), bytes(rawSignature, 'ascii'), hashlib.sha256)
+    signature = h.hexdigest()
+    data = {
+        'partnerCode': partnerCode,
+        'partnerName': "Test",
+        'storeId': "MomoTestStore",
+        'requestId': requestId,
+        'amount': str(int(info['amount'])),
+        'orderId': orderId,
+        'orderInfo': orderInfo,
+        'redirectUrl': info['redirect_url'],
+        'ipnUrl': info['ipn_url'],
+        'lang': "vi",
+        'extraData': extraData,
+        'requestType': requestType,
+        'signature': signature,
+        'userInfo': info['user_info']
+    }
+    # print(data)
+    return json.dumps(data)

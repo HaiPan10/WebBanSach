@@ -1,4 +1,6 @@
 # Định tuyến tới biến app trang init.py
+import requests
+
 from app.admin import InputBooksView
 from app.models import UserRole
 from app import app, dao, login, utils, admin as ad
@@ -6,7 +8,7 @@ from app import app, dao, login, utils, admin as ad
 from flask import render_template, redirect, session, jsonify
 # Dùng request để đổ product theo cate_id
 from flask import request
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from app.decorator import annonymous_user
 import cloudinary
 import cloudinary.uploader
@@ -277,22 +279,79 @@ def update_cart(product_id):
     return jsonify(utils.cart_stats(cart, message=message))
 
 
-@app.route('/api/pay')
+@app.route('/api/pay', methods=['post'])
 @login_required
 def pay():
+    # ghi nhận hóa đơn
     key = app.config['CART_KEY']
     cart = session.get(key)
-
+    order_id = -1
     if cart:
         try:
-            dao.save_receipt(cart=cart)
+            order_id = dao.save_receipt(cart=cart, address=str(request.json['address']),
+                                        status=bool(request.json['status']))
         except Exception as ex:
             print(str(ex))
-            return jsonify({"status": 500})
+            return jsonify({
+                "status": 500,
+                "message": "Hệ thống gặp lỗi",
+            })
         else:
             del session[key]
 
-    return jsonify({"status": 200})
+    return jsonify({
+        "status": 200,
+        "message": "Hoàn tất thanh toán",
+    })
+
+
+@app.route('/api/rollback')
+def rollback():
+    # in case raise error or user deny payment
+    try:
+        dao.db.session.rollback()
+    except Exception as ex:
+        print(str(ex))
+        return jsonify({
+            "status": 500,
+            "message": "Hệ thống gặp lỗi"
+        })
+    return jsonify({
+        "status": 200,
+        "message": ""
+    })
+
+
+@app.route('/api/payWithMoMo', methods=['post'])
+def pay_with_momo():
+    # response = requests.
+    # print(response)
+    # gọi /api/pay thành công mới gọi đến /api/payWithMoMo
+    endpoint = "https://test-payment.momo.vn/v2/gateway/api/create"
+    # order_id = request.json['order_id']
+    # books = dao.load_book_by_order_id(order_id=order_id)
+    key = app.config['CART_KEY']
+    cart = session[key] if key in session else {}
+    if cart:
+        amount = 0
+        for c in cart.values():
+            amount += int(c['unit_price']) * int(c['quantity'])
+        redirect_url = 'http://127.0.0.1:5000'
+        ipn_url = 'http://127.0.0.1:5000'
+        info = {
+            'redirect_url': redirect_url,
+            'ipn_url': ipn_url,
+            'amount': amount,
+            'user_info': {
+                'name': current_user.name
+            },
+        }
+        data = utils.get_pay_url(info)
+        length = len(data)
+        response = requests.post(endpoint, data=data, headers={'Content-Type': 'application/json',
+                                                               'Content-Length': str(length)})
+        # print(response.json())
+        return jsonify(response.json())
 
 
 @app.route("/cart_details")

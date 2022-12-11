@@ -20,6 +20,17 @@
 <!-- breadcrumb start-->
 
 <!--================Checkout Area =================-->
+{% if 'cart' in session %}
+{% if current_user.is_authenticated %}
 
+<input type="text" name="address" id="address" placeholder="Địa chỉ">
+<input type="button" onclick="pay(document.getElementById('address').value, false)" value="Thanh toán trực tiếp">
+<input type="button" onclick="payWithMoMo(document.getElementById('address').value, true)" value="Thanh toán MoMo">
+{% else %}
+<input src="/login" value="Vui lòng đăng nhập" class="btn btn-primary"/>
+{% endif %}
+{% else %}
+<h1 class="alert alert-danger">Giỏ hàng trống</h1>
+{% endif %}
 <!--================End Checkout Area =================-->
 {% endblock %}

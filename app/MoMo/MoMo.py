@@ -12,8 +12,8 @@ partnerCode = "MOMO"
 accessKey = "F8BBA842ECF85"
 secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
 orderInfo = "pay with MoMo"
-redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
-ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
+redirectUrl = "http://127.0.0.1:5000"
+ipnUrl = "http://127.0.0.1:5000/api/payWithMoMo"
 amount = "50000"
 orderId = str(uuid.uuid4())
 requestId = str(uuid.uuid4())
@@ -23,6 +23,7 @@ extraData = ""  # pass empty value or Encode base64 JsonString
 # before sign HMAC SHA256 with format: accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl
 # &orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId
 # &requestType=$requestType
+# rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
 rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
 
 # puts raw signature
@@ -35,6 +36,19 @@ print("--------------------SIGNATURE----------------")
 print(signature)
 
 # json object send to MoMo endpoint
+items = [{
+  "id": "204727",
+  "name": "YOMOST Bac Ha&Viet Quat 170ml",
+  "description": "YOMOST Sua Chua Uong Bac Ha&Viet Quat 170ml/1 Hop",
+  "category": "beverage",
+  "imageUrl":"https://momo.vn/uploads/product1.jpg",
+  "manufacturer":"Vinamilk",
+  "price": 11000,
+  "quantity": 5,
+  "unit":"hộp",
+  "totalPrice": 55000,
+  "taxAmount":"200"
+}]
 
 data = {
     'partnerCode': partnerCode,
@@ -49,8 +63,24 @@ data = {
     'lang': "vi",
     'extraData': extraData,
     'requestType': requestType,
-    'signature': signature
+    'signature': signature,
+    'items': items
 }
+# data = {
+#   "partnerCode": "MOMO",
+#   "partnerName" : "Test",
+#   "storeId" : "MoMoTestStore",
+#   "requestType": "captureWallet",
+#   "ipnUrl": "https://momo.vn",
+#   "redirectUrl": "https://momo.vn",
+#   "orderId": "MM1540456472575",
+#   "amount": 150000,
+#   "lang":  "vi",
+#   "orderInfo": "SDK team.",
+#   "requestId": "MM1540456472575",
+#   "extraData": "eyJ1c2VybmFtZSI6ICJtb21vIn0=",
+#   "signature": "fd37abbee777e13eaa0d0690d184e4d7e2fb43977281ab0e20701721f07a0e07"
+# }
 print("--------------------JSON REQUEST----------------\n")
 data = json.dumps(data)
 print(data)
@@ -61,5 +91,4 @@ response = requests.post(endpoint, data=data, headers={'Content-Type': 'applicat
 # f.close()
 print("--------------------JSON response----------------\n")
 print(response.json())
-
-print(response.json()['payUrl'])
+# print(response.json()['payUrl'])

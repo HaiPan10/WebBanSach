@@ -10,8 +10,8 @@ accessKey = "F8BBA842ECF85"
 secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
 orderInfo = "pay with MoMo"
 partnerCode = "MOMO"
-redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
-ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
+redirectUrl = "http://127.0.0.1:5000/"
+ipnUrl = "http://127.0.0.1:5000/"
 amount = "50000"
 orderId = str(uuid.uuid4())
 requestId = str(uuid.uuid4())
@@ -66,6 +66,8 @@ print(data)
 
 clen = len(data)
 response = requests.post(endpoint, data=data, headers={'Content-Type': 'application/json', 'Content-Length': str(clen)})
+# print("--------------------Response Object--------------\n")
+# print(response)
 
 # f.close()
 print("--------------------JSON response----------------\n")
