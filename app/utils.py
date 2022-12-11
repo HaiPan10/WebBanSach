@@ -79,7 +79,7 @@ def get_pay_url(info):
     partnerCode = "MOMO"
     accessKey = "F8BBA842ECF85"
     secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
-    orderInfo = "pay with MoMo"
+    orderInfo = info['order_info']
     requestId = str(uuid.uuid4())
     orderId = str(uuid.uuid4())
     requestType = "captureWallet"
@@ -88,7 +88,7 @@ def get_pay_url(info):
                    "&ipnUrl=" + info['ipn_url'] + "&orderId=" + orderId + "&orderInfo=" + orderInfo + \
                    "&partnerCode=" + partnerCode + "&redirectUrl=" + info['redirect_url'] + "&requestId=" + \
                    requestId + "&requestType=" + requestType
-    h = hmac.new(bytes(secretKey, 'ascii'), bytes(rawSignature, 'ascii'), hashlib.sha256)
+    h = hmac.new(bytes(secretKey, 'utf-8'), bytes(rawSignature, 'utf-8'), hashlib.sha256)
     signature = h.hexdigest()
     data = {
         'partnerCode': partnerCode,
@@ -97,7 +97,7 @@ def get_pay_url(info):
         'requestId': requestId,
         'amount': str(int(info['amount'])),
         'orderId': orderId,
-        'orderInfo': orderInfo,
+        'orderInfo': info['order_info'],
         'redirectUrl': info['redirect_url'],
         'ipnUrl': info['ipn_url'],
         'lang': "vi",

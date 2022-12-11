@@ -98,14 +98,20 @@ function pay(address, status) {
 }
 
 function payWithMoMo(address, status){
+    if(address === ""){
+        address = "không có"
+    }
     fetch('/api/payWithMoMo', {
         method: "post",
-        body: JSON.stringify({}),
+        body: JSON.stringify({
+            'address': address,
+            'status': status
+        }),
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(res => res.json()).then(data => {
-        console.log(data['payUrl'])
+        //console.log(data)
         window.location = data['payUrl']
     })
 }

@@ -5,7 +5,7 @@ from app.admin import InputBooksView
 from app.models import UserRole
 from app import app, dao, login, utils, admin as ad
 # Import render_template để dùng render_template
-from flask import render_template, redirect, session, jsonify
+from flask import render_template, redirect, session, jsonify, make_response
 # Dùng request để đổ product theo cate_id
 from flask import request
 from flask_login import login_user, logout_user, login_required, current_user
@@ -336,8 +336,8 @@ def pay_with_momo():
         amount = 0
         for c in cart.values():
             amount += int(c['unit_price']) * int(c['quantity'])
-        redirect_url = 'http://127.0.0.1:5000'
-        ipn_url = 'http://127.0.0.1:5000'
+        redirect_url = request.url_root + 'api/momo_result'
+        ipn_url = request.url_root + 'api/momo_result'
         info = {
             'redirect_url': redirect_url,
             'ipn_url': ipn_url,
@@ -345,13 +345,24 @@ def pay_with_momo():
             'user_info': {
                 'name': current_user.name
             },
+            'order_info': str(request.json['address'])
         }
         data = utils.get_pay_url(info)
         length = len(data)
+        # print(data)
         response = requests.post(endpoint, data=data, headers={'Content-Type': 'application/json',
                                                                'Content-Length': str(length)})
-        # print(response.json())
+        print(response.json())
         return jsonify(response.json())
+
+
+@app.route('/api/momo_result', methods=['get'])
+def momo_result():
+    # response = make_response('', 204)
+    if int(request.args['resultCode']) == 0:
+        dao.save_receipt(session['cart'], str(request.args['orderInfo']), True)
+        del session['cart']
+    return redirect('/cart_details')
 
 
 @app.route("/cart_details")
