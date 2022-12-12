@@ -36,19 +36,6 @@ print("--------------------SIGNATURE----------------")
 print(signature)
 
 # json object send to MoMo endpoint
-items = [{
-  "id": "204727",
-  "name": "YOMOST Bac Ha&Viet Quat 170ml",
-  "description": "YOMOST Sua Chua Uong Bac Ha&Viet Quat 170ml/1 Hop",
-  "category": "beverage",
-  "imageUrl":"https://momo.vn/uploads/product1.jpg",
-  "manufacturer":"Vinamilk",
-  "price": 11000,
-  "quantity": 5,
-  "unit":"hộp",
-  "totalPrice": 55000,
-  "taxAmount":"200"
-}]
 
 data = {
     'partnerCode': partnerCode,
@@ -64,7 +51,6 @@ data = {
     'extraData': extraData,
     'requestType': requestType,
     'signature': signature,
-    'items': items
 }
 # data = {
 #   "partnerCode": "MOMO",

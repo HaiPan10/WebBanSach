@@ -1,4 +1,7 @@
-from app import dao, app
+import requests
 
-with app.app_context():
-    print(dao.load_book_by_order_id(4))
+proxies = {
+  'http': 'http://10.10.1.10:3128',
+}
+
+requests.get('http://example.org', proxies=proxies,timeout=None)
