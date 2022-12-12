@@ -202,7 +202,7 @@
                             <!--category_id sẽ nhận giá trị lấy từ cate_id, giá trị được đổ ra từ template trong index-->
                             <!--i sẽ là giá trị truyền vào từ vòng lặp for-->
                             <div class="image-container"
-                                 onclick="location.href='/products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i}}';">
+                                 onclick="location.href='/products/product_id={{products[i].id}}';">
                                 {% if products[i].quantity == 0 %}
                                     <div class="ribbon ribbon-top-right"><span>Hết hàng</span></div>
                                 {% endif %}
