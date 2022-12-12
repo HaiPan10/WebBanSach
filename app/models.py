@@ -50,6 +50,7 @@ class UserAccount(BaseModel, UserMixin):
     password = Column(String(50), nullable=False)
     avatar = Column(String(250), nullable=False)
     user_role = Column(Enum(UserRole), default=UserRole.USER)
+    phone_number = Column(String(10), nullable=True, unique=True)
     orders = relationship('Orders', backref='UserAccount', lazy=True)
 
 
@@ -57,7 +58,8 @@ class Orders(BaseModel):
     order_date = Column(DateTime, nullable=False)
     user_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
     order_details = relationship('OrderDetails', backref='Orders', lazy=True)
-    address = Column(String(250))
+    address = Column(String(250), nullable=True)
+    recipient_name = Column(String(100), nullable=True)
     status = Column(Boolean, default=False)
 
 
