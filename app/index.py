@@ -151,6 +151,7 @@ def register():
             try:
                 dao.register(name=request.form['name'],
                              username=request.form['username'],
+                             phonenumber=request.form['phone_number'],
                              password=password,
                              avatar=avatar)
                 return redirect('/login')
