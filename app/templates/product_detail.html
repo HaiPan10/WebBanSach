@@ -34,8 +34,6 @@
             </div>
             <div class="col-lg-5 col-xl-4">
                 <div class="s_product_text">
-                    <h5><a href="/products/product_id={{product.id}}?category_id={{cate_id}}&i={{i - 1 if i > 0 else size}}" class = "feature_btn">sản phẩm trước</a>
-                        <span>|</span> <a href="/products/product_id={{product.id}}?category_id={{cate_id}}&i={{i + 1 if size > i else 0}}" class = "feature_btn">sản phẩm sau</a></h5>
                     <h3>{{ product.book_name }}</h3>
                     <h4>Tác giả: {{ product.author_name }}</h4>
                     <h2>{{ "{:,.0f}".format(product.unit_price) }} VNĐ</h2>
@@ -52,9 +50,11 @@
                         </li>
                         {% endif  %}
                     </ul>
-                    <p>
-                        Mô tả: {{ product.descriptions|safe }}<br>
-                    </p>
+                    <div class="des_container">
+                        <p class="p_wrap">
+                            Mô tả:<br> {{ product.descriptions|safe }}
+                        </p>
+                    </div>
                     <div class="card_area d-flex justify-content-between align-items-center">
                         {% if product.quantity == 0 %}
                             <a href="#" class="disable-btn">Hết hàng</a>

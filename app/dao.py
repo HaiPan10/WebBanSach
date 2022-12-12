@@ -1,7 +1,7 @@
 import datetime
 
 from flask_login import current_user
-from sqlalchemy import func, update
+from sqlalchemy import func, update, and_
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
 from app import db
@@ -91,8 +91,8 @@ def register(name, username, password, avatar):
     db.session.commit()
 
 
-def get_category_name(category_id):
-    return Categories.query.get(category_id).category_name
+def get_category_name(book_id):
+    return Categories.query.filter(and_(Books.category_id.__eq__(Categories.id), Books.id.__eq__(book_id))).first()
 
 
 def get_user_by_id(user_id):

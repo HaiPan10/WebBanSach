@@ -113,23 +113,11 @@ def product_list():
 
 
 # Cấu hình trang chi tiết sản phẩm
-@app.route("/products/product_id=<int:book_id>", methods=['get', 'post'])
+@app.route("/products/product_id=<int:book_id>")
 def product_detail(book_id):
-    # format đường dẫn như sau:
-    # /products/product_id={{products[i].id}}?category_id={{cate_id}}&i={{i}}
-    # cate_id lấy từ view /products
-    # Gia trị i là giá trị index theo thứ tự của list trong products
-    i = int(request.args.get("i"))
-    cate_id = request.args.get("category_id")
-    products = dao.load_books(cate_id=cate_id) if not cate_id.__eq__('None') else dao.load_books()
     product = dao.get_book_by_id(book_id)
-    category_name = dao.get_category_name(products[i].category_id)
-    size = len(products) - 1
-    curr = None
-    if request.method.__eq__('POST'):
-        curr = request.form['curr']
-    return render_template('product_detail.html', product=product, cate_id=cate_id, products=products,
-                           category_name=category_name, i=i, size=size)
+    category_name = dao.get_category_name(book_id)
+    return render_template('product_detail.html', product=product, category_name=category_name)
 
 
 @app.route("/login-admin", methods=['post'])
