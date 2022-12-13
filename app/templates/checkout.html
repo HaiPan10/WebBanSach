@@ -39,24 +39,26 @@
 <script>
     document.getElementById("hide_div").style.display = "none";
 </script>
-<section class="checkout_area padding_top" id="scroll_this">
+<section class="checkout_area padding_top padding_bottom" id="scroll_this">
     <div class="container">
       <div class="billing_details">
         <div class="row my_modify">
           <div class="left_side">
               <div class="col-lg-8" >
-                <h3>Thông tin hóa đơn</h3>
+                <h3>Thông tin người nhận</h3>
                 <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                  <div class="col-md-6 form-group p_star">
-                      Khách hàng
+                  <div class="col-md-12 form-group">
+                      Tên khách hàng
                     <input type="text" class="form-control" id="first" name="name" readonly value="{{ current_user.name }}">
                   </div>
-<!--                  <div class="col-md-12 form-group">-->
-<!--                    <div class="creat_account">-->
-<!--                      Nhập địa chỉ giao hàng:-->
-<!--                        <input type="text" name="address" id="address" placeholder="Địa chỉ">-->
-<!--                    </div>-->
-<!--                  </div>-->
+                    <div class="col-md-12 form-group">
+                      Số điện thoại
+                    <input type="text" class="form-control" id="phone" name="phone" value="{{ current_user.phone_number }}">
+                  </div>
+                  <div class="col-md-12 form-group" id="address_field" style="display: none;">
+                      Địa chỉ giao hàng
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Vui lòng cung cấp địa chỉ giao hàng !">
+                  </div>
                 </form>
               </div>
           </div>
@@ -83,7 +85,7 @@
                       {% endfor %}
                   </ul>
                   <ul class="list list_2">
-                    <li>
+                    <li id="ship_fee" style="display: none;">
                       <a>Phí giao hàng
                         <span>Miễn phí</span>
                       </a>
@@ -100,10 +102,9 @@
                       <label for="f-option5">Thanh toán trực tiếp</label>
                       <div class="check"></div>
                     </div>
-                      <p id="address-type_in_offline">
+                      <p id="ship_option">
                           <input type="checkbox" id="f-option" name="selector">
                           <label for="f-option">Giao hàng tận nhà</label>
-                          <input type="text" name="address_offline" id="address_offline" placeholder="Nhập địa chỉ giao hàng" style="width: 100%; display: none;">
                       </p>
                   </div>
                   <div class="payment_item active">
@@ -113,36 +114,43 @@
                       <img src="static/images/MoMo_Logo.png" style="width: 30px; height: 30px;" alt="" />
                       <div class="check"></div>
                     </div>
-                    <p id="address-type_in_momo" style="display: none;">
-                      Nhập địa chỉ giao hàng:
-                      <input type="text" name="address_momo" id="address_momo" placeholder="Địa chỉ" style="width: 100%;">
-                    </p>
                   </div>
-                  <a style="display:none;" id="submit_offline" class="btn_3" onclick="pay(document.getElementById('address_offline').value, false)">Xác nhận thanh toán</a>
-                    <a id="submit_momo" class="btn_3" onclick="payWithMoMo(document.getElementById('address_momo').value, true)">Xác nhận thanh toán</a>
+                  <a style="display:none;" id="submit_offline" class="btn_3" onclick="pay(document.getElementById('address').value, false)">Xác nhận thanh toán</a>
+                    <a id="submit_momo" class="btn_3" onclick="payWithMoMo(document.getElementById('address').value, true)">Xác nhận thanh toán</a>
                   <script>
                   $(document).ready(function(){
+                    let F = 0;
+
                     $('#f-option').click(function() {
                         if ($(this).is(':checked')) {
-                            $('#address_offline').fadeIn();
+                            $('#address_field').fadeIn();
+                            $('#ship_fee').fadeIn();
+                            F = 1;
                         }
                         else{
-                            $('#address_offline').fadeOut();
+                            $('#address_field').fadeOut();
+                            $('#ship_fee').fadeOut();
+                            F = 0;
                         }
                      });
 
                     $("input[name='selector']").click(function() {
                         if($('#f-option6').is(':checked')) {
-                            $('#address-type_in_momo').fadeIn();
-                            $('#address-type_in_offline').fadeOut();
+                            console.log("caught");
+                            $('#address_field').fadeIn();
                             $('#submit_offline').hide();
                             $('#submit_momo').show();
+                            $('#ship_option').fadeOut();
+                            $('#ship_fee').fadeIn();
                          }
                         else  {
-                            $('#address-type_in_momo').fadeOut();
-                            $('#address-type_in_offline').fadeIn();
                             $('#submit_offline').show();
                             $('#submit_momo').hide();
+                            $('#ship_option').fadeIn();
+                            if(F == 0){
+                                $('#address_field').fadeOut();
+                                $('#ship_fee').fadeOut();
+                            }
                          }
                      });
                   })
@@ -154,8 +162,8 @@
       </div>
     </div>
   </section>
-<input type="button" onclick="pay(document.getElementById('address').value, false)" value="Thanh toán trực tiếp">
-<input type="button" onclick="payWithMoMo(document.getElementById('address').value, true)" value="Thanh toán MoMo">
+<!--<input type="button" onclick="pay(document.getElementById('address').value, false)" value="Thanh toán trực tiếp">-->
+<!--<input type="button" onclick="payWithMoMo(document.getElementById('address').value, true)" value="Thanh toán MoMo">-->
 {% else %}
 <script>
     document.getElementById("hide_div").style.display = "block";

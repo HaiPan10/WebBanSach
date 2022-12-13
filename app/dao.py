@@ -84,9 +84,9 @@ def auth_user(username, password):
                                     UserAccount.password.__eq__(pw)).first()
 
 
-def register(name, username, password, avatar):
+def register(name, username, phonenumber ,password, avatar):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    u = UserAccount(name=name, username=username, password=password, avatar=avatar)
+    u = UserAccount(name=name, username=username, phonenumber=phonenumber, password=password, avatar=avatar)
     db.session.add(u)
     db.session.commit()
 
