@@ -59,7 +59,6 @@ class Orders(BaseModel):
     user_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
     order_details = relationship('OrderDetails', backref='Orders', lazy=True)
     address = Column(String(250), nullable=True)
-    recipient_name = Column(String(100), nullable=True)
     status = Column(Boolean, default=False)
 
 
@@ -72,9 +71,9 @@ class OrderDetails(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        # pass
+        pass
         # db.drop_all()
-        db.create_all()
+        # db.create_all()
         # name = 'Admin'
         # username = 'admin'
         # password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
