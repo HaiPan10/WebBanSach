@@ -146,8 +146,12 @@ def register():
         confirm = request.form['repassword']
         if password.__eq__(confirm):
             if request.files:
-                res = cloudinary.uploader.upload(request.files['avatar'])
-                avatar = res['secure_url']
+                try:
+                    res = cloudinary.uploader.upload(request.files['avatar'])
+                    avatar = res['secure_url']
+                except Exception as ex:
+                    print(ex)
+                    avatar = app.config['DEFAULT_AVATAR']
             try:
                 dao.register(name=request.form['name'],
                              username=request.form['username'],
@@ -155,7 +159,8 @@ def register():
                              password=password,
                              avatar=avatar)
                 return redirect('/login')
-            except:
+            except Exception as ex:
+                print(ex)
                 err_msg = "Hệ thống đang có lỗi! Vui lòng quay lại sau"
         else:
             err_msg = 'Mật khẩu không khớp'

@@ -28,6 +28,8 @@ babel = Babel(app=app)
 
 # thiet lap cart key
 app.config['CART_KEY'] = 'cart'
+# Thiet lap chuoi default avatar
+app.config['DEFAULT_AVATAR'] = 'https://res.cloudinary.com/dxjkpbzmo/image/upload/v1669580265/b8ojpgctmqsnmoyju7cp.png'
 
 
 @babel.localeselector
