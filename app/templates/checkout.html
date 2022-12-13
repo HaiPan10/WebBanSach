@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 </div>
 <!-- breadcrumb start-->
 
@@ -38,86 +38,95 @@
 {% if current_user.is_authenticated %}
 <script>
     document.getElementById("hide_div").style.display = "none";
+
 </script>
 <section class="checkout_area padding_top padding_bottom" id="scroll_this">
     <div class="container">
-      <div class="billing_details">
-        <div class="row my_modify">
-          <div class="left_side">
-              <div class="col-lg-8" >
-                <h3>Thông tin người nhận</h3>
-                <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                  <div class="col-md-12 form-group">
-                      Tên khách hàng
-                    <input type="text" class="form-control" id="first" name="name" readonly value="{{ current_user.name }}">
-                  </div>
-                    <div class="col-md-12 form-group">
-                      Số điện thoại
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ current_user.phone_number }}">
-                  </div>
-                  <div class="col-md-12 form-group" id="address_field" style="display: none;">
-                      Địa chỉ giao hàng
-                    <input type="text" class="form-control" name="address" id="address" placeholder="Vui lòng cung cấp địa chỉ giao hàng !">
-                  </div>
-                </form>
-              </div>
-          </div>
-          <div class="right_side ">
-              <div class="">
-                <div class="order_box">
-                  <h2>Đơn hàng của bạn</h2>
-                  <ul class="list">
-                    <li>
-                      <a>Sản phẩm
-                        <span>Thành tiền</span>
-                      </a>
-                    </li>
-                      {% for c in session['cart'].values() %}
-                        <li>
-                          <div style="display: flex; justify-content: space-between;">
-                              <a style="width: 75%; display: flex; justify-content: space-between;" href="/products/product_id={{ c.id }}">
-                                <p>{{ c.book_name }}</p>
-                                  <span class="middle">x{{ c.quantity }}</span>
-                              </a>
-                              <span class="last" style="border-bottom: 1px solid #eeeeee; display: flex; align-items: center; justify-content: center; text-align: center">{{ "{:,.0f}".format(c.unit_price * c.quantity) }} VNĐ</span>
-                          </div>
-                        </li>
-                      {% endfor %}
-                  </ul>
-                  <ul class="list list_2">
-                    <li id="ship_fee" style="display: none;">
-                      <a>Phí giao hàng
-                        <span>Miễn phí</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>Tổng cộng
-                        <span id="total_checkout">{{ "{:,.0f}".format(cart.total_amount) }} VNĐ</span>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="payment_item">
-                    <div class="radion_btn">
-                      <input type="radio" id="f-option5" name="selector" checked/>
-                      <label for="f-option5">Thanh toán trực tiếp</label>
-                      <div class="check"></div>
+        <div class="billing_details">
+            <div class="row my_modify">
+                <div class="left_side">
+                    <div class="col-lg-8">
+                        <h3>Thông tin người nhận</h3>
+                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                            <div class="col-md-12 form-group">
+                                Tên khách hàng
+                                <input type="text" class="form-control" id="first" name="name" readonly
+                                       value="{{ current_user.name }}">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                Số điện thoại
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                       value="{{ current_user.phone_number }}">
+                            </div>
+                            <div class="col-md-12 form-group" id="address_field" style="display: none;">
+                                Địa chỉ giao hàng
+                                <input type="text" class="form-control" name="address" id="address"
+                                       placeholder="Vui lòng cung cấp địa chỉ giao hàng !">
+                            </div>
+                        </form>
                     </div>
-                      <p id="ship_option">
-                          <input type="checkbox" id="f-option" name="selector">
-                          <label for="f-option">Giao hàng tận nhà</label>
-                      </p>
-                  </div>
-                  <div class="payment_item active">
-                    <div class="radion_btn">
-                      <input type="radio" id="f-option6" name="selector" />
-                      <label for="f-option6">Thanh toán Momo </label>
-                      <img src="static/images/MoMo_Logo.png" style="width: 30px; height: 30px;" alt="" />
-                      <div class="check"></div>
-                    </div>
-                  </div>
-                  <a id="submit_offline" class="btn_3" onclick="pay(document.getElementById('address').value, true)">Xác nhận thanh toán</a>
-                    <a  style="display:none;" id="submit_momo" class="btn_3" onclick="payWithMoMo(document.getElementById('address').value, true)">Xác nhận thanh toán</a>
-                  <script>
+                </div>
+                <div class="right_side ">
+                    <div class="">
+                        <div class="order_box">
+                            <h2>Đơn hàng của bạn</h2>
+                            <ul class="list">
+                                <li>
+                                    <a>Sản phẩm
+                                        <span>Thành tiền</span>
+                                    </a>
+                                </li>
+                                {% for c in session['cart'].values() %}
+                                <li>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <a style="width: 75%; display: flex; justify-content: space-between;"
+                                           href="/products/product_id={{ c.id }}">
+                                            <p>{{ c.book_name }}</p>
+                                            <span class="middle">x{{ c.quantity }}</span>
+                                        </a>
+                                        <span class="last"
+                                              style="border-bottom: 1px solid #eeeeee; display: flex; align-items: center; justify-content: center; text-align: center">{{ "{:,.0f}".format(c.unit_price * c.quantity) }} VNĐ</span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <ul class="list list_2">
+                                <li id="ship_fee" style="display: none;">
+                                    <a>Phí giao hàng
+                                        <span>Miễn phí</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>Tổng cộng
+                                        <span id="total_checkout">{{ "{:,.0f}".format(cart.total_amount) }} VNĐ</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="payment_item">
+                                <div class="radion_btn">
+                                    <input type="radio" id="f-option5" name="selector" checked/>
+                                    <label for="f-option5">Thanh toán trực tiếp</label>
+                                    <div class="check"></div>
+                                </div>
+                                <p id="ship_option">
+                                    <input type="checkbox" id="f-option" name="selector">
+                                    <label for="f-option">Giao hàng tận nhà</label>
+                                </p>
+                            </div>
+                            <div class="payment_item active">
+                                <div class="radion_btn">
+                                    <input disabled type="radio" id="f-option6" name="selector"/>
+                                    <label for="f-option6">Thanh toán Momo </label>
+                                    <img src="static/images/MoMo_Logo.png" style="width: 30px; height: 30px;" alt=""/>
+                                    <div class="check"></div>
+                                </div>
+                            </div>
+                            <a id="submit_offline" class="btn_3"
+                               onclick="pay(document.getElementById('address').value, true)">Xác nhận thanh toán</a>
+                            <a style="display:none;" id="submit_momo" class="btn_3"
+                               onclick="payWithMoMo(document.getElementById('address').value, true)">Xác nhận thanh
+                                toán</a>
+                            <script>
                   $(document).ready(function(){
                     let F = 0;
 
@@ -154,19 +163,21 @@
                          }
                      });
                   })
-                  </script>
+
+                            </script>
+                        </div>
+                    </div>
                 </div>
-              </div>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 <!--<input type="button" onclick="pay(document.getElementById('address').value, false)" value="Thanh toán trực tiếp">-->
 <!--<input type="button" onclick="payWithMoMo(document.getElementById('address').value, true)" value="Thanh toán MoMo">-->
 {% else %}
 <script>
     document.getElementById("hide_div").style.display = "block";
+
 </script>
 {% endif %}
 {% else %}
