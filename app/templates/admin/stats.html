@@ -1,8 +1,7 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-<h1 class="text-center text-info">TRANG CHỦ QUẢN TRỊ BÁN HÀNG!!!</h1>
-<h3>CHÀO <span class="text-danger">{{ current_user.name }}</span>!!! </h3>
+<h1 class="text-center text-info">TRANG CHỦ THỐNG KÊ!!!</h1>
 
 <div class="row">
     <div class="col-md-5 col-sm-12">
@@ -26,5 +25,25 @@
             {% endfor %}
         </table>
     </div>
+
+    <div class="col-md-7 col-sm-12">
+        <canvas id="revenueChart"></canvas>
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/my-chart.js') }}"></script>
+<script>
+    let labels = []
+    let data = []
+    {% for s in stats_revenue %}
+    labels.push('{{ s[1] }}')
+    data.push({{ s[2] }})
+    {% endfor %}
+
+    window.onload = function(){
+        drawRevenueChart(labels, data);
+    }
+</script>
 {% endblock %}

@@ -1,7 +1,7 @@
 import datetime
 
 from flask_login import current_user
-from sqlalchemy import func, update, and_, cast, Integer
+from sqlalchemy import func, update, and_, cast, Integer, extract
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
 from app import db
@@ -85,9 +85,9 @@ def auth_user(username, password):
                                     UserAccount.password.__eq__(pw)).first()
 
 
-def register(name, username, phonenumber, password, avatar):
+def register(name, username, phone, password, avatar):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    u = UserAccount(name=name, username=username, phonenumber=phonenumber, password=password, avatar=avatar)
+    u = UserAccount(name=name, username=username, phone_number=phone, password=password, avatar=avatar)
     db.session.add(u)
     db.session.commit()
 
@@ -134,6 +134,6 @@ def stats_revenue():
                              (100 * func.sum(OrderDetails.unit_price * OrderDetails.quantity) / total_revenue))\
         .join(Books, Books.category_id.__eq__(Categories.id))\
         .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id))\
-        .join(Orders, OrderDetails.order_id.__eq__(Orders.id))
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id)).filter(extract('month', Orders.order_date) == 11)
 
     return query.group_by(Categories.id).order_by(-Categories.id).all()
