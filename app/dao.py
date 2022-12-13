@@ -1,7 +1,7 @@
 import datetime
 
 from flask_login import current_user
-from sqlalchemy import func, update, and_
+from sqlalchemy import func, update, and_, cast, Integer
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
 from app import db
@@ -46,13 +46,14 @@ def get_max_price():
 
 
 def select_top_best_seller(top_num):
-    return db.session.query(Books.id, Books.book_name, Books.unit_price, Books.image, Books.quantity ,func.max(Books.sold_numbers))\
+    return db.session.query(Books.id, Books.book_name, Books.unit_price, Books.image, Books.quantity,
+                            func.max(Books.sold_numbers)) \
         .group_by(Books.id).order_by(Books.sold_numbers.desc()).limit(top_num).all()
 
 
 def select_top_category(top_num):
-    return db.session.query(Categories.id, Categories.category_name, Categories.image, func.max(Books.sold_numbers))\
-        .join(Books, Books.category_id.__eq__(Categories.id), isouter=True)\
+    return db.session.query(Categories.id, Categories.category_name, Categories.image, func.max(Books.sold_numbers)) \
+        .join(Books, Books.category_id.__eq__(Categories.id), isouter=True) \
         .group_by(Categories.id).order_by(Books.sold_numbers.desc()).limit(top_num).all()
 
 
@@ -84,7 +85,7 @@ def auth_user(username, password):
                                     UserAccount.password.__eq__(pw)).first()
 
 
-def register(name, username, phonenumber ,password, avatar):
+def register(name, username, phonenumber, password, avatar):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     u = UserAccount(name=name, username=username, phonenumber=phonenumber, password=password, avatar=avatar)
     db.session.add(u)
@@ -119,7 +120,20 @@ def get_max_order_id():
 
 def load_book_by_order_id(order_id):
     return db.session.query(Books.id, Books.book_name, OrderDetails.quantity,
-                            OrderDetails.unit_price, OrderDetails.id)\
+                            OrderDetails.unit_price, OrderDetails.id) \
         .join(OrderDetails, Books.id.__eq__(OrderDetails.book_id)) \
         .where(OrderDetails.order_id.__eq__(order_id)) \
         .all()
+
+
+def stats_revenue():
+    total_revenue = db.session.query(func.sum(OrderDetails.unit_price * OrderDetails.quantity)).scalar()
+
+    query = db.session.query(Categories.id, Categories.category_name,
+                             func.sum(OrderDetails.unit_price * OrderDetails.quantity), func.count(Books.id),
+                             (100 * func.sum(OrderDetails.unit_price * OrderDetails.quantity) / total_revenue))\
+        .join(Books, Books.category_id.__eq__(Categories.id))\
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id))\
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id))
+
+    return query.group_by(Categories.id).order_by(-Categories.id).all()

@@ -1,12 +1,12 @@
 import datetime
 import html
 
-from flask import flash, redirect
+from flask import flash, redirect, request
 from flask_admin.babel import gettext
 from flask_admin.model import typefmt
 from wtforms.validators import InputRequired, NumberRange
 from app.models import Categories, Books, Orders, OrderDetails
-from app import db, app, utils
+from app import db, app, utils, dao
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
@@ -177,8 +177,16 @@ class AdjustView(BaseView):
         return current_user.is_authenticated
 
 
+class StatsView(BaseView):
+    @expose('/')
+    def index(self):
+        stats_revenue = dao.stats_revenue()
+        return self.render('admin/stats.html', stats_revenue=stats_revenue)
+
+
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
 admin.add_view(CategoriesView(Categories, db.session, name='Danh mục'))
 admin.add_view(InputBooksView(Books, db.session, name='Nhập kho', endpoint='admin-input-quantity'))
 admin.add_view(AdjustView(name='Thay đổi quy định'))
+admin.add_view(StatsView(name='Thống kê'))
