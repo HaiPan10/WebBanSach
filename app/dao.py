@@ -126,6 +126,16 @@ def load_book_by_order_id(order_id):
         .all()
 
 
+def check_user_name(username):
+    user = UserAccount.query.where(UserAccount.username.__eq__(username)).first()
+    return True if user else False
+
+
+def check_phone_number(phone_number):
+    user = UserAccount.query.where(UserAccount.phone_number.__eq__(phone_number)).first()
+    return True if user else False
+
+
 def stats_revenue():
     total_revenue = db.session.query(func.sum(OrderDetails.unit_price * OrderDetails.quantity)).scalar()
 

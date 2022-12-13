@@ -145,23 +145,30 @@ def register():
         password = request.form['password']
         confirm = request.form['repassword']
         if password.__eq__(confirm):
-            if request.files:
+            if dao.check_user_name(request.form['username']):
+                err_msg = 'Tên tài khoản đã tồn tại'
+            elif dao.check_phone_number(request.form['phone_number']):
+                err_msg = 'Số điện thoại đã tồn tại'
+            else:
+                if request.files:
+                    try:
+                        res = cloudinary.uploader.upload(request.files['avatar'])
+                        avatar = res['secure_url']
+                    except Exception as ex:
+                        print(ex)
+                        avatar = app.config['DEFAULT_AVATAR']
+                else:
+                    avatar = app.config['DEFAULT_AVATAR']
                 try:
-                    res = cloudinary.uploader.upload(request.files['avatar'])
-                    avatar = res['secure_url']
+                    dao.register(name=request.form['name'],
+                                 username=request.form['username'],
+                                 phone=request.form['phone_number'],
+                                 password=password,
+                                 avatar=avatar)
+                    return redirect('/login')
                 except Exception as ex:
                     print(ex)
-                    avatar = app.config['DEFAULT_AVATAR']
-            try:
-                dao.register(name=request.form['name'],
-                             username=request.form['username'],
-                             phone=request.form['phone_number'],
-                             password=password,
-                             avatar=avatar)
-                return redirect('/login')
-            except Exception as ex:
-                print(ex)
-                err_msg = "Hệ thống đang có lỗi! Vui lòng quay lại sau"
+                    err_msg = "Hệ thống đang có lỗi! Vui lòng quay lại sau"
         else:
             err_msg = 'Mật khẩu không khớp'
     return render_template("register.html", err_msg=err_msg)
