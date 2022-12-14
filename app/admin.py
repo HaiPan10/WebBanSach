@@ -189,8 +189,10 @@ class StatsView(BaseView):
             year = datetime.now().year
 
         stats_revenue = dao.stats_revenue(month=month, year=year)
-        return self.render('admin/stats.html', stats_revenue=stats_revenue, min_year=dao.get_min_year(),
-                           max_year=datetime.now().year, current_month=month, current_year=year)
+        stats_frequency = dao.stats_frequency(month=month, year=year)
+        return self.render('admin/stats.html', stats_revenue=stats_revenue, stats_frequency=stats_frequency,
+                           min_year=dao.get_min_year(), max_year=datetime.now().year,
+                           current_month=month, current_year=year)
 
     def is_accessible(self):
         return current_user.is_authenticated

@@ -1,7 +1,11 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-<h1 class="text-center text-info">TRANG CHỦ THỐNG KÊ!!!</h1>
+<h1 id="title" class="text-center text-info">BÁO CÁO DOANH THU THEO THÁNG</h1>
+<div>
+    <input type="radio" name="select" id="revenue" checked>Thống kê báo cáo về doanh thu từng tháng được chọn cho từng thể loại sách.<br>
+    <input type="radio" name="select" id="frequency">Thống kê tuần suất từng đầu sách theo tháng
+</div>
 <form action="">
     <div class="row">
             <div class="col-md-6 form-group p_star">
@@ -18,12 +22,12 @@
         <input type="submit" value="Lọc dữ liệu" class="btn btn-info">
     </div>
 </form>
-<div class="row">
-    <div class="col-md-5 col-sm-12">
+<div id="stats_revenue" class="row">
+    <div class="col-md-6 col-sm-12">
         <table class="table">
             <tr>
-                <th>ID</th>
-                <th>Loại sản phẩm</th>
+                <th>STT</th>
+                <th>Thể loại sách</th>
                 <th>Doanh thu</th>
                 <th>Số lượt mua</th>
                 <th>Tỉ lệ</th>
@@ -41,26 +45,74 @@
         </table>
     </div>
 
-    <div class="col-md-7 col-sm-12">
+    <div class="col-md-6 col-sm-12">
         <canvas id="revenueChart"></canvas>
     </div>
+</div>
 
+<div style="display: none;" id="stats_frequency" class="row">
+    <div class="col-md-6 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>STT</th>
+                <th>Tên sách</th>
+                <th>Thể loại</th>
+                <th>Số lượng</th>
+                <th>Tỉ lệ</th>
+            </tr>
+
+            {% for s in stats_frequency %}
+            <tr>
+                <td>{{ s[0] }}</td>
+                <td>{{ s[1] }}</td>
+                <td>{{ s[2] }}</td>
+                <td>{{ s[3] }}</td>
+                <td>{{ "{:,.0f}".format(s[4]) }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <canvas id="frequencyChart"></canvas>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="{{ url_for('static', filename='js/my-chart.js') }}"></script>
 <script>
-    let labels = []
-    let data = []
+    let labels_revenue = []
+    let data_revenue = []
     {% for s in stats_revenue %}
-    labels.push('{{ s[1] }}')
-    data.push({{ s[2] }})
+    labels_revenue.push('{{ s[1] }}')
+    data_revenue.push({{ s[2] }})
+    {% endfor %}
+
+    let labels_frequency = []
+    let data_frequency = []
+    {% for s in stats_frequency %}
+    labels_frequency.push('{{ s[1] }}')
+    data_frequency.push({{ s[3] }})
     {% endfor %}
 
     window.onload = function(){
-        drawRevenueChart(labels, data);
+        drawRevenueChart(labels_revenue, data_revenue);
+        drawFrequencyChart(labels_frequency, data_frequency);
     }
 
+    $("input[name='select']").click(function() {
+        if($('#revenue').is(':checked')) {
+            $('#stats_revenue').fadeIn();
+            $('#stats_frequency').fadeOut();
+            $('#title').text('BÁO CÁO DOANH THU THEO THÁNG');
+        }
+        else {
+            $('#stats_revenue').fadeOut();
+            $('#stats_frequency').fadeIn();
+            $('#title').text('BÁO CÁO TUẦN SUẤT SÁCH BÁN');
+        }
+    });
 
 </script>
 {% endblock %}

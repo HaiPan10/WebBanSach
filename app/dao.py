@@ -138,7 +138,10 @@ def check_phone_number(phone_number):
 
 
 def stats_revenue(month, year):
-    total_revenue = db.session.query(func.sum(OrderDetails.unit_price * OrderDetails.quantity)).scalar()
+    total_revenue = db.session.query(func.sum(OrderDetails.unit_price * OrderDetails.quantity)) \
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
+        .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
+                Orders.status.__eq__(True))
 
     query = db.session.query(Categories.id, Categories.category_name,
                              func.sum(OrderDetails.unit_price * OrderDetails.quantity), func.count(Books.id),
@@ -146,9 +149,26 @@ def stats_revenue(month, year):
         .join(Books, Books.category_id.__eq__(Categories.id)) \
         .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id)) \
         .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
-        .filter(extract('month', Orders.order_date) == month).filter(extract('year', Orders.order_date) == year)
+        .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
+                Orders.status.__eq__(True))
 
     return query.group_by(Categories.id).order_by(-Categories.id).all()
+
+
+def stats_frequency(month, year):
+    total_frequency = db.session.query(func.sum(OrderDetails.quantity))\
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id))\
+        .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
+                Orders.status.__eq__(True))
+
+    query = db.session.query(Books.id, Books.book_name, Categories.category_name, func.sum(OrderDetails.quantity),
+                             (100 * func.sum(OrderDetails.quantity)) / total_frequency) \
+        .join(Categories, Categories.id.__eq__(Books.category_id)) \
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id)) \
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
+        .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
+                Orders.status.__eq__(True))
+    return query.group_by(Books.id).order_by(-Books.id).all()
 
 
 def get_min_year():
