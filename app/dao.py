@@ -3,7 +3,7 @@ import datetime
 from flask_login import current_user
 from sqlalchemy import func, update, and_, cast, Integer, extract
 
-from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount
+from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount, Comment
 from app import db
 import hashlib
 
@@ -102,12 +102,12 @@ def get_user_by_id(user_id):
 
 def save_receipt(cart, address, status):
     if cart:
-        order = Orders(UserAccount=current_user, order_date=datetime.datetime.now(),
+        order = Orders(user_account=current_user, order_date=datetime.datetime.now(),
                        address=address, status=status)
         db.session.add(order)
         for c in cart.values():
             d = OrderDetails(quantity=c['quantity'], unit_price=c['unit_price'],
-                             Orders=order, book_id=c['id'])
+                             orders=order, book_id=c['id'])
             db.session.add(d)
         db.session.commit()
         # Trả về order id vừa mới tạo
@@ -147,3 +147,13 @@ def stats_revenue():
         .join(Orders, OrderDetails.order_id.__eq__(Orders.id)).filter(extract('month', Orders.order_date) == 11)
 
     return query.group_by(Categories.id).order_by(-Categories.id).all()
+
+
+def load_comment(product_id):
+    return Comment.query.filter(Comment.product_id.__eq__(product_id)).order_by(-Comment.id).all()
+
+
+def save_comment(content, product_id):
+    c = Comment(content=content, product_id=product_id, user_account=current_user)
+    db.session.add(c)
+    db.session.commit()
