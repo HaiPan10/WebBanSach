@@ -103,7 +103,7 @@ def get_user_by_id(user_id):
 
 def save_receipt(cart, address, status):
     if cart:
-        order = Orders(user_account=current_user, order_date=datetime.datetime.now(),
+        order = Orders(user_account=current_user, order_date=datetime.now(),
                        address=address, status=status)
         db.session.add(order)
         for c in cart.values():

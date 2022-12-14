@@ -192,6 +192,9 @@ class StatsView(BaseView):
         return self.render('admin/stats.html', stats_revenue=stats_revenue, min_year=dao.get_min_year(),
                            max_year=datetime.now().year, current_month=month, current_year=year)
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
 
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
