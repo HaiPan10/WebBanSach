@@ -152,7 +152,7 @@ def stats_revenue(month, year):
         .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
                 Orders.status.__eq__(True))
 
-    return query.group_by(Categories.id).order_by(-Categories.id).all()
+    return query.group_by(Categories.id).order_by(Categories.id).all()
 
 
 def stats_frequency(month, year):
@@ -168,7 +168,7 @@ def stats_frequency(month, year):
         .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
         .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
                 Orders.status.__eq__(True))
-    return query.group_by(Books.id).order_by(-Books.id).all()
+    return query.group_by(Books.id).order_by(Books.id).all()
 
 
 def get_min_year():
