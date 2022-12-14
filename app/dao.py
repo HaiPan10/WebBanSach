@@ -1,4 +1,5 @@
 import datetime
+from datetime import datetime
 
 from flask_login import current_user
 from sqlalchemy import func, update, and_, cast, Integer, extract
@@ -136,14 +137,19 @@ def check_phone_number(phone_number):
     return True if user else False
 
 
-def stats_revenue():
+def stats_revenue(month, year):
     total_revenue = db.session.query(func.sum(OrderDetails.unit_price * OrderDetails.quantity)).scalar()
 
     query = db.session.query(Categories.id, Categories.category_name,
                              func.sum(OrderDetails.unit_price * OrderDetails.quantity), func.count(Books.id),
-                             (100 * func.sum(OrderDetails.unit_price * OrderDetails.quantity) / total_revenue))\
-        .join(Books, Books.category_id.__eq__(Categories.id))\
-        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id))\
-        .join(Orders, OrderDetails.order_id.__eq__(Orders.id)).filter(extract('month', Orders.order_date) == 11)
+                             (100 * func.sum(OrderDetails.unit_price * OrderDetails.quantity) / total_revenue)) \
+        .join(Books, Books.category_id.__eq__(Categories.id)) \
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id)) \
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
+        .filter(extract('month', Orders.order_date) == month).filter(extract('year', Orders.order_date) == year)
 
     return query.group_by(Categories.id).order_by(-Categories.id).all()
+
+
+def get_min_year():
+    return db.session.query(func.min(extract('year', Orders.order_date))).scalar()

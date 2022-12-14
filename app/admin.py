@@ -1,5 +1,6 @@
 import datetime
 import html
+from datetime import datetime
 
 from flask import flash, redirect, request
 from flask_admin.babel import gettext
@@ -180,8 +181,16 @@ class AdjustView(BaseView):
 class StatsView(BaseView):
     @expose('/')
     def index(self):
-        stats_revenue = dao.stats_revenue()
-        return self.render('admin/stats.html', stats_revenue=stats_revenue)
+        month = request.args.get("month")
+        year = request.args.get("year")
+        if month is None:
+            month = datetime.now().month
+        if year is None:
+            year = datetime.now().year
+
+        stats_revenue = dao.stats_revenue(month=month, year=year)
+        return self.render('admin/stats.html', stats_revenue=stats_revenue, min_year=dao.get_min_year(),
+                           max_year=datetime.now().year, current_month=month, current_year=year)
 
 
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')

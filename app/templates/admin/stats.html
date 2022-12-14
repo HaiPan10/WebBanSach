@@ -2,7 +2,22 @@
 
 {% block body %}
 <h1 class="text-center text-info">TRANG CHỦ THỐNG KÊ!!!</h1>
+<form action="">
+    <div class="row">
+            <div class="col-md-6 form-group p_star">
+                Tháng:
+                <input type="number" class="form-control" name="month" min="1" max="12" value="{{ current_month }}"/>
+              </div>
+              <div class="col-md-6 form-group p_star">
+                  Năm:
+                <input type="number" class="form-control" name="year" min="{{ min_year }}" max="{{ max_year }}" value="{{ current_year }}"/>
+              </div>
+        </div>
 
+    <div>
+        <input type="submit" value="Lọc dữ liệu" class="btn btn-info">
+    </div>
+</form>
 <div class="row">
     <div class="col-md-5 col-sm-12">
         <table class="table">
@@ -45,5 +60,7 @@
     window.onload = function(){
         drawRevenueChart(labels, data);
     }
+
+
 </script>
 {% endblock %}

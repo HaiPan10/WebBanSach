@@ -184,7 +184,9 @@ def login_my_user():
         user = dao.auth_user(username=username, password=password)
         if user:
             login_user(user=user)
-            return redirect('/')
+
+            n = request.args.get("next")
+            return redirect(n if n else '/')
     return render_template('login.html')
 
 
