@@ -26,7 +26,7 @@ function addToCart(id, bookName, unitPrice, image, quantity, quantityInStocks){
 }
 
 function deleteCart(productId){
-    fetch(`/api/cart/${productId}`, {
+    fetch(`/api/delete_cart/${productId}`, {
         method: "delete"
     }).then(res => res.json()).then(data => {
         let d = document.getElementsByClassName('cart-counter')
@@ -48,7 +48,7 @@ function deleteCart(productId){
 }
 
 function updateCart(productId, obj, unitPrice){
-fetch(`/api/cart/${productId}`, {
+fetch(`/api/update_cart/${productId}`, {
         method: "put",
         body: JSON.stringify({
             "quantity": obj.value,
@@ -102,7 +102,7 @@ function payWithMoMo(address, status){
     if(address === ""){
         address = "không có"
     }
-    fetch('/api/payWithMoMo', {
+    fetch('/api/pay_with_momo', {
         method: "post",
         body: JSON.stringify({
             'address': address,

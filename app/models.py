@@ -1,4 +1,5 @@
 import hashlib
+from datetime import datetime
 
 from app import db, app
 from sqlalchemy.orm import relationship
@@ -15,7 +16,7 @@ class BaseModel(db.Model):
 
 class Categories(BaseModel):
     category_name = Column(String(50), nullable=False)
-    books = relationship('Books', backref='Categories', lazy=True)
+    books = relationship('Books', backref='categories', lazy=True)
     descriptions = Column(Text)
     image = Column(String(250))
 
@@ -30,10 +31,11 @@ class Books(BaseModel):
     import_date = Column(DateTime)
     unit_price = Column(Float, default=0)
     category_id = Column(Integer, ForeignKey(Categories.id), nullable=False)
-    order_details = relationship('OrderDetails', backref='Books', lazy=True)
+    order_details = relationship('OrderDetails', backref='books', lazy=True)
     sold_numbers = Column(Integer, default=0)
     image = Column(String(250), nullable=False)
     descriptions = Column(Text)
+    comments = relationship('Comment', backref='books', lazy=True)
 
     def __str__(self):
         return self.book_name
@@ -51,13 +53,14 @@ class UserAccount(BaseModel, UserMixin):
     avatar = Column(String(250), nullable=False)
     user_role = Column(Enum(UserRole), default=UserRole.USER)
     phone_number = Column(String(10), nullable=True, unique=True)
-    orders = relationship('Orders', backref='UserAccount', lazy=True)
+    orders = relationship('Orders', backref='user_account', lazy=True)
+    comments = relationship('Comment', backref='user_account', lazy=True)
 
 
 class Orders(BaseModel):
     order_date = Column(DateTime, nullable=False)
     user_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
-    order_details = relationship('OrderDetails', backref='Orders', lazy=True)
+    order_details = relationship('OrderDetails', backref='orders', lazy=True)
     address = Column(String(250), nullable=True)
     status = Column(Boolean, default=False)
 
@@ -69,11 +72,18 @@ class OrderDetails(BaseModel):
     book_id = Column(Integer, ForeignKey(Books.id), nullable=False)
 
 
+class Comment(BaseModel):
+    content = Column(String(255), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+    user_account_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
+    book_id = Column(Integer, ForeignKey(Books.id), nullable=False)
+
+
 if __name__ == '__main__':
     with app.app_context():
-        pass
+        # pass
         # db.drop_all()
-        # db.create_all()
+        db.create_all()
         # name = 'Admin'
         # username = 'admin'
         # password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
