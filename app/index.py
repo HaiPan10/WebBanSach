@@ -14,8 +14,8 @@ import cloudinary
 import cloudinary.uploader
 
 
-app.add_url_rule("/", 'index', controllers.home())
-app.add_url_rule("/products", 'products', controllers.product_list())
+app.add_url_rule("/", 'index', controllers.home)
+app.add_url_rule("/products", 'products', controllers.product_list)
 app.add_url_rule("/products/product_id=<int:book_id>", 'product-details', controllers.product_detail)
 app.add_url_rule("/login-admin", 'login-admin', controllers.admin_login, methods=['post'])
 app.add_url_rule("/register", 'register', controllers.register, methods=['post', 'get'])
@@ -28,7 +28,7 @@ app.add_url_rule("/api/update_cart/<product_id>", 'update-cart', controllers.upd
 app.add_url_rule("/api/pay", 'pay', controllers.pay, methods=['post'])
 app.add_url_rule("/api/pay_with_momo", 'pay-with-momo', controllers.pay_with_momo, methods=['post'])
 app.add_url_rule("/api/momo_result", 'momo-result', controllers.momo_result, methods=['get'])
-app.add_url_rule("/cart_details", 'cart-details', controllers.cart_view())
+app.add_url_rule("/cart_details", 'cart-details', controllers.cart_view)
 app.add_url_rule("/checkout", 'checkout', controllers.checkout)
 
 
