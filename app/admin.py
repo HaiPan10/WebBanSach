@@ -2,13 +2,13 @@ import datetime
 import html
 from datetime import datetime
 
-from flask import flash, redirect, request
+from flask import flash, redirect, request, url_for
 from flask_admin.babel import gettext
 from flask_admin.model import typefmt
 from wtforms.validators import InputRequired, NumberRange
-from app.models import Categories, Books, Orders, OrderDetails
+from app.models import Categories, Books, Orders, OrderDetails, UserRole
 from app import db, app, utils, dao
-from flask_admin import Admin, BaseView, expose
+from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField, SelectMultipleField
@@ -198,7 +198,17 @@ class StatsView(BaseView):
         return current_user.is_authenticated
 
 
-admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4')
+class WebBanSachAdmin(AdminIndexView):
+    @expose("/")
+    def index(self):
+        # la tai khoan chua dang nhap hoac la tai khoan admin
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return self.render("/admin/index.html")
+        else:
+            return redirect("/")
+
+
+admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4', index_view=WebBanSachAdmin())
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
 admin.add_view(CategoriesView(Categories, db.session, name='Danh mục'))
 admin.add_view(InputBooksView(Books, db.session, name='Nhập kho', endpoint='admin-input-quantity'))
