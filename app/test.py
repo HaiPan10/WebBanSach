@@ -7,4 +7,5 @@ from app import dao, app
 #
 # requests.get('http://example.org', proxies=proxies,timeout=None)
 with app.app_context():
-  print(dao.check_user_name('haiphan'))
+    print(dao.check_user_name('haiphan'))
+    dao.delete_order(11)

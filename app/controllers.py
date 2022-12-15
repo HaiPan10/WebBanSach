@@ -1,5 +1,6 @@
 # Định tuyến tới biến app trang init.py
 import requests
+from sqlalchemy.exc import DataError
 
 from app.admin import InputBooksView
 from app.models import UserRole
@@ -269,11 +270,16 @@ def pay():
     # ghi nhận hóa đơn
     key = app.config['CART_KEY']
     cart = session.get(key)
-    order_id = -1
     if cart:
         try:
-            order_id = dao.save_receipt(cart=cart, address=str(request.json['address']),
-                                        status=bool(request.json['status']))
+            dao.save_receipt(cart=cart, address=str(request.json['address']),
+                             status=bool(request.json['status']))
+        except ValueError as error:
+            print(error)
+            return jsonify({
+                "status": 500,
+                "message": error.__str__()
+            })
         except Exception as ex:
             print(str(ex))
             return jsonify({
@@ -351,3 +357,8 @@ def user_orders_view():
     # print(orders)
     # print(order_details)
     return render_template('orders_view.html', orders=orders, order_details=order_details)
+
+
+# check orders and delete order which isn't pay after a period of time
+def check_orders_status():
+    pass

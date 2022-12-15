@@ -3,6 +3,7 @@ from datetime import datetime
 
 from flask_login import current_user
 from sqlalchemy import func, update, and_, cast, Integer, extract
+from sqlalchemy.exc import DataError
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount, Comment
 from app import db
@@ -107,12 +108,18 @@ def save_receipt(cart, address, status):
                        address=address, status=status)
         db.session.add(order)
         for c in cart.values():
-            d = OrderDetails(quantity=c['quantity'], unit_price=c['unit_price'],
-                             orders=order, book_id=c['id'])
+            book = Books.query.where(Books.id.__eq__(c['id'])).first()
+            if book.quantity >= c['quantity']:
+                d = OrderDetails(quantity=c['quantity'], unit_price=c['unit_price'],
+                                 orders=order, book_id=c['id'])
+                book.quantity -= c['quantity']
+                book.sold_numbers += c['quantity']
+            else:
+                raise ValueError("{} số lượng tồn không đủ".format(book.book_name))
             db.session.add(d)
         db.session.commit()
         # Trả về order id vừa mới tạo
-        return order.id
+        return True
 
 
 def get_max_order_id():
@@ -156,8 +163,8 @@ def stats_revenue(month, year):
 
 
 def stats_frequency(month, year):
-    total_frequency = db.session.query(func.sum(OrderDetails.quantity))\
-        .join(Orders, OrderDetails.order_id.__eq__(Orders.id))\
+    total_frequency = db.session.query(func.sum(OrderDetails.quantity)) \
+        .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
         .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
                 Orders.status.__eq__(True))
 
@@ -187,14 +194,29 @@ def save_comment(content, product_id):
 
 def get_orders(user_id):
     return db.session.query(Orders.id, func.sum(OrderDetails.quantity * OrderDetails.unit_price).label('total_amount'),
-                            Orders.status)\
-        .where(Orders.user_id.__eq__(user_id))\
-        .join(OrderDetails, OrderDetails.order_id.__eq__(Orders.id))\
+                            Orders.status) \
+        .where(Orders.user_id.__eq__(user_id)) \
+        .join(OrderDetails, OrderDetails.order_id.__eq__(Orders.id)) \
         .group_by(Orders.id).all()
 
 
 def get_order_details(order_id):
-    return db.session.query(Books.id, Books.book_name, OrderDetails.quantity, OrderDetails.unit_price)\
-        .where(OrderDetails.order_id.__eq__(order_id))\
-        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id))\
+    return db.session.query(Books.id, Books.book_name, OrderDetails.quantity, OrderDetails.unit_price) \
+        .where(OrderDetails.order_id.__eq__(order_id)) \
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id)) \
         .order_by(Books.id).all()
+
+
+def get_query_order_details(order_id):
+    return OrderDetails.query.filter(OrderDetails.order_id.__eq__(order_id))
+
+
+def delete_order(order_id):
+    order_details_query = get_query_order_details(order_id)
+    order_details_query.delete()
+    Orders.query.filter(Orders.id.__eq__(order_id)).delete()
+    db.session.commit()
+
+
+def delete_order_schedule():
+    pass
