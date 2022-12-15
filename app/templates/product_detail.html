@@ -72,8 +72,34 @@
             </div>
         </div>
     </div>
+
+</div>
+<div class="col-lg-8 posts-list padding_bottom" style="margin: 0 auto;">
+    <div class="comments-area">
+        <h4>Bình luận</h4>
+        <div id="comments">
+        </div>
+        {% if current_user.is_authenticated %}
+        <form class="form-contact comment_form" action="#" id="commentForm">
+            <div class="row">
+                <div class="col-12" style="height: 100px;">
+                    <div class="form-group">
+                        <textarea class="form-control w-100" name="comment-content" id="comment-content" cols="30" rows="5"
+                                 placeholder="Nội dung bình luận..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <a onclick="addComment({{ product.id }})" class="btn_3 button-contactForm">Thêm bình luận</a>
+            </div>
+        </form>
+        {% else %}
+        <p>Vui lòng <a href="/login?next=/products/product_id={{ product.id }}">đăng nhập</a> để bình luận</p>
+        {% endif %}
+    </div>
 </div>
 <!--================End Single Product Area =================-->
+
 
 <script>
     function increaseValue() {
@@ -103,5 +129,14 @@
         }
     }
 
+</script>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/details.js') }}"></script>
+<script>
+    window.onload = () => {
+        loadComments({{ product.id }})
+    }
 </script>
 {% endblock %}

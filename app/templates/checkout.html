@@ -121,49 +121,64 @@
                                     <div class="check"></div>
                                 </div>
                             </div>
-                            <a id="submit_offline" class="btn_3"
+                            <a id="submit_offline" class="btn_3 check_address"
                                onclick="pay(document.getElementById('address').value, true)">Xác nhận thanh toán</a>
-                            <a style="display:none;" id="submit_momo" class="btn_3"
+                            <a style="display:none;" id="submit_momo" class="btn_3 check_address"
                                onclick="payWithMoMo(document.getElementById('address').value, true)">Xác nhận thanh
                                 toán</a>
                             <script>
-                  $(document).ready(function(){
-                    let F = 0;
+                              $(document).ready(function(){
+                                let F = 0;
 
-                    $('#f-option').click(function() {
-                        if ($(this).is(':checked')) {
-                            $('#address_field').fadeIn();
-                            $('#ship_fee').fadeIn();
-                            F = 1;
-                        }
-                        else{
-                            $('#address_field').fadeOut();
-                            $('#ship_fee').fadeOut();
-                            F = 0;
-                        }
-                     });
+                                $('input#address').on('input',function(e){
+                                 if ($('this').is(":empty")) {
+                                    $('.check_address').addClass('disable-btn');
+                                  }
+                                   else {
+                                    $('.check_address').removeClass('disable-btn');
+                                   }
+                                });
 
-                    $("input[name='selector']").click(function() {
-                        if($('#f-option6').is(':checked')) {
-                            console.log("caught");
-                            $('#address_field').fadeIn();
-                            $('#submit_offline').hide();
-                            $('#submit_momo').show();
-                            $('#ship_option').fadeOut();
-                            $('#ship_fee').fadeIn();
-                         }
-                        else  {
-                            $('#submit_offline').show();
-                            $('#submit_momo').hide();
-                            $('#ship_option').fadeIn();
-                            if(F == 0){
-                                $('#address_field').fadeOut();
-                                $('#ship_fee').fadeOut();
-                            }
-                         }
-                     });
-                  })
+                                $('#f-option').click(function() {
+                                    if ($(this).is(':checked')) {
+                                        $('#address_field').fadeIn();
+                                        $('#ship_fee').fadeIn();
+                                        if ($('#address').is(":empty")) {
+                                            $('.check_address').addClass('disable-btn');
+                                        }
+                                        else {
+                                            $('.check_address').removeClass('disable-btn');
+                                        }
+                                        F = 1;
+                                    }
+                                    else{
+                                        $('#address_field').fadeOut();
+                                        $('#ship_fee').fadeOut();
+                                        $('.check_address').removeClass('disable-btn');
+                                        F = 0;
+                                    }
+                                 });
 
+                                $("input[name='selector']").click(function() {
+                                    if($('#f-option6').is(':checked')) {
+                                        console.log("caught");
+                                        $('#address_field').fadeIn();
+                                        $('#submit_offline').hide();
+                                        $('#submit_momo').show();
+                                        $('#ship_option').fadeOut();
+                                        $('#ship_fee').fadeIn();
+                                     }
+                                    else  {
+                                        $('#submit_offline').show();
+                                        $('#submit_momo').hide();
+                                        $('#ship_option').fadeIn();
+                                        if(F == 0){
+                                            $('#address_field').fadeOut();
+                                            $('#ship_fee').fadeOut();
+                                        }
+                                     }
+                                 });
+                              })
                             </script>
                         </div>
                     </div>
@@ -172,8 +187,6 @@
         </div>
     </div>
 </section>
-<!--<input type="button" onclick="pay(document.getElementById('address').value, false)" value="Thanh toán trực tiếp">-->
-<!--<input type="button" onclick="payWithMoMo(document.getElementById('address').value, true)" value="Thanh toán MoMo">-->
 {% else %}
 <script>
     document.getElementById("hide_div").style.display = "block";
