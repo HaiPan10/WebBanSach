@@ -336,3 +336,18 @@ def cart_view():
 
 def checkout():
     return render_template('checkout.html')
+
+
+@login_required
+def user_orders_view():
+    orders = dao.get_orders(current_user.id)
+    order_details = {}
+    # order_details = {
+    #       1 : [...],
+    #       2 : [...]
+    # }
+    for o in orders:
+        order_details[o.id] = dao.get_order_details(o.id)
+    # print(orders)
+    # print(order_details)
+    return render_template('orders_view.html', orders=orders, order_details=order_details)

@@ -183,3 +183,18 @@ def save_comment(content, product_id):
     c = Comment(content=content, product_id=product_id, user_account=current_user)
     db.session.add(c)
     db.session.commit()
+
+
+def get_orders(user_id):
+    return db.session.query(Orders.id, func.sum(OrderDetails.quantity * OrderDetails.unit_price).label('total_amount'),
+                            Orders.status)\
+        .where(Orders.user_id.__eq__(user_id))\
+        .join(OrderDetails, OrderDetails.order_id.__eq__(Orders.id))\
+        .group_by(Orders.id).all()
+
+
+def get_order_details(order_id):
+    return db.session.query(Books.id, Books.book_name, OrderDetails.quantity, OrderDetails.unit_price)\
+        .where(OrderDetails.order_id.__eq__(order_id))\
+        .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id))\
+        .order_by(Books.id).all()

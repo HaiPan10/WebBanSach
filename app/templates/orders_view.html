@@ -1,0 +1,53 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<!-- breadcrumb start-->
+<script src="/static/js/cart.js"></script>
+<section class="breadcrumb breadcrumb_bg_details">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Danh sách đơn hàng</h2>
+                        <p>Cửa hàng <span>-</span> Danh sách đơn hàng</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<!--================Single Product Area =================-->
+{% for o in orders %}
+<h1>Mã đơn hàng: {{ o.id }} </h1>
+<table>
+    <tr>
+        <td>Tên sản phẩm</td>
+        <td>Số lượng</td>
+        <td>Đơn giá</td>
+        <td>Thành tiền</td>
+    </tr>
+    {% for od in order_details[o.id] %}
+    <tr>
+        <td>{{ od.book_name }}</td>
+        <td>{{ od.quantity }}</td>
+        <td>{{ "{:,.0f}".format(od.unit_price) }}</td>
+        <td>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Tổng tiền: {{ "{:,.0f}".format(o.total_amount) }}</td>
+    </tr>
+</table>
+{% endfor %}
+<!--================End Single Product Area =================-->
+
+<script>
+
+</script>
+{% endblock %}

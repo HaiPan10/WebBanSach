@@ -30,6 +30,7 @@ app.add_url_rule("/api/pay_with_momo", 'pay-with-momo', controllers.pay_with_mom
 app.add_url_rule("/api/momo_result", 'momo-result', controllers.momo_result, methods=['get'])
 app.add_url_rule("/cart_details", 'cart-details', controllers.cart_view)
 app.add_url_rule("/checkout", 'checkout', controllers.checkout)
+app.add_url_rule("/orders_view", 'orders-view', controllers.user_orders_view)
 
 
 # login người dùng tại đây
