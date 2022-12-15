@@ -38,10 +38,14 @@
     </tr>
     {% endfor %}
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
         <td>Tổng tiền: {{ "{:,.0f}".format(o.total_amount) }}</td>
+        <td>Tình trạng:
+            {% if o.status is true %}
+            <span>Đã thanh toán</span>
+            {% else %}
+            <span>Chờ được thanh toán</span>
+            {% endif %}
+        </td>
     </tr>
 </table>
 {% endfor %}
