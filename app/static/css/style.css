@@ -7457,6 +7457,13 @@ h6 {
   background-size: cover;
 }
 
+.breadcrumb_orders_view {
+  background-image: url("../images/breadcrumb_order_confirm.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .breadcrumb_bg_details {
   background-image: url("../images/breadcrumb_details.png");
   background-position: center;
