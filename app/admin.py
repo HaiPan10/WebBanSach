@@ -2,6 +2,7 @@ import datetime
 import html
 from datetime import datetime
 
+import flask
 from flask import flash, redirect, request, url_for
 from flask_admin.babel import gettext
 from flask_admin.model import typefmt
@@ -83,7 +84,10 @@ class BooksView(ModelView):
             model.image = upload_cloudinary(form['image'].data)
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
-        return current_user.is_authenticated
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return current_user.is_authenticated
+        else:
+            return False
 
 
 class CategoriesView(ModelView):
@@ -109,7 +113,10 @@ class CategoriesView(ModelView):
             model.image = upload_cloudinary(form['image'].data)
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
-        return current_user.is_authenticated
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return current_user.is_authenticated
+        else:
+            return False
 
 
 class InputBooksView(ModelView):
@@ -164,7 +171,10 @@ class InputBooksView(ModelView):
         self.input_rules = utils.read_rules()
 
     def is_accessible(self):  # Xac thuc truy cap nguoi dung
-        return current_user.is_authenticated
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return current_user.is_authenticated
+        else:
+            return False
 
 
 class AdjustView(BaseView):
@@ -175,7 +185,10 @@ class AdjustView(BaseView):
         return self.render('admin/adjust_rules.html', rules=input_rules)
 
     def is_accessible(self):
-        return current_user.is_authenticated
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return current_user.is_authenticated
+        else:
+            return False
 
 
 class StatsView(BaseView):
@@ -195,17 +208,19 @@ class StatsView(BaseView):
                            current_month=month, current_year=year)
 
     def is_accessible(self):
-        return current_user.is_authenticated
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return current_user.is_authenticated
+        else:
+            return False
 
 
 class WebBanSachAdmin(AdminIndexView):
-    @expose("/")
-    def index(self):
-        # la tai khoan chua dang nhap hoac la tai khoan admin
+
+    def is_accessible(self):
         if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
-            return self.render("/admin/index.html")
+            return True
         else:
-            return redirect("/")
+            return False
 
 
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4', index_view=WebBanSachAdmin())
