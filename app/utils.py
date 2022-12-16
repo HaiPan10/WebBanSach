@@ -44,7 +44,7 @@ def load_products(cate_id=None, kw=None, from_price=None, to_price=None):
     if to_price:
         products = [p for p in products if p['price'] <= float(to_price)]
 
-    return products;
+    return products
 
 
 # Lấy products từ mã
