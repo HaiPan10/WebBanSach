@@ -182,14 +182,16 @@ def get_min_year():
     return db.session.query(func.min(extract('year', Orders.order_date))).scalar()
 
 
-def load_comment(product_id):
-    return Comment.query.filter(Comment.product_id.__eq__(product_id)).order_by(-Comment.id).all()
+def load_comments(book_id):
+    return Comment.query.filter(Comment.book_id.__eq__(book_id)).order_by(-Comment.id).all()
 
 
-def save_comment(content, product_id):
-    c = Comment(content=content, product_id=product_id, user_account=current_user)
+def save_comment(content, book_id):
+    c = Comment(content=content, book_id=book_id, user_account=current_user)
     db.session.add(c)
     db.session.commit()
+
+    return c
 
 
 def get_orders(user_id):

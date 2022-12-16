@@ -344,6 +344,41 @@ def checkout():
     return render_template('checkout.html')
 
 
+def comments(book_id):
+    data = []
+    for c in dao.load_comments(book_id=book_id):
+        data.append({
+            'id': c.id,
+            'content': c.content,
+            'created_date': str(c.created_date),
+            'user_account': {
+                'name': c.user_account.name,
+                'avatar': c.user_account.avatar
+            }
+        })
+    return jsonify(data)
+
+
+def add_comment(book_id):
+    try:
+        c = dao.save_comment(content=request.json["content"], book_id=book_id)
+    except:
+        return jsonify({"status": 500})
+
+    return jsonify({
+        "status": 204,
+        "comment": {
+            'id': c.id,
+            'content': c.content,
+            'created_date': str(c.created_date),
+            'user_account': {
+                'name': c.user_account.name,
+                'avatar': c.user_account.avatar
+            }
+        }
+    })
+
+
 @login_required
 def user_orders_view():
     orders = dao.get_orders(current_user.id)

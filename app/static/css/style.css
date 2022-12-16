@@ -1848,9 +1848,6 @@ ul {
 /* line 1307, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_blog.scss */
 .comments-area {
   background: transparent;
-  border-top: 1px solid #eee;
-  padding: 45px 0;
-  margin-top: 50px;
 }
 
 @media (max-width: 414px) {
@@ -8224,3 +8221,9 @@ a.btn_3:hover{
         }
 
     }
+
+#comments{
+    overflow: scroll;
+    height: 300px;
+    overflow-x: hidden;
+}

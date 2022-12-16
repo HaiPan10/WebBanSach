@@ -76,7 +76,7 @@ fetch(`/api/update_cart/${productId}`, {
 
 function pay(address, status) {
     if(address === ""){
-        address = "không có"
+        address = "nhận tại nhà sách"
     }
     fetch(`/api/pay`, {
         method: "post",
