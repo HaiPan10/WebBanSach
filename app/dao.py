@@ -2,11 +2,11 @@ import datetime
 from datetime import datetime
 
 from flask_login import current_user
-from sqlalchemy import func, update, and_, cast, Integer, extract
+from sqlalchemy import func, update, and_, cast, Integer, extract, event, DDL
 from sqlalchemy.exc import DataError
 
-from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount, Comment
-from app import db
+from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount, Comment, Status
+from app import db, utils
 import hashlib
 
 
@@ -105,7 +105,7 @@ def get_user_by_id(user_id):
 def save_receipt(cart, address, status):
     if cart:
         order = Orders(user_account=current_user, order_date=datetime.now(),
-                       address=address, status=status)
+                       address=address, status=Status(status))
         db.session.add(order)
         for c in cart.values():
             book = Books.query.where(Books.id.__eq__(c['id'])).first()
@@ -223,3 +223,15 @@ def delete_order(order_id):
 
 def delete_order_schedule():
     pass
+
+
+# @event.listens_for(Orders, 'after_insert')
+# def after_commit(mapper, connection, target):
+#     rules = utils.read_rules()
+#     delete_order_event = DDL('''
+#             CREATE EVENT delete_order_{0}_schedule
+#             ON SCHEDULE AT CURRENT_TIMESTAMP() + INTERVAL '{1}' HOUR_MINUTE
+#             DO
+#                 CALL delete_order({0}, {2})
+#             '''.format(target.id, rules['delete_time'], target.status.value))
+#     connection.execute(delete_order_event)

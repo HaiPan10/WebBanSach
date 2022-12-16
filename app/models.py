@@ -4,7 +4,7 @@ from datetime import datetime
 from app import db, app
 from sqlalchemy.orm import relationship
 from sqlalchemy import Integer, Column, String, ForeignKey, DateTime, Float, Enum, Text, Boolean
-from enum import Enum as UserEnum
+from enum import Enum as UserEnum, Enum as StatusEnum
 from flask_login import UserMixin
 
 
@@ -46,6 +46,12 @@ class UserRole(UserEnum):
     ADMIN = 2
 
 
+class Status(StatusEnum):
+    DA_THANH_TOAN = 1
+    DANG_GIAO = 2
+    CHUA_THANH_TOAN = 3
+
+
 class UserAccount(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False, unique=True)
@@ -62,7 +68,7 @@ class Orders(BaseModel):
     user_id = Column(Integer, ForeignKey(UserAccount.id), nullable=False)
     order_details = relationship('OrderDetails', backref='orders', lazy=True)
     address = Column(String(250), nullable=True)
-    status = Column(Boolean, default=False)
+    status = Column(Enum(Status), default=Status.CHUA_THANH_TOAN)
 
 
 class OrderDetails(BaseModel):
@@ -81,9 +87,9 @@ class Comment(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        # pass
+        pass
         # db.drop_all()
-        db.create_all()
+        #db.create_all()
         # name = 'Admin'
         # username = 'admin'
         # password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())

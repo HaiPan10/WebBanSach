@@ -3,7 +3,7 @@ import requests
 from sqlalchemy.exc import DataError
 
 from app.admin import InputBooksView
-from app.models import UserRole
+from app.models import UserRole, Status
 from app import app, dao, login, utils, admin as ad
 # Import render_template để dùng render_template
 from flask import render_template, redirect, session, jsonify, make_response
@@ -273,7 +273,7 @@ def pay():
     if cart:
         try:
             dao.save_receipt(cart=cart, address=str(request.json['address']),
-                             status=bool(request.json['status']))
+                             status=int(request.json['status']))
         except ValueError as error:
             print(error)
             return jsonify({
@@ -331,7 +331,7 @@ def pay_with_momo():
 def momo_result():
     # response = make_response('', 204)
     if int(request.args['resultCode']) == 0:
-        dao.save_receipt(session['cart'], str(request.args['orderInfo']), True)
+        dao.save_receipt(session['cart'], str(request.args['orderInfo']), Status.DA_THANH_TOAN)
         del session['cart']
     return redirect('/cart_details')
 
