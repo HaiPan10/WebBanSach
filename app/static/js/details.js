@@ -71,8 +71,12 @@ function addComment(productId) {
           `
         let d = document.getElementById("comments")
         d.innerHTML = h + d.innerHTML
-        } else
-        alert("Hệ thống bị lỗi")
+        }
+        else if (data.status == 400){
+            alert("Vui lòng nhập nội dung bình luận")
+        }
+        else
+            alert("Hệ thống bị lỗi")
     })
     document.getElementById("comment-content").value = "";
 }

@@ -361,8 +361,13 @@ def comments(book_id):
 
 def add_comment(book_id):
     try:
-        c = dao.save_comment(content=request.json["content"], book_id=book_id)
-    except:
+        if request.json["content"]:
+            c = dao.save_comment(content=request.json["content"], book_id=book_id)
+        else:
+            # trả ve mã 400 thông báo yêu cầu không hợp lệ
+            return jsonify({"status": 400})
+    except Exception as ex:
+        print(ex)
         return jsonify({"status": 500})
 
     return jsonify({
