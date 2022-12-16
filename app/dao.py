@@ -195,7 +195,8 @@ def save_comment(content, book_id):
 
 
 def get_orders(user_id):
-    return db.session.query(Orders.id, func.sum(OrderDetails.quantity * OrderDetails.unit_price).label('total_amount'),
+    return db.session.query(Orders.id, Orders.address, Orders.order_date,
+                            func.sum(OrderDetails.quantity * OrderDetails.unit_price).label('total_amount'),
                             Orders.status) \
         .where(Orders.user_id.__eq__(user_id)) \
         .join(OrderDetails, OrderDetails.order_id.__eq__(Orders.id)) \
