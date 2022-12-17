@@ -13,7 +13,11 @@
         <label for="quantity_in_stocks">Số lượng tồn tối thiểu</label>
         <input type="number" class="form-control" id="quantity_in_stocks" value = {{rules['quantity_in_stocks']}}
                name="quantity_in_stocks" min = 1>
-
+    </div>
+    <div class="form-floating mb-3 mt-3">
+        <label for="delete_time">Số ngày tự động hủy đơn</label>
+        <input type="number" class="form-control" id="delete_time" value = {{rules['delete_time']}}
+               name="delete_time" min = 1>
     </div>
     <div>
         <input type = "submit" value = "Xác nhận thay đổi" class = "btn btn-success">

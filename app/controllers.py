@@ -189,9 +189,11 @@ def logout_my_user():
 def adjust_rules():
     quantity_import = request.form['quantity_import']
     quantity_in_stocks = request.form['quantity_in_stocks']
+    delete_time = request.form['delete_time']
     rules = {
         'quantity_import': quantity_import,
-        'quantity_in_stocks': quantity_in_stocks
+        'quantity_in_stocks': quantity_in_stocks,
+        'delete_time': delete_time
     }
     utils.write_json('data/adjust_rules.json', file=rules)
     # Cập nhật lại thông tin của input books view
