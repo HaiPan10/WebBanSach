@@ -234,6 +234,12 @@ class OrdersView(ModelView):
     form_extra_fields = {
         'status': SelectField(label='Tình trạng đơn hàng', choices=lambda: [(s.value, str(s)) for s in Status])
     }
+    column_labels = {
+        'order_date': 'Ngày đặt hàng',
+        'address': 'Địa chỉ',
+        'status': 'Tình trạng đơn hàng',
+        'user_account': 'Khách hàng',
+    }
 
     def is_accessible(self):
         if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
