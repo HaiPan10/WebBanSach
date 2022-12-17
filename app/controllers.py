@@ -348,7 +348,7 @@ def checkout():
 
 def comments(book_id):
     data = []
-    for c in dao.load_comments(book_id=book_id):
+    for c in sorted(dao.load_comments(book_id=book_id), key=lambda x: x.created_date, reverse=True):
         data.append({
             'id': c.id,
             'content': c.content,

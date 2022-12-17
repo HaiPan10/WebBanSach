@@ -83,14 +83,7 @@
 <div class="col-lg-8 posts-list padding_bottom" style="margin: 0 auto;">
     <div class="comments-area">
         <h4>Bình luận</h4>
-        <div class="spoiler_cmt ">
-
-            <div class="hidden-text">
-                <div>
-                    <div id="comments"></div>
-                </div>
-            </div>
-        </div>
+        <div id="comments"></div>
 
         {% if current_user.is_authenticated %}
         <form class="form-contact comment_form" action="#" id="commentForm">
@@ -156,10 +149,6 @@
         let line_count_des;
         $('.hidden-des').each(function(){line_count_des = $(this).getLines();})
         readMore( $('.spoiler_des'), min_line_des, line_count_des);
-
-
-        let min_line_cmt = 4;
-        readMore( $('.spoiler_cmt'), 4, 8);
     }
 </script>
 {% endblock %}

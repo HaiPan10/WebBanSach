@@ -8229,4 +8229,7 @@ a.btn_3:hover{
     }
 
 #comments{
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 200px;
 }
