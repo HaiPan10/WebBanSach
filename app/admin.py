@@ -139,13 +139,12 @@ class InputBooksView(ModelView):
         'category_id': 'Thể loại',
         'quantity_in_stocks_status': 'Tình trạng tồn kho'
     }
-    # form_edit_rules = ('quantity',)
+    form_edit_rules = ('quantity',)
     # # validators ràng buộc cho cái input
-    # form_extra_fields = {
-    #     'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
-    # }
+    form_extra_fields = {
+        'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
+    }
     can_create = False
-    column_editable_list = ('quantity',)
     can_delete = False
     can_edit = True
 
@@ -162,7 +161,7 @@ class InputBooksView(ModelView):
         else:
             # Dữ liệu nhập đúng cập nhật lên database
             model.quantity += form['quantity'].data
-            model.import_date = datetime.datetime.now()
+            model.import_date = datetime.now()
             db.session.add(model)
             db.session.commit()
             return True
