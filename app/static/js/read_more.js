@@ -50,36 +50,35 @@ void function $getLines($){
 }(jQuery);
 
 function readMore(jObj, lineNum, line_count) {
-console.log(lineNum);
-console.log(line_count);
-  if ( line_count > lineNum){
-    var go = new ReadMore (jObj, lineNum);
-  }
+    console.log(lineNum);
+    console.log(line_count);
+    if ( line_count > lineNum){
+        var go = new ReadMore (jObj, lineNum);
+    }
 }
 
 //class
 function ReadMore(_jObj, lineNum) {
-  var READ_MORE_LABEL = '...<br>Xem thêm';
-  var HIDE_LABEL = 'Thu nhỏ';
+    var READ_MORE_LABEL = '...<br>Xem thêm';
+    var HIDE_LABEL = 'Thu nhỏ';
 
-  var jObj = _jObj;
-  var textMinHeight = ''+ (parseInt(jObj.children('.hidden-text').css('line-height'),10)*lineNum) +'px';
-  var textMaxHeight = ''+jObj.children('.hidden-text').css('height');
+    var jObj = _jObj;
+    var textMinHeight = ''+ (parseInt(jObj.children('.hidden-text').css('line-height'),10)*lineNum) +'px';
+    var textMaxHeight = ''+jObj.children('.hidden-text').css('height');
 
-  jObj.children('.hidden-text').css('height', ''+ textMaxHeight);
-  jObj.children('.hidden-text').css( 'transition', 'height .5s');
-  jObj.children('.hidden-text').css('height', ''+ textMinHeight);
+    jObj.children('.hidden-text').css('height', ''+ textMaxHeight);
+    jObj.children('.hidden-text').css( 'transition', 'height .5s');
+    jObj.children('.hidden-text').css('height', ''+ textMinHeight);
 
-  jObj.append ('<button class="read-more">'+READ_MORE_LABEL+'</button>');
+    jObj.append ('<button class="read-more">'+READ_MORE_LABEL+'</button>');
 
-  jObj.children('.read-more').click ( function() {
-    if (jObj.children('.hidden-text').css('height') === textMinHeight) {
-      jObj.children('.hidden-text').css('height', ''+textMaxHeight);
-      jObj.children('.read-more').html(HIDE_LABEL).addClass('active');
-    } else {
-      jObj.children('.hidden-text').css('height', ''+textMinHeight);
-      jObj.children('.read-more').html(READ_MORE_LABEL).removeClass('active');
-    }
-  });
-
+    jObj.children('.read-more').click ( function() {
+        if (jObj.children('.hidden-text').css('height') === textMinHeight) {
+            jObj.children('.hidden-text').css('height', ''+textMaxHeight);
+            jObj.children('.read-more').html(HIDE_LABEL).addClass('active');
+        } else {
+            jObj.children('.hidden-text').css('height', ''+textMinHeight);
+            jObj.children('.read-more').html(READ_MORE_LABEL).removeClass('active');
+        }
+    });
 }

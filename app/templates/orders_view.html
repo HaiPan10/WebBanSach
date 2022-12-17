@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 
 {% block css %}
- <link href=" {{ url_for('static', filename='css/slide_down.css') }}" rel="stylesheet" />
+<link href=" {{ url_for('static', filename='css/slide_down.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 
@@ -25,231 +25,247 @@
 <!-- breadcrumb start-->
 
 <!--Completely collapsible-->
-<section class="accordion__container services__carousel padding_top padding_bottom" data-indicator-name="Template-Design" id="scroll_this">
+<section class="accordion__container services__carousel padding_top padding_bottom"
+         data-indicator-name="Template-Design" id="scroll_this">
     <div class="container ">
         <div class="accordion " collapsible="true">
-    <div class="accordion__title">
-        <span>Đơn hàng đang giao</span>
-        <svg width="17" height="17"><g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square"><path d="M14.664 8.5H1.5M8 15.164V2"></path></g></svg>
-    </div>
-    <div class="accordion__content">
-        {% set flag_2 = {'value': False} %}
-
-        {% for o in orders %}
-        {% if o.status.value == 2 %}
-            {% if flag_2.update({'value': True}) %} {% endif %}
-          <section class="confirmation_part padding_bottom">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="single_confirmation_details">
-                    <h4>Thông tin đơn hàng</h4>
-                    <ul>
-                      <li>
-                        <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
-                      </li>
-                      <li>
-                        <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
-                      </li>
-                        <li>
-                        <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
-                      </li>
-                      <li>
-                          <p>Trạng thái</p><span>: đang giao</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-12">
-                  <div class="order_details_iner">
-                    <h3>Chi tiết đơn hàng</h3>
-                    <table class="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th scope="col" colspan="2">Tên sản phẩm</th>
-                          <th scope="col">Số lượng</th>
-                          <th scope="col">Đơn giá</th>
-                            <th scope="col">Thành tiền</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {% for od in order_details[o.id] %}
-                        <tr>
-                          <th colspan="2"><span>{{ od.book_name }}</span></th>
-                          <th>x{{ od.quantity }}</th>
-                          <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
-                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
-                        </tr>
-                      {% endfor %}
-                      <tr>
-                          <th colspan="3">Tổng tiền</th>
-                          <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                    </table>
-                  </div>
-                </div>
+            <div class="accordion__title">
+                <span>Đơn hàng đang giao</span>
+                <svg width="17" height="17">
+                    <g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square">
+                        <path d="M14.664 8.5H1.5M8 15.164V2"></path>
+                    </g>
+                </svg>
             </div>
-            </div></section>
-        {% endif %}
-        {% endfor %}
+            <div class="accordion__content">
+                {% set flag_2 = {'value': False} %}
 
-        {% if flag_2.value %}
-        {% else %}
-        <p>Không có đơn hàng nào</p>
-        {% endif %}
-    </div>
-    </div>
-<div class="accordion " collapsible="true">
-    <div class="accordion__title">
-        <span>Chưa thanh toán</span>
-        <svg width="17" height="17"><g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square"><path d="M14.664 8.5H1.5M8 15.164V2"></path></g></svg>
-    </div>
-    <div class="accordion__content">
-        {% set flag_3 = {'value': False} %}
+                {% for o in orders %}
+                {% if o.status.value == 2 %}
+                {% if flag_2.update({'value': True}) %} {% endif %}
+                <section class="confirmation_part padding_bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="single_confirmation_details">
+                                    <h4>Thông tin đơn hàng</h4>
+                                    <ul>
+                                        <li>
+                                            <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Trạng thái</p><span>: đang giao</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="order_details_iner">
+                                    <h3>Chi tiết đơn hàng</h3>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" colspan="2">Tên sản phẩm</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Đơn giá</th>
+                                            <th scope="col">Thành tiền</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for od in order_details[o.id] %}
+                                        <tr>
+                                            <th colspan="2"><span>{{ od.book_name }}</span></th>
+                                            <th>x{{ od.quantity }}</th>
+                                            <th><span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
+                                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <th colspan="3">Tổng tiền</th>
+                                            <th><span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+                {% endfor %}
 
-        {% for o in orders %}
-        {% if o.status.value == 3 %}
-            {% if flag_3.update({'value': True}) %} {% endif %}
-          <section class="confirmation_part padding_bottom">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="single_confirmation_details">
-                    <h4>Thông tin đơn hàng</h4>
-                    <ul>
-                      <li>
-                        <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
-                      </li>
-                      <li>
-                        <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
-                      </li>
-                        <li>
-                        <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
-                      </li>
-                      <li>
-                          <p>Trạng thái</p><span>: chưa thanh toán</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-12">
-                  <div class="order_details_iner">
-                    <h3>Chi tiết đơn hàng</h3>
-                    <table class="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th scope="col" colspan="2">Tên sản phẩm</th>
-                          <th scope="col">Số lượng</th>
-                          <th scope="col">Đơn giá</th>
-                            <th scope="col">Thành tiền</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {% for od in order_details[o.id] %}
-                        <tr>
-                          <th colspan="2"><span>{{ od.book_name }}</span></th>
-                          <th>x{{ od.quantity }}</th>
-                          <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
-                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
-                        </tr>
-                      {% endfor %}
-                      <tr>
-                          <th colspan="3">Tổng tiền</th>
-                          <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                    </table>
-                  </div>
-                </div>
+                {% if flag_2.value %}
+                {% else %}
+                <p>Không có đơn hàng nào</p>
+                {% endif %}
             </div>
-            </div></section>
-        {% endif %}
-        {% endfor %}
-
-        {% if flag_3.value %}
-        {% else %}
-        <p>Không có đơn hàng nào</p>
-        {% endif %}
-    </div>
-</div>
-<div class="accordion " collapsible="true">
-    <div class="accordion__title">
-        <span>Đã thanh toán</span>
-        <svg width="17" height="17"><g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square"><path d="M14.664 8.5H1.5M8 15.164V2"></path></g></svg>
-    </div>
-    <div class="accordion__content">
-        {% set flag_1 = {'value': False} %}
-
-        {% for o in orders %}
-        {% if o.status.value == 1 %}
-            {% if flag_1.update({'value': True}) %} {% endif %}
-          <section class="confirmation_part padding_bottom">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="single_confirmation_details">
-                    <h4>Thông tin đơn hàng</h4>
-                    <ul>
-                      <li>
-                        <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
-                      </li>
-                      <li>
-                        <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
-                      </li>
-                        <li>
-                        <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
-                      </li>
-                      <li>
-                          <p>Trạng thái</p><span>: đã thanh toán</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-12">
-                  <div class="order_details_iner">
-                    <h3>Chi tiết đơn hàng</h3>
-                    <table class="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th scope="col" colspan="2">Tên sản phẩm</th>
-                          <th scope="col">Số lượng</th>
-                          <th scope="col">Đơn giá</th>
-                            <th scope="col">Thành tiền</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {% for od in order_details[o.id] %}
-                        <tr>
-                          <th colspan="2"><span>{{ od.book_name }}</span></th>
-                          <th>x{{ od.quantity }}</th>
-                          <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
-                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
-                        </tr>
-                      {% endfor %}
-                      <tr>
-                          <th colspan="3">Tổng tiền</th>
-                          <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                    </table>
-                  </div>
-                </div>
+        </div>
+        <div class="accordion " collapsible="true">
+            <div class="accordion__title">
+                <span>Chưa thanh toán</span>
+                <svg width="17" height="17">
+                    <g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square">
+                        <path d="M14.664 8.5H1.5M8 15.164V2"></path>
+                    </g>
+                </svg>
             </div>
-            </div></section>
-        {% endif %}
-        {% endfor %}
+            <div class="accordion__content">
+                {% set flag_3 = {'value': False} %}
 
-        {% if flag_1.value %}
-        {% else %}
-        <p>Không có đơn hàng nào</p>
-        {% endif %}
+                {% for o in orders %}
+                {% if o.status.value == 3 %}
+                {% if flag_3.update({'value': True}) %} {% endif %}
+                <section class="confirmation_part padding_bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="single_confirmation_details">
+                                    <h4>Thông tin đơn hàng</h4>
+                                    <ul>
+                                        <li>
+                                            <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Trạng thái</p><span>: chưa thanh toán</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="order_details_iner">
+                                    <h3>Chi tiết đơn hàng</h3>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" colspan="2">Tên sản phẩm</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Đơn giá</th>
+                                            <th scope="col">Thành tiền</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for od in order_details[o.id] %}
+                                        <tr>
+                                            <th colspan="2"><span>{{ od.book_name }}</span></th>
+                                            <th>x{{ od.quantity }}</th>
+                                            <th><span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
+                                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <th colspan="3">Tổng tiền</th>
+                                            <th><span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+                {% endfor %}
+
+                {% if flag_3.value %}
+                {% else %}
+                <p>Không có đơn hàng nào</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="accordion " collapsible="true">
+            <div class="accordion__title">
+                <span>Đã thanh toán</span>
+                <svg width="17" height="17">
+                    <g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square">
+                        <path d="M14.664 8.5H1.5M8 15.164V2"></path>
+                    </g>
+                </svg>
+            </div>
+            <div class="accordion__content">
+                {% set flag_1 = {'value': False} %}
+
+                {% for o in orders %}
+                {% if o.status.value == 1 %}
+                {% if flag_1.update({'value': True}) %} {% endif %}
+                <section class="confirmation_part padding_bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="single_confirmation_details">
+                                    <h4>Thông tin đơn hàng</h4>
+                                    <ul>
+                                        <li>
+                                            <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
+                                        </li>
+                                        <li>
+                                            <p>Trạng thái</p><span>: đã thanh toán</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="order_details_iner">
+                                    <h3>Chi tiết đơn hàng</h3>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" colspan="2">Tên sản phẩm</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Đơn giá</th>
+                                            <th scope="col">Thành tiền</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for od in order_details[o.id] %}
+                                        <tr>
+                                            <th colspan="2"><span>{{ od.book_name }}</span></th>
+                                            <th>x{{ od.quantity }}</th>
+                                            <th><span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
+                                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <th colspan="3">Tổng tiền</th>
+                                            <th><span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+                {% endfor %}
+
+                {% if flag_1.value %}
+                {% else %}
+                <p>Không có đơn hàng nào</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
-</div>
 </section>
 
 <!--================ confirmation part start =================-->
@@ -316,6 +332,7 @@
     };
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 </script>
 
