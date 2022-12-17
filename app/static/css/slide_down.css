@@ -1,0 +1,44 @@
+body p {
+  font-family: 'Times New Roman', Times, serif;
+}
+h1 {
+  text-align: center;
+}
+.accordion {
+  border-bottom: 1px solid #979797;
+  cursor: default;
+  margin: 0 auto;
+  max-width: 1130px;
+}
+.accordion:not(.accordion--open):hover .accordion__title {
+  color: #0078c1;
+}
+.accordion:not(.accordion--open):hover svg {
+  transform: rotate3d(0, 0, 1, 90deg);
+}
+.accordion__title {
+  align-items: center;
+  color: #3c4a57;
+  display: flex;
+  font-size: 22px;
+  font-weight: 700;
+  justify-content: space-between;
+  line-height: 27px;
+  padding: 16px 0;
+  transition: color 0.3s ease-in;
+}
+.accordion__content {
+  color: #606d78;
+  display: none;
+  font-size: 16px;
+  padding: 0 0 16px;
+}
+.accordion__content *:last-child {
+  margin: 0;
+}
+.accordion--open .accordion__title {
+  color: #0078c1;
+}
+.accordion--open .accordion__content {
+  display: block;
+}

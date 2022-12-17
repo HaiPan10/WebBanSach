@@ -1,0 +1,22 @@
+.spoiler_des, .spoiler_cmt {
+    text-align: center;
+}
+
+button.read-more {
+  box-shadow: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #fff;
+  padding: 5px;
+  font-weight: 700;
+  border-radius: 20px;
+ }
+
+  button.read-more:hover {
+    background: #ff3368; }
+
+.hidden-text {
+    text-align: left;
+  overflow: hidden;
+}
