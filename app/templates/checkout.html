@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             <a id="submit_offline" class="btn_3 check_address"
-                               onclick="pay(document.getElementById('address').value, 1)">Xác nhận thanh toán</a>
+                               onclick="pay(document.getElementById('address').value, 3)">Xác nhận thanh toán</a>
                             <a style="display:none;" id="submit_momo" class="btn_3 check_address"
                                onclick="payWithMoMo(document.getElementById('address').value, 1)">Xác nhận thanh
                                 toán</a>
@@ -141,6 +141,7 @@
 
                                 $('#f-option').click(function() {
                                     if ($(this).is(':checked')) {
+                                        $('#submit_offline').attr("onclick","pay(document.getElementById('address').value, 2)");
                                         $('#address_field').fadeIn();
                                         $('#ship_fee').fadeIn();
                                         if ($('input#address').val().length == 0) {
@@ -152,6 +153,7 @@
                                         F = 1;
                                     }
                                     else{
+                                        $('#submit_offline').attr("onclick","pay(document.getElementById('address').value, 3)");
                                         $('#address_field').fadeOut();
                                         $('#ship_fee').fadeOut();
                                         $('.check_address').removeClass('disable-btn');

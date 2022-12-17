@@ -1,5 +1,10 @@
 {% extends 'layout/base.html' %}
 
+{% block css %}
+ <link href=" {{ url_for('static', filename='css/slide_down.css') }}" rel="stylesheet" />
+{% endblock %}
+
+
 {% block content %}
 <!-- breadcrumb start-->
 <script src="/static/js/cart.js"></script>
@@ -19,77 +24,299 @@
 </section>
 <!-- breadcrumb start-->
 
-<!--================ confirmation part start =================-->
-{% for o in orders %}
-  <section class="confirmation_part padding_top">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="single_confirmation_details">
-            <h4>Thông tin đơn hàng</h4>
-            <ul>
-              <li>
-                <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
-              </li>
-              <li>
-                <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
-              </li>
-                <li>
-                <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
-              </li>
-              <li>
-                  <p>Trạng thái</p>
-                  {% if o.status is true %}
-                <span>: đã thanh toán</span>
-                {% else %}
-                <span>: chờ được thanh toán</span>
-                {% endif %}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="order_details_iner">
-            <h3>Chi tiết đơn hàng</h3>
-            <table class="table table-borderless">
-              <thead>
-                <tr>
-                  <th scope="col" colspan="2">Tên sản phẩm</th>
-                  <th scope="col">Số lượng</th>
-                  <th scope="col">Đơn giá</th>
-                    <th scope="col">Thành tiền</th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for od in order_details[o.id] %}
-                <tr>
-                  <th colspan="2"><span>{{ od.book_name }}</span></th>
-                  <th>x{{ od.quantity }}</th>
-                  <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
-                    <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
-                </tr>
-                 {% endfor %}
-              {% if o.address not "nhận tại nhà sách" %}
-                <tr>
-                  <th colspan="3">Phí vận chuyển</th>
-                  <th><span>Miễn phí</span></th>
-                </tr>
-              {% endif %}
-              <tr>
-                  <th colspan="3">Tổng tiền</th>
-                  <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
-                </tr>
-              </tbody>
-              <tfoot>
-            </table>
-          </div>
-        </div>
+<!--Completely collapsible-->
+<section class="accordion__container services__carousel padding_top padding_bottom" data-indicator-name="Template-Design" id="scroll_this">
+    <div class="container ">
+        <div class="accordion " collapsible="true">
+    <div class="accordion__title">
+        <span>Đơn hàng đang giao</span>
+        <svg width="17" height="17"><g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square"><path d="M14.664 8.5H1.5M8 15.164V2"></path></g></svg>
     </div>
-    </div></section>
-{% endfor %}
-  <!--================ confirmation part end =================-->
+    <div class="accordion__content">
+        {% set flag_2 = {'value': False} %}
 
+        {% for o in orders %}
+        {% if o.status.value == 2 %}
+            {% if flag_2.update({'value': True}) %} {% endif %}
+          <section class="confirmation_part padding_bottom">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="single_confirmation_details">
+                    <h4>Thông tin đơn hàng</h4>
+                    <ul>
+                      <li>
+                        <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
+                      </li>
+                      <li>
+                        <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
+                      </li>
+                        <li>
+                        <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
+                      </li>
+                      <li>
+                          <p>Trạng thái</p><span>: đang giao</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="order_details_iner">
+                    <h3>Chi tiết đơn hàng</h3>
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th scope="col" colspan="2">Tên sản phẩm</th>
+                          <th scope="col">Số lượng</th>
+                          <th scope="col">Đơn giá</th>
+                            <th scope="col">Thành tiền</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for od in order_details[o.id] %}
+                        <tr>
+                          <th colspan="2"><span>{{ od.book_name }}</span></th>
+                          <th>x{{ od.quantity }}</th>
+                          <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
+                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
+                        </tr>
+                      {% endfor %}
+                      <tr>
+                          <th colspan="3">Tổng tiền</th>
+                          <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            </div></section>
+        {% endif %}
+        {% endfor %}
+
+        {% if flag_2.value %}
+        {% else %}
+        <p>Không có đơn hàng nào</p>
+        {% endif %}
+    </div>
+    </div>
+<div class="accordion " collapsible="true">
+    <div class="accordion__title">
+        <span>Chưa thanh toán</span>
+        <svg width="17" height="17"><g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square"><path d="M14.664 8.5H1.5M8 15.164V2"></path></g></svg>
+    </div>
+    <div class="accordion__content">
+        {% set flag_3 = {'value': False} %}
+
+        {% for o in orders %}
+        {% if o.status.value == 3 %}
+            {% if flag_3.update({'value': True}) %} {% endif %}
+          <section class="confirmation_part padding_bottom">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="single_confirmation_details">
+                    <h4>Thông tin đơn hàng</h4>
+                    <ul>
+                      <li>
+                        <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
+                      </li>
+                      <li>
+                        <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
+                      </li>
+                        <li>
+                        <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
+                      </li>
+                      <li>
+                          <p>Trạng thái</p><span>: chưa thanh toán</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="order_details_iner">
+                    <h3>Chi tiết đơn hàng</h3>
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th scope="col" colspan="2">Tên sản phẩm</th>
+                          <th scope="col">Số lượng</th>
+                          <th scope="col">Đơn giá</th>
+                            <th scope="col">Thành tiền</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for od in order_details[o.id] %}
+                        <tr>
+                          <th colspan="2"><span>{{ od.book_name }}</span></th>
+                          <th>x{{ od.quantity }}</th>
+                          <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
+                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
+                        </tr>
+                      {% endfor %}
+                      <tr>
+                          <th colspan="3">Tổng tiền</th>
+                          <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            </div></section>
+        {% endif %}
+        {% endfor %}
+
+        {% if flag_3.value %}
+        {% else %}
+        <p>Không có đơn hàng nào</p>
+        {% endif %}
+    </div>
+</div>
+<div class="accordion " collapsible="true">
+    <div class="accordion__title">
+        <span>Đã thanh toán</span>
+        <svg width="17" height="17"><g fill-rule="nonzero" stroke="#0078C1" stroke-width="3" fill="none" stroke-linecap="square"><path d="M14.664 8.5H1.5M8 15.164V2"></path></g></svg>
+    </div>
+    <div class="accordion__content">
+        {% set flag_1 = {'value': False} %}
+
+        {% for o in orders %}
+        {% if o.status.value == 1 %}
+            {% if flag_1.update({'value': True}) %} {% endif %}
+          <section class="confirmation_part padding_bottom">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="single_confirmation_details">
+                    <h4>Thông tin đơn hàng</h4>
+                    <ul>
+                      <li>
+                        <p>Mã đơn hàng</p><span>: {{ o.id }}</span>
+                      </li>
+                      <li>
+                        <p>Ngày đặt hàng</p><span>: {{ o.order_date }}</span>
+                      </li>
+                        <li>
+                        <p>Địa chỉ nhận hàng</p><span>: {{ o.address }}</span>
+                      </li>
+                      <li>
+                          <p>Trạng thái</p><span>: đã thanh toán</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="order_details_iner">
+                    <h3>Chi tiết đơn hàng</h3>
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th scope="col" colspan="2">Tên sản phẩm</th>
+                          <th scope="col">Số lượng</th>
+                          <th scope="col">Đơn giá</th>
+                            <th scope="col">Thành tiền</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for od in order_details[o.id] %}
+                        <tr>
+                          <th colspan="2"><span>{{ od.book_name }}</span></th>
+                          <th>x{{ od.quantity }}</th>
+                          <th> <span>{{ "{:,.0f}".format(od.unit_price) }}</span></th>
+                            <th>{{ "{:,.0f}".format(od.quantity * od.unit_price) }}</th>
+                        </tr>
+                      {% endfor %}
+                      <tr>
+                          <th colspan="3">Tổng tiền</th>
+                          <th> <span>{{ "{:,.0f}".format(o.total_amount) }} VNĐ</span></th>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            </div></section>
+        {% endif %}
+        {% endfor %}
+
+        {% if flag_1.value %}
+        {% else %}
+        <p>Không có đơn hàng nào</p>
+        {% endif %}
+    </div>
+</div>
+</div>
+</section>
+
+<!--================ confirmation part start =================-->
+
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script>
 <script>
+    const velocity = window.Velocity || $.Velocity,
+    accordions = document.querySelectorAll('.accordion'),
+    animationDuration = 500,
+
+    closeAccordion = (clickedAccordion) => {
+        clickedAccordion.classList.remove('accordion--open');
+        velocity(clickedAccordion.querySelector('svg'), {rotateZ: 0}, {duration: animationDuration, easing: 'easeInQuad'});
+        velocity(clickedAccordion.querySelector('.accordion__content'), 'slideUp', {duration: animationDuration, easing: 'easeInQuad'});
+    },
+
+    openAccordion = (clickedAccordion) => {
+        clickedAccordion.classList.add('accordion--open');
+        velocity(clickedAccordion.querySelector('svg'), {rotateZ: '135deg'}, {duration: animationDuration, easing: 'easeOutQuad'});
+        velocity(clickedAccordion.querySelector('.accordion__content'), 'slideDown', {duration: animationDuration, easing: 'easeOutQuad'});
+    },
+
+    isCollapsible = (accordion) => {
+        return accordion.getAttribute('collapsible') === 'true';
+    },
+
+    checkCollapse = () => {
+        let clickedAccordion = event.currentTarget,
+            groupedAccordions = [].slice.call(clickedAccordion.closest('.accordion__container').querySelectorAll('.accordion'));
+
+        groupedAccordions.every(isCollapsible) ? updateCollapseStatus(clickedAccordion) : updateOpenStatus(clickedAccordion);
+    },
+
+    updateCollapseStatus = clickedAccordion => {
+        clickedAccordion.classList.contains('accordion--open') ? closeAccordion(clickedAccordion) : openAccordion(clickedAccordion);
+    },
+
+    updateOpenStatus = clickedAccordion => {
+        if (!clickedAccordion.classList.contains('accordion--open')) {
+            [].forEach.call(clickedAccordion.closest('.accordion__container').querySelectorAll('.accordion'), accordion => {
+                closeAccordion(accordion);
+            });
+
+            openAccordion(clickedAccordion);
+        };
+    },
+    init = () => {
+        [].forEach.call(accordions, accordion => {
+            accordion.addEventListener('click', checkCollapse);
+        });
+
+        // Open first accordion for non collapsible accordions on page load
+        [].forEach.call(document.querySelectorAll('.accordion__container'), accordionContainers => {
+            let allAccords = [].slice.call(accordionContainers.querySelectorAll('.accordion')),
+                firstAccord = allAccords[0];
+
+            if (!allAccords.every(isCollapsible)) {
+                firstAccord.classList.add('accordion--open');
+                velocity(firstAccord.querySelector('svg'), {rotateZ: '135deg'}, {duration: 0});
+                velocity(firstAccord.querySelector('.accordion__content'), 'slideDown', {duration: 0});
+            }
+        });
+    };
+
+document.addEventListener('DOMContentLoaded', init);
 
 </script>
+
 {% endblock %}

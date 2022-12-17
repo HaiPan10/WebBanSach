@@ -3929,10 +3929,15 @@ ul {
 }
 
 /* line 672, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
-.s_product_text p.p_wrap {
+.s_product_text .p_wrap {
   padding-top: 20px;
   border-top: 1px dotted #d5d5d5;
   margin: 20px 0;
+   font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    margin-bottom: 0px;
+    color: #000;
+    font-weight: 300;
 }
 
 /* line 679, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
@@ -8133,12 +8138,6 @@ a.btn_3:hover{
     width: 60%;
 }
 
-.des_container{
-    height: 300px;
-    overflow: scroll;
-    overflow-x: hidden;
-}
-
 /* modal */
 .modal{
     position: fixed;
@@ -8230,7 +8229,4 @@ a.btn_3:hover{
     }
 
 #comments{
-    overflow: scroll;
-    height: 300px;
-    overflow-x: hidden;
 }

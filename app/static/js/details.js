@@ -1,6 +1,17 @@
+var height;
 function loadComments(productId){
     fetch(`/api/products/product_id=${productId}/comments`).then(res=>res.json()).then(data => {
         let h = ""
+        height = 0;
+
+        data.forEach( count => {
+            height++
+        })
+
+        if(height == 0){
+            h = `<p id="empty_comment">"Không có bình luận nào"</p>`
+        }
+        else
         data.forEach( c => {
             h += `
             <div class="comment-list">
@@ -44,7 +55,9 @@ function addComment(productId) {
     }).then(res => res.json()).then(data => {
         if (data.status === 204) {
             let c = data.comment
-
+            const element = document.getElementById('empty_comment');
+            element.remove();
+            height = height + 1;
             let h = `
             <div class="comment-list">
                 <div class="single-comment justify-content-between d-flex">
