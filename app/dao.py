@@ -1,12 +1,11 @@
-import datetime
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask_login import current_user
 from sqlalchemy import func, update, and_, cast, Integer, extract, event, DDL
 from sqlalchemy.exc import DataError
 
 from app.models import UserAccount, Books, Categories, Orders, OrderDetails, UserRole, UserAccount, Comment, Status
-from app import db, utils
+from app import db, utils, app
 import hashlib
 
 
@@ -214,15 +213,20 @@ def get_query_order_details(order_id):
     return OrderDetails.query.filter(OrderDetails.order_id.__eq__(order_id))
 
 
-def delete_order(order_id):
-    order_details_query = get_query_order_details(order_id)
-    order_details_query.delete()
-    Orders.query.filter(Orders.id.__eq__(order_id)).delete()
-    db.session.commit()
-
-
 def delete_order_schedule():
-    pass
+    order = Orders.query.filter(Orders.status.__eq__(Status.CHUA_THANH_TOAN)).all()
+    rules = utils.read_rules()
+    for o in order:
+        # print(o.order_date)
+        # print(o.order_date + timedelta(days=int(rules['delete_time'])))
+        # print(datetime.now())
+        if o.status is Status.CHUA_THANH_TOAN and \
+                (o.order_date + timedelta(days=int(rules['delete_time']))) <= datetime.now():
+            order_details_query = get_query_order_details(o.id)
+            order_details_query.delete()
+            Orders.query.filter(Orders.id.__eq__(o.id)).delete()
+
+    db.session.commit()
 
 
 # @event.listens_for(Orders, 'after_insert')
