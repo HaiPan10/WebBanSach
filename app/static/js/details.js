@@ -1,4 +1,6 @@
 var height;
+var flag = 0;
+var flag_h = 0;
 function loadComments(productId){
     fetch(`/api/products/product_id=${productId}/comments`).then(res=>res.json()).then(data => {
         let h = ""
@@ -9,10 +11,11 @@ function loadComments(productId){
         })
 
         if(height == 0){
+            flag = 1;
             h = `<p id="empty_comment">"Không có bình luận nào"</p>`
         }
-        else
-        data.forEach( c => {
+        else {
+            data.forEach( c => {
             h += `
             <div class="comment-list">
                 <div class="single-comment justify-content-between d-flex">
@@ -38,8 +41,14 @@ function loadComments(productId){
             </div>
           `
         })
+        }
         let d = document.getElementById("comments")
         d.innerHTML = h
+        if(height > 2)
+        {
+            flag_h = 1;
+            readMore_cmt( $('.spoiler_cmt'), 14);
+        }
     })
 }
 
@@ -53,11 +62,22 @@ function addComment(productId) {
             'Content-Type': 'application/json'
         }
     }).then(res => res.json()).then(data => {
+
         if (data.status === 204) {
-            let c = data.comment
-            const element = document.getElementById('empty_comment');
-            element.remove();
+
+            let c = data.comment;
+            if(flag == 1){
+                const element = document.getElementById('empty_comment');
+                element.remove();
+            }
+            flag = 0
             height = height + 1;
+            if(height > 2 && flag_h == 0)
+            {
+                flag_h = 1;
+                flag_t = 1;
+                readMore_cmt( $('.spoiler_cmt'), 14);
+            }
             let h = `
             <div class="comment-list">
                 <div class="single-comment justify-content-between d-flex">
@@ -92,4 +112,8 @@ function addComment(productId) {
             alert("Hệ thống bị lỗi")
     })
     document.getElementById("comment-content").value = "";
+}
+
+function countClass(){
+    return height;
 }

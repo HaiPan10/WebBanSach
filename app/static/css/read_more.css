@@ -1,8 +1,10 @@
-.spoiler_des, .spoiler_cmt {
+.spoiler_des,
+.spoiler_cmt{
     text-align: center;
 }
 
-button.read-more {
+button.read-more_des,
+button.read-more_cmt{
   box-shadow: none;
   border: none;
   outline: none;
@@ -13,10 +15,14 @@ button.read-more {
   border-radius: 20px;
  }
 
-  button.read-more:hover {
+  button.read-more_des:hover,
+   button.read-more_cmt:hover{
     background: #ff3368; }
 
-.hidden-text {
+.hidden-text_des {
     text-align: left;
-  overflow: hidden;
+}
+
+.fadeOnHidden {
+    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
 }
