@@ -392,7 +392,7 @@ def add_comment(book_id):
 
 @login_required
 def user_orders_view():
-    orders = dao.get_orders(current_user.id)
+    orders = sorted(dao.get_orders(current_user.id), key=lambda x: x.order_date, reverse=True)
     order_details = {}
     # order_details = {
     #       1 : [...],

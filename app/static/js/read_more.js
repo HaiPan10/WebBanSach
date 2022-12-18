@@ -99,7 +99,7 @@ function ReadMore_cmt(_jObj, lineNum) {
   var textMinHeight = ''+ (parseInt(jObj.children('.hidden-text_cmt').css('line-height'),10)*lineNum) +'px';
   var textMaxHeight = ''+jObj.children('.hidden-text_cmt').css('height');
 
-  if(flag_t == 1) { textMaxHeight = '400px'; }
+  if(flag_t == 1) { textMaxHeight = '600px'; }
 
   jObj.children('.hidden-text_cmt').css('height', ''+ textMaxHeight);
   jObj.children('.hidden-text_cmt').css( 'transition', 'height .5s');

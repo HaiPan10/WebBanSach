@@ -165,7 +165,7 @@ def stats_frequency(month, year):
     total_frequency = db.session.query(func.sum(OrderDetails.quantity)) \
         .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
         .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
-                Orders.status.__eq__(True))
+                Orders.status.__eq__(1))
 
     query = db.session.query(Books.id, Books.book_name, Categories.category_name, func.sum(OrderDetails.quantity),
                              (100 * func.sum(OrderDetails.quantity)) / total_frequency) \
@@ -173,7 +173,7 @@ def stats_frequency(month, year):
         .join(OrderDetails, OrderDetails.book_id.__eq__(Books.id)) \
         .join(Orders, OrderDetails.order_id.__eq__(Orders.id)) \
         .filter(extract('month', Orders.order_date) == month, extract('year', Orders.order_date) == year,
-                Orders.status.__eq__(True))
+                Orders.status.__eq__(1))
     return query.group_by(Books.id).order_by(Books.id).all()
 
 
