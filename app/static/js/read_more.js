@@ -49,36 +49,73 @@ void function $getLines($){
     };
 }(jQuery);
 
-function readMore(jObj, lineNum, line_count) {
-    console.log(lineNum);
-    console.log(line_count);
-    if ( line_count > lineNum){
-        var go = new ReadMore (jObj, lineNum);
-    }
+function readMore_des(jObj, lineNum, line_count) {
+  if ( line_count > lineNum){
+    var go = new ReadMore_des (jObj, lineNum);
+  }
 }
 
 //class
-function ReadMore(_jObj, lineNum) {
-    var READ_MORE_LABEL = '...<br>Xem thêm';
-    var HIDE_LABEL = 'Thu nhỏ';
+function ReadMore_des(_jObj, lineNum) {
+  $('.hidden-text_des').addClass( "fadeOnHidden" );
+  var READ_MORE_LABEL = '...<br>Xem thêm';
+  var HIDE_LABEL = 'Thu nhỏ';
 
-    var jObj = _jObj;
-    var textMinHeight = ''+ (parseInt(jObj.children('.hidden-text').css('line-height'),10)*lineNum) +'px';
-    var textMaxHeight = ''+jObj.children('.hidden-text').css('height');
+  var jObj = _jObj;
+  var textMinHeight = ''+ (parseInt(jObj.children('.hidden-text_des').css('line-height'),10)*lineNum) +'px';
+  var textMaxHeight = ''+jObj.children('.hidden-text_des').css('height');
 
-    jObj.children('.hidden-text').css('height', ''+ textMaxHeight);
-    jObj.children('.hidden-text').css( 'transition', 'height .5s');
-    jObj.children('.hidden-text').css('height', ''+ textMinHeight);
+  jObj.children('.hidden-text_des').css('height', ''+ textMaxHeight);
+  jObj.children('.hidden-text_des').css( 'transition', 'height .5s');
+  jObj.children('.hidden-text_des').css('height', ''+ textMinHeight);
 
-    jObj.append ('<button class="read-more">'+READ_MORE_LABEL+'</button>');
+  jObj.append ('<button class="read-more_des">'+READ_MORE_LABEL+'</button>');
 
-    jObj.children('.read-more').click ( function() {
-        if (jObj.children('.hidden-text').css('height') === textMinHeight) {
-            jObj.children('.hidden-text').css('height', ''+textMaxHeight);
-            jObj.children('.read-more').html(HIDE_LABEL).addClass('active');
-        } else {
-            jObj.children('.hidden-text').css('height', ''+textMinHeight);
-            jObj.children('.read-more').html(READ_MORE_LABEL).removeClass('active');
-        }
-    });
+  jObj.children('.read-more_des').click ( function() {
+    if (jObj.children('.hidden-text_des').css('height') === textMinHeight) {
+      jObj.children('.hidden-text_des').css('height', ''+textMaxHeight);
+      jObj.children('.read-more_des').html(HIDE_LABEL).addClass('active');
+      $('.hidden-text_des').removeClass( "fadeOnHidden" )
+    } else {
+    $('.hidden-text_des').addClass( "fadeOnHidden" )
+      jObj.children('.hidden-text_des').css('height', ''+textMinHeight);
+      jObj.children('.read-more_des').html(READ_MORE_LABEL).removeClass('active');
+    }
+  });
+
+}
+
+function readMore_cmt(jObj, lineNum) {
+  var go = new ReadMore_cmt (jObj, lineNum);
+}
+
+//class
+function ReadMore_cmt(_jObj, lineNum) {
+  $('.hidden-text_cmt').addClass( "fadeOnHidden" );
+  var READ_MORE_LABEL = '...<br>Xem thêm';
+  var HIDE_LABEL = 'Thu nhỏ';
+
+  var jObj = _jObj;
+  var textMinHeight = ''+ (parseInt(jObj.children('.hidden-text_cmt').css('line-height'),10)*lineNum) +'px';
+  var textMaxHeight = ''+jObj.children('.hidden-text_cmt').css('height');
+
+  if(flag_t == 1) { textMaxHeight = '400px'; }
+
+  jObj.children('.hidden-text_cmt').css('height', ''+ textMaxHeight);
+  jObj.children('.hidden-text_cmt').css( 'transition', 'height .5s');
+  jObj.children('.hidden-text_cmt').css('height', ''+ textMinHeight);
+
+  jObj.append ('<button class="read-more_cmt">'+READ_MORE_LABEL+'</button>');
+
+  jObj.children('.read-more_cmt').click ( function() {
+    if (jObj.children('.hidden-text_cmt').css('height') === textMinHeight) {
+      jObj.children('.hidden-text_cmt').css('height', ''+textMaxHeight);
+      jObj.children('.read-more_cmt').html(HIDE_LABEL).addClass('active');
+      $('.hidden-text_cmt').removeClass( "fadeOnHidden" )
+    } else {
+    $('.hidden-text_cmt').addClass( "fadeOnHidden" )
+      jObj.children('.hidden-text_cmt').css('height', ''+textMinHeight);
+      jObj.children('.read-more_cmt').html(READ_MORE_LABEL).removeClass('active');
+    }
+  });
 }

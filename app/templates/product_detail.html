@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block content %}
+<script>
+    var flag_t = 0;
+</script>
 <!-- breadcrumb start-->
 <script src="/static/js/cart.js"></script>
 <section class="breadcrumb breadcrumb_bg_details">
@@ -56,7 +59,7 @@
                     </ul>
                     <div class="des_container">
                         <div class="spoiler_des">
-                            <div class="p_wrap hidden-text hidden-des">
+                            <div class="p_wrap hidden-text_des hidden-des fade-text-cmt">
                                 Mô tả:<br> {{ product.descriptions|safe }}
                             </div>
                         </div>
@@ -83,12 +86,9 @@
 <div class="col-lg-8 posts-list padding_bottom" style="margin: 0 auto;">
     <div class="comments-area">
         <h4>Bình luận</h4>
-        <div class="spoiler_cmt ">
-
-            <div class="hidden-text">
-                <div>
-                    <div id="comments"></div>
-                </div>
+        <div class="spoiler_cmt">
+            <div class="p_wrap hidden-text_cmt hidden-cmt">
+                <div id="comments" style="max-height:400px; overflow:auto;"></div>
             </div>
         </div>
 
@@ -141,7 +141,6 @@
              document.getElementById('input-quantity').value = 1;
         }
     }
-
 </script>
 {% endblock %}
 
@@ -154,12 +153,10 @@
 
         let min_line_des = 6;
         let line_count_des;
-        $('.hidden-des').each(function(){line_count_des = $(this).getLines();})
-        readMore( $('.spoiler_des'), min_line_des, line_count_des);
+        $('.hidden-des').each(function(){line_count_des = $(this).getLines();});
+        readMore_des( $('.spoiler_des'), min_line_des, line_count_des);
 
 
-        let min_line_cmt = 4;
-        readMore( $('.spoiler_cmt'), 4, 8);
     }
 </script>
 {% endblock %}

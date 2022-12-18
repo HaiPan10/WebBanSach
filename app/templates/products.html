@@ -19,6 +19,7 @@
     var max_price = {{ max_price }};
     var from_price = {{ from_price }};
     var to_price = {{ to_price }};
+    var key_word;
 
     function getLeft(){
         var from_pos = $('.from').css('left');
@@ -29,6 +30,11 @@
     }
 
     $(function(){
+        {% if key_word %}
+            key_word = `{{key_word}}`;
+            $('#tags').val(key_word);
+        {% endif %}
+
         var availableTags = []
         {% for p in list_products_name %}
             availableTags.push("{{p}}")
@@ -73,11 +79,29 @@
                         <div class="widgets_inner">
                             <ul class="list" style="padding-left: 0px">
                                 <li>
-                                    <a id="all_cate" href="/products?sort_choice={{ sort_value }}&from_price={{ from_price }}&to_price={{ to_price }}">Tất cả</a>
+                                    <a id="all_cate" >Tất cả</a>
+                                    {% if key_word %}
+                                    <script>
+                                        document.getElementById("all_cate").href="/products?sort_choice={{ sort_value }}&from_price={{ from_price }}&to_price={{ to_price }}&keyword={{ key_word }}";
+                                    </script>
+                                    {% else %}
+                                    <script>
+                                        document.getElementById("all_cate").href="/products?sort_choice={{ sort_value }}&from_price={{ from_price }}&to_price={{ to_price }}";
+                                    </script>
+                                    {% endif %}
                                 </li>
                                 {% for c in categories %}
                                 <li>
-                                    <a id="{{ c.id }}" href="/products?category_id={{ c.id }}&sort_choice={{ sort_value }}&from_price={{ from_price }}&to_price={{ to_price }}">{{ c.category_name }}</a>
+                                    <a id="{{ c.id }}">{{ c.category_name }}</a>
+                                    {% if key_word %}
+                                    <script>
+                                        document.getElementById("{{ c.id }}"). href="/products?category_id={{ c.id }}&sort_choice={{ sort_value }}&from_price={{ from_price }}&to_price={{ to_price }}&keyword={{ key_word }}"
+                                    </script>
+                                    {% else %}
+                                    <script>
+                                        document.getElementById("{{ c.id }}"). href="/products?category_id={{ c.id }}&sort_choice={{ sort_value }}&from_price={{ from_price }}&to_price={{ to_price }}"
+                                    </script>
+                                    {% endif %}
                                 </li>
                                 {% endfor %}
 
@@ -85,9 +109,8 @@
                                 <script>
                                         document.getElementById("{{ cate_id }}").style.fontWeight = "bold";
                                         document.getElementById("{{ cate_id }}").style.color = "#ff3368";
-
-
                                 </script>
+
                                 {% else %}
                                 <script>
                                         document.getElementById("all_cate").style.fontWeight = "bold";
@@ -130,6 +153,9 @@
                                                         {% if cate_id %}
                                                         <input type="hidden" name="category_id" value="{{ cate_id }}">
                                                         {% endif %}
+                                                        {% if key_word %}
+                                                        <input type="hidden" name="keyword" value="{{ key_word }}">
+                                                        {% endif %}
                                                         <input type="hidden" name="sort_choice"
                                                                value="{{ sort_value }}">
                                                         <input type="hidden" id="from_price" name="from_price">
@@ -153,6 +179,9 @@
                                     {% if cate_id %}
                                     <input type="hidden" name="category_id" value="{{ cate_id }}">
                                     {% endif %}
+                                    {% if key_word %}
+                                    <input type="hidden" name="keyword" value="{{ key_word }}">
+                                    {% endif %}
                                     <input type="hidden" name="from_price" value="{{ from_price }}">
                                     <input type="hidden" name="to_price" value="{{ to_price }}">
                                     <select id="sort_choice" name="sort_choice" onchange="this.form.submit()">
@@ -170,6 +199,12 @@
                                         <input type="text" name="keyword" class="form-control" id="tags"
                                                placeholder="Tìm kiếm"
                                                aria-describedby="inputGroupPrepend">
+                                        {% if cate_id %}
+                                               <input type="hidden" name="category_id" value="{{ cate_id }}">
+                                        {% endif %}
+                                        <input type="hidden" name="sort_choice" value="{{ sort_value }}">
+                                        <input type="hidden" name="from_price" value="{{ from_price }}">
+                                        <input type="hidden" name="to_price" value="{{ to_price }}">
                                         <button id="search" type="submit">
                                             <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend"><i

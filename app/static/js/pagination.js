@@ -84,13 +84,17 @@ function pagination() {
 function renderPage(index, active = "") {
     let stringPath = "";
     let url = window.location.pathname;
-    console.log(sort_value);
     if(typeof categoryId === 'undefined'){
         stringPath = `${url}?sort_choice=${sort_value}&from_price=${from_price}&to_price=${to_price}&page=${index}`;
     }
     else{
         stringPath = `${url}?category_id=${categoryId}&sort_choice=${sort_value}&from_price=${from_price}&to_price=${to_price}&page=${index}`;
     }
+    if(typeof key_word !== 'undefined') {
+        stringPath += `&keyword=${key_word}`;
+    }
+
+
     if(active === ""){
         return `<li class="pg-item ${active}" data-page="${index}">
             <a class="pg-link" href="${stringPath}">${index}</a></li>`;

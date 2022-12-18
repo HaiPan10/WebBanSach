@@ -3723,7 +3723,6 @@ ul {
   border-bottom: 1px solid #ddd;
   border-radius: 0;
   text-align: center;
-  text-transform: capitalize;
 }
 
 /* line 465, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
@@ -8228,5 +8227,7 @@ a.btn_3:hover{
 
     }
 
-#comments{
+.comment{
+    text-align: left;
 }
+

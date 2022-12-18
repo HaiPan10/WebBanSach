@@ -79,8 +79,12 @@ def product_list():
     else:
         page = int(page)
 
-    # Lấy dữ liệu sản phẩm
-    products = list(dao.load_books(cate_id=cate_id, keyword=kw, from_price=from_price, to_price=to_price))
+    # Lấy dữ liệu sản phẩm &
+    # Xử lý trạng thái keyword
+    if kw:
+        products = list(dao.load_books(cate_id=cate_id, keyword=kw, from_price=from_price, to_price=to_price))
+    else:
+        products = list(dao.load_books(cate_id=cate_id, from_price=from_price, to_price=to_price))
 
     # Xử lý sort
     sort_value = request.args.get('sort_choice')
@@ -108,7 +112,7 @@ def product_list():
                            cate_id=cate_id, list_products_name=list_products_name,
                            from_price=from_price, to_price=to_price,
                            min_price=dao.get_min_price(), max_price=dao.get_max_price(),
-                           sort_value=sort_value, product_count=len(products))
+                           sort_value=sort_value, product_count=len(products), key_word=kw)
 
 
 # Cấu hình trang chi tiết sản phẩm
@@ -348,7 +352,7 @@ def checkout():
 
 def comments(book_id):
     data = []
-    for c in dao.load_comments(book_id=book_id):
+    for c in sorted(dao.load_comments(book_id=book_id), key=lambda x: x.created_date, reverse=True):
         data.append({
             'id': c.id,
             'content': c.content,
