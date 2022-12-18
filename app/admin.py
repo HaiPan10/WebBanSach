@@ -230,6 +230,7 @@ class OrdersView(ModelView):
     column_filters = ['status']
     column_sortable_list = ['order_date', 'status']
     column_searchable_list = ['user_id']
+    column_list = ('id', 'order_date', 'address', 'status', 'user_account')
     form_edit_rules = ('status',)
     form_extra_fields = {
         'status': SelectField(label='Tình trạng đơn hàng', choices=lambda: [(s.value, str(s)) for s in Status])
