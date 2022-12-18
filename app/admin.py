@@ -7,12 +7,12 @@ from flask import flash, redirect, request, url_for
 from flask_admin.babel import gettext
 from flask_admin.model import typefmt
 from wtforms.validators import InputRequired, NumberRange
-from app.models import Categories, Books, Orders, OrderDetails, UserRole
+from app.models import Categories, Books, Orders, OrderDetails, UserRole, Status
 from app import db, app, utils, dao
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField, SelectMultipleField
+from wtforms import SelectField, StringField, FileField, Form, DateField, IntegerField, SelectMultipleField, RadioField
 import cloudinary.uploader
 from markupsafe import Markup
 from wtforms import TextAreaField
@@ -139,13 +139,12 @@ class InputBooksView(ModelView):
         'category_id': 'Thể loại',
         'quantity_in_stocks_status': 'Tình trạng tồn kho'
     }
-    # form_edit_rules = ('quantity',)
+    form_edit_rules = ('quantity',)
     # # validators ràng buộc cho cái input
-    # form_extra_fields = {
-    #     'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
-    # }
+    form_extra_fields = {
+        'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
+    }
     can_create = False
-    column_editable_list = ('quantity',)
     can_delete = False
     can_edit = True
 
@@ -162,7 +161,7 @@ class InputBooksView(ModelView):
         else:
             # Dữ liệu nhập đúng cập nhật lên database
             model.quantity += form['quantity'].data
-            model.import_date = datetime.datetime.now()
+            model.import_date = datetime.now()
             db.session.add(model)
             db.session.commit()
             return True
@@ -223,9 +222,30 @@ class WebBanSachAdmin(AdminIndexView):
             return False
 
 
+class OrdersView(ModelView):
+    can_edit = True
+    can_create = False
+    can_delete = False
+    column_formatters = dict(status=lambda v, c, m, p: str(m.status))
+    column_filters = ['status']
+    column_sortable_list = ['order_date', 'status']
+    column_searchable_list = ['user_id']
+    form_edit_rules = ('status',)
+    form_extra_fields = {
+        'status': SelectField(label='Tình trạng đơn hàng', choices=lambda: [(s.value, str(s)) for s in Status])
+    }
+
+    def is_accessible(self):
+        if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
+            return current_user.is_authenticated
+        else:
+            return False
+
+
 admin = Admin(app=app, name='Quản Trị Bán Sách', template_mode='bootstrap4', index_view=WebBanSachAdmin())
 admin.add_view(BooksView(Books, db.session, name='Các Sản Phẩm Sách', endpoint='admin-input'))
 admin.add_view(CategoriesView(Categories, db.session, name='Danh mục'))
 admin.add_view(InputBooksView(Books, db.session, name='Nhập kho', endpoint='admin-input-quantity'))
 admin.add_view(AdjustView(name='Thay đổi quy định'))
 admin.add_view(StatsView(name='Thống kê'))
+admin.add_view(OrdersView(Orders, db.session, name='Các Đơn Hàng'))

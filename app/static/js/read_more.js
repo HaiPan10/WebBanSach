@@ -118,5 +118,4 @@ function ReadMore_cmt(_jObj, lineNum) {
       jObj.children('.read-more_cmt').html(READ_MORE_LABEL).removeClass('active');
     }
   });
-
 }

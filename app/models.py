@@ -51,6 +51,14 @@ class Status(StatusEnum):
     DANG_GIAO = 2
     CHUA_THANH_TOAN = 3
 
+    def __str__(self):
+        if self is Status.DA_THANH_TOAN:
+            return "Đã thanh toán"
+        elif self is Status.DANG_GIAO:
+            return "Đang giao"
+        else:
+            return "Chưa thanh toán"
+
 
 class UserAccount(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
@@ -61,6 +69,9 @@ class UserAccount(BaseModel, UserMixin):
     phone_number = Column(String(10), nullable=True, unique=True)
     orders = relationship('Orders', backref='user_account', lazy=True)
     comments = relationship('Comment', backref='user_account', lazy=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Orders(BaseModel):
@@ -89,7 +100,7 @@ if __name__ == '__main__':
     with app.app_context():
         pass
         # db.drop_all()
-        #db.create_all()
+        # db.create_all()
         # name = 'Admin'
         # username = 'admin'
         # password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
