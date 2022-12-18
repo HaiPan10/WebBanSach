@@ -44,7 +44,7 @@ function loadComments(productId){
         }
         let d = document.getElementById("comments")
         d.innerHTML = h
-        if(height > 2)
+        if(height > 5)
         {
             flag_h = 1;
             readMore_cmt( $('.spoiler_cmt'), 14);
@@ -72,7 +72,7 @@ function addComment(productId) {
             }
             flag = 0
             height = height + 1;
-            if(height > 2 && flag_h == 0)
+            if(height > 5 && flag_h == 0)
             {
                 flag_h = 1;
                 flag_t = 1;
