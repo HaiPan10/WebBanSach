@@ -231,9 +231,16 @@ class OrdersView(ModelView):
     column_filters = ['status']
     column_sortable_list = ['order_date', 'status']
     column_searchable_list = ['user_id']
+    column_list = ('id', 'order_date', 'address', 'status', 'user_account')
     form_edit_rules = ('status',)
     form_extra_fields = {
         'status': SelectField(label='Tình trạng đơn hàng', choices=lambda: [(s.value, str(s)) for s in Status])
+    }
+    column_labels = {
+        'order_date': 'Ngày đặt hàng',
+        'address': 'Địa chỉ',
+        'status': 'Tình trạng đơn hàng',
+        'user_account': 'Khách hàng',
     }
 
     def is_accessible(self):
