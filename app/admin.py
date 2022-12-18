@@ -204,7 +204,8 @@ class StatsView(BaseView):
         stats_frequency = dao.stats_frequency(month=month, year=year)
         return self.render('admin/stats.html', stats_revenue=stats_revenue, stats_frequency=stats_frequency,
                            min_year=dao.get_min_year(), max_year=datetime.now().year,
-                           current_month=month, current_year=year)
+                           current_month=month, current_year=year,
+                           total_revenue=dao.get_total_revenue(month, year), total_frequency = dao.get_total_frequency(month, year))
 
     def is_accessible(self):
         if current_user.is_anonymous or current_user.user_role is UserRole.ADMIN:
