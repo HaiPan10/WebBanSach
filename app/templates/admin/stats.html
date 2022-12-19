@@ -23,8 +23,9 @@
     </div>
 </form>
 <div id="stats_revenue" class="row">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-6 col-sm-12" >
         <table class="table">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Thể loại sách</th>
@@ -32,17 +33,22 @@
                 <th>Số lượt mua</th>
                 <th>Tỉ lệ</th>
             </tr>
+            </thead>
 
+            <tbody>
             {% for s in stats_revenue %}
-            <tr>
-                <td>{{ s[0] }}</td>
-                <td>{{ s[1] }}</td>
-                <td>{{ s[2] }}</td>
-                <td>{{ s[3] }}</td>
-                <td>{{ "{:,.0f}".format(s[4]) }}%</td>
-            </tr>
+                <tr>
+                    <td>{{ s[0] }}</td>
+                    <td>{{ s[1] }}</td>
+                    <td>{{ "{:,.0f}".format(s[2]) }} VNĐ</td>
+                    <td>{{ s[3] }}</td>
+                    <td>{{ "{:,.0f}".format(s[4]) }}%</td>
+                </tr>
             {% endfor %}
+            </tbody>
         </table>
+
+        <p>Tổng cộng doanh thu: <span>{{ "{:,.0f}".format(total_revenue) }} VNĐ</span></p>
     </div>
 
     <div class="col-md-6 col-sm-12">
@@ -53,6 +59,7 @@
 <div style="display: none;" id="stats_frequency" class="row">
     <div class="col-md-6 col-sm-12">
         <table class="table">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Tên sách</th>
@@ -60,18 +67,22 @@
                 <th>Số lượng</th>
                 <th>Tỉ lệ</th>
             </tr>
+            </thead>
 
-
+            <tbody>
             {% for s in stats_frequency %}
-            <tr>
-                <td>{{ s[0] }}</td>
-                <td>{{ s[1] }}</td>
-                <td>{{ s[2] }}</td>
-                <td>{{ s[3] }}</td>
-                <td>{{ "{:,.0f}".format(s[4]) }}%</td>
-            </tr>
+                <tr>
+                    <td>{{ s[0] }}</td>
+                    <td>{{ s[1] }}</td>
+                    <td>{{ s[2] }}</td>
+                    <td>{{ s[3] }} cuốn</td>
+                    <td>{{ "{:,.0f}".format(s[4]) }}%</td>
+                </tr>
             {% endfor %}
+            </tbody>
         </table>
+
+        <p>Tổng số lượng sách bán ra: <span>{{ total_frequency }} cuốn</span></p>
     </div>
 
     <div class="col-md-6 col-sm-12">
