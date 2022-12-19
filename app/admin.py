@@ -128,9 +128,10 @@ class InputBooksView(ModelView):
                              'Dưới mức' if m.quantity < int(
                                  v.input_rules['quantity_in_stocks'])
                              else True)
-    column_list = ['book_name', 'author_name', 'unit_price',
+    column_list = ['id', 'book_name', 'author_name', 'unit_price',
                    'quantity', 'import_date', 'category_id', 'quantity_in_stocks_status']
     column_labels = {
+        'id': 'Mã sách',
         'book_name': 'Tên sách',
         'author_name': 'Tác giả',
         'unit_price': 'Đơn giá',
@@ -144,6 +145,7 @@ class InputBooksView(ModelView):
     form_extra_fields = {
         'quantity': IntegerField('Số lượng nhập thêm vào kho', validators=[InputRequired()])
     }
+    column_searchable_list = ['id', 'book_name']
     can_create = False
     can_delete = False
     can_edit = True
@@ -229,7 +231,7 @@ class OrdersView(ModelView):
     column_formatters = dict(status=lambda v, c, m, p: str(m.status))
     column_filters = ['status']
     column_sortable_list = ['order_date', 'status']
-    column_searchable_list = ['user_id']
+    column_searchable_list = ['id', 'user_id']
     column_list = ('id', 'order_date', 'address', 'status', 'user_account')
     form_edit_rules = ('status',)
     form_extra_fields = {
